@@ -1,0 +1,1 @@
+from .navigation import register_start_handlers
