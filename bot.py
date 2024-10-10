@@ -1,9 +1,9 @@
+import os
+import asyncio
+
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
 from aiogram.utils.token import TokenValidationError
-
-import os
-import asyncio
 
 from handlers import register_start_handlers
 
