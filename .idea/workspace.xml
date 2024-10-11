@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="refactor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/navigation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/messages.py" afterDir="false" />
@@ -112,12 +110,29 @@
       <option name="project" value="LOCAL" />
       <updated>1728641349759</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="replace the register with a decorator + add help handler">
+      <option name="closed" value="true" />
+      <created>1728682871844</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1728682871844</updated>
+    </task>
+    <task id="LOCAL-00007" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1728683022224</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1728683022224</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add files + start command handler" />
     <MESSAGE value="add utils.messages for all message texts, set default parse_mode, add start message" />
+    <MESSAGE value="replace the register with a decorator + add help handler" />
     <MESSAGE value="refactor" />
     <option name="LAST_COMMIT_MESSAGE" value="refactor" />
   </component>

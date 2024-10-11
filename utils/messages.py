@@ -25,3 +25,18 @@ def help_message() -> str:
     return (
         'Это сообщение с помощью'
     )
+
+def saved_message(message: types.Message) -> str:
+    return (
+        'Это сообщение с избранным'
+    )
+
+def history_message(message: types.Message) -> str:
+    return (
+        'Это сообщение с историей поиска'
+    )
+
+def search_message(message: types.Message) -> str:
+    return (
+        'Это сообщение с поиском'
+    )
