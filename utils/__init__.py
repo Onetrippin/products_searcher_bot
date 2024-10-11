@@ -1,1 +1,1 @@
-from .messages import start_message
+from .messages import start_message, help_message

@@ -7,7 +7,7 @@ from aiogram.utils.token import TokenValidationError
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums.parse_mode import ParseMode
 
-from handlers import register_nav_handlers
+from handlers import router
 
 load_dotenv()
 
@@ -36,7 +36,7 @@ async def main() -> None:
         print(f'Произошла ошибка: {e}')
         exit(1)
     dp = Dispatcher()
-    register_nav_handlers(dp)
+    dp.include_router(router)
     print('Бот запущен')
     await dp.start_polling(bot)
 

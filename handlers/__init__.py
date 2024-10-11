@@ -1,1 +1,1 @@
-from .navigation import register_nav_handlers
+from .navigation import router
