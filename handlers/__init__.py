@@ -1,1 +1,1 @@
-from .navigation import register_start_handlers
+from .navigation import register_nav_handlers

@@ -4,8 +4,10 @@ import asyncio
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
 from aiogram.utils.token import TokenValidationError
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums.parse_mode import ParseMode
 
-from handlers import register_start_handlers
+from handlers import register_nav_handlers
 
 load_dotenv()
 
@@ -24,7 +26,7 @@ async def main() -> None:
         print('API токен не найден и не был введён')
         exit(1)
     try:
-        bot = Bot(token=token)
+        bot = Bot(token=token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     except TokenValidationError as e:
         print(f'Ошибка при валидации токена: {e}\nВозможно, токен некорректный')
         with open('.env', 'w'):
@@ -34,7 +36,7 @@ async def main() -> None:
         print(f'Произошла ошибка: {e}')
         exit(1)
     dp = Dispatcher()
-    register_start_handlers(dp)
+    register_nav_handlers(dp)
     print('Бот запущен')
     await dp.start_polling(bot)
 
