@@ -28,5 +28,5 @@ async def start_command_handler(message: types.Message) -> None:
 @router.message(F.text.lower() == 'помощь')
 async def help_command_handler(message: types.Message) -> None:
     await message.answer(
-        help_message(message)
+        help_message()
     )

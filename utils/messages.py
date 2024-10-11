@@ -21,7 +21,7 @@ def start_message(message: types.Message) -> str:
         '<b>Что-то непонятно? - </b>/help'
     )
 
-def help_message(message: types.Message) -> str:
+def help_message() -> str:
     return (
         'Это сообщение с помощью'
     )
