@@ -21,5 +21,5 @@ async def start_command_handler(message: types.Message) -> None:
         reply_markup=create_main_menu_keyboard()
     )
 
-def register_nav_handlers(dp: Dispatcher):
+def register_nav_handlers(dp: Dispatcher) -> None:
     dp.message.register(start_command_handler, Command('start'))
