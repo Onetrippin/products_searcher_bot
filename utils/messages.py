@@ -1,5 +1,7 @@
 from aiogram.types import Message
 
+from utils.constants import LINES_PER_PAGE
+
 def start_message(message: Message) -> str:
     return (
         f'<b>Привет, {message.from_user.first_name}!</b>'
@@ -37,9 +39,16 @@ def saved_message(message: Message, page_number: str = '1') -> str:
         'Это сообщение с избранным'
     )
 
-def history_message(message: Message, page_number: str = '1') -> str:
+def format_history_message(search_history: list, page_number: str = '1') -> str:
     return (
-        'Это сообщение с историей поиска'
+        'История поиска'
+        '\n\n' +
+        '\n'.join([
+            f'{i + 1}. Поиск: {search_history[i]["input_string"]} искать снова'
+            if search_history[i].get("input_string")
+            else f'{i + 1}. Товар: {search_history[i]["product_name"]} Цена: {search_history[i]["price"]} Магазин: {search_history[i]["shop"]} посмотреть страницу товара'
+            for i in range(((int(page_number) - 1) * LINES_PER_PAGE), min(int(page_number) * LINES_PER_PAGE, len(search_history)))
+        ])
     )
 
 def search_message(message: Message) -> str:

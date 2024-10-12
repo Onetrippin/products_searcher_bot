@@ -1,0 +1,1 @@
+from .search_history_service import get_search_history
