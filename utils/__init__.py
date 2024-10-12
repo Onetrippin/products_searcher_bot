@@ -1,2 +1,2 @@
-from .messages_parts import (start_message, help_message, saved_message, history_message, search_message, other_message,
-                             main_menu_keyboard, page_navigation_keyboard)
+from .messages import (start_message, help_message, saved_message, history_message, search_message, other_message)
+from .keyboards import main_menu_keyboard, page_navigation_keyboard

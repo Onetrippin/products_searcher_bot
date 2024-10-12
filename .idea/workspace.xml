@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add other messages handler + transfer router to __init__.py">
-      <change afterPath="$PROJECT_DIR$/handlers/inline_navigation.py" afterDir="false" />
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add inline navigation + add help message text">
+      <change afterPath="$PROJECT_DIR$/utils/keyboards.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/buttons.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/buttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/buttons.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/inline_navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/inline_navigation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/messages_parts.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/messages_parts.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -152,7 +152,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728738694187</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="add inline navigation + add help message text">
+      <option name="closed" value="true" />
+      <created>1728763284952</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1728763284952</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -163,6 +171,7 @@
     <MESSAGE value="add empty handlers" />
     <MESSAGE value="rename messages.py to messages_parts.py, add inline nav keyboard" />
     <MESSAGE value="add other messages handler + transfer router to __init__.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="add other messages handler + transfer router to __init__.py" />
+    <MESSAGE value="add inline navigation + add help message text" />
+    <option name="LAST_COMMIT_MESSAGE" value="add inline navigation + add help message text" />
   </component>
 </project>

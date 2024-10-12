@@ -23,14 +23,14 @@ async def help_command_handler(message: types.Message) -> None:
 async def saved_command_handler(message: types.Message) -> None:
     await message.answer(
         saved_message(message),
-        reply_markup=page_navigation_keyboard('saved', 60)
+        reply_markup=page_navigation_keyboard('saved', 100)
     )
 
 @router.message(F.text.lower() == '🕒 история поиска')
 async def history_command_handler(message: types.Message) -> None:
     await message.answer(
         history_message(message),
-        reply_markup=page_navigation_keyboard('history', 60)
+        reply_markup=page_navigation_keyboard('history', 100)
     )
 
 @router.message(F.text.lower() == '🔎 искать товары')
