@@ -47,12 +47,19 @@ def search_message(message: Message) -> str:
         'Это сообщение с поиском'
     )
 
+def other_message() -> str:
+    return (
+        '<b>Пользуйся кнопками</b>'
+        '\n\n'
+        '<i>Что-то непонятно? Напиши /help</i>'
+    )
+
 def main_menu_keyboard() -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(
         keyboard=[
-            [KeyboardButton(text='Поиск')],
-            [KeyboardButton(text='Каталог'), KeyboardButton(text='Избранное')],
-            [KeyboardButton(text='История поиска'), KeyboardButton(text='Помощь')]
+            [KeyboardButton(text='🔎 Искать товары')],
+            [KeyboardButton(text='🕒 История поиска'), KeyboardButton(text='⭐ Избранное')],
+            [KeyboardButton(text='❓ Помощь')]
         ],
         resize_keyboard=True,
         one_time_keyboard=True
