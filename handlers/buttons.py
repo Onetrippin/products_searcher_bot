@@ -2,7 +2,7 @@ from aiogram import types, F
 from aiogram.filters import Command
 
 from utils import (start_message, help_message, saved_message, history_message, search_message, other_message,
-                   main_menu_keyboard, navigation_inline_keyboard)
+                   main_menu_keyboard, page_navigation_keyboard)
 from . import router
 
 @router.message(Command('start'))
@@ -23,13 +23,14 @@ async def help_command_handler(message: types.Message) -> None:
 async def saved_command_handler(message: types.Message) -> None:
     await message.answer(
         saved_message(message),
-        reply_markup=navigation_inline_keyboard('saved', 1, 30)
+        reply_markup=page_navigation_keyboard('saved', 60)
     )
 
 @router.message(F.text.lower() == '🕒 история поиска')
 async def history_command_handler(message: types.Message) -> None:
     await message.answer(
-        history_message(message)
+        history_message(message),
+        reply_markup=page_navigation_keyboard('history', 60)
     )
 
 @router.message(F.text.lower() == '🔎 искать товары')

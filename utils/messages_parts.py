@@ -29,15 +29,21 @@ def start_message(message: Message) -> str:
 
 def help_message() -> str:
     return (
-        'Это сообщение с помощью'
+        'Описание кнопок:'
+        '\n'
+        '"Искать товары" - вы сможете найти необходимый вам товар по названию и настроить фильтры'
+        '\n'
+        '"Избранное" - вам отобразится список товаров, которые вы добавили в избранное'
+        '\n'
+        '"История поиска" - отображается список из 50 последних товаров и результатов, которые вы искали'
     )
 
-def saved_message(message: Message) -> str:
+def saved_message(message: Message, page_number: str = '1') -> str:
     return (
         'Это сообщение с избранным'
     )
 
-def history_message(message: Message) -> str:
+def history_message(message: Message, page_number: str = '1') -> str:
     return (
         'Это сообщение с историей поиска'
     )
@@ -71,14 +77,14 @@ def calculate_page_numbers(current_page: int, row_count: int) -> Tuple[int, int,
     next_page = 1 if current_page == total_pages else current_page + 1
     return prev_page, next_page, total_pages
 
-def navigation_inline_keyboard(page_type: str, current_page: int, row_count: int, request_id: int = 0) -> InlineKeyboardMarkup:
+def page_navigation_keyboard(page_type: str, row_count: int, current_page: int = 1, request_id: int = 0) -> InlineKeyboardMarkup:
     prev_page, next_page, total_pages = calculate_page_numbers(current_page, row_count)
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text='⬅️', callback_data=f'{page_type}_{prev_page}_{request_id}'),
-                InlineKeyboardButton(text=f'{current_page}/{total_pages}', callback_data=f'{current_page}/{total_pages}'),
-                InlineKeyboardButton(text='➡️', callback_data=f'{page_type}_{next_page}_{request_id}')
+                InlineKeyboardButton(text='⬅️', callback_data=f'page_{page_type}_{prev_page}_{request_id}'),
+                InlineKeyboardButton(text=f'{current_page}/{total_pages}', callback_data=f'counter_{current_page}/{total_pages}'),
+                InlineKeyboardButton(text='➡️', callback_data=f'page_{page_type}_{next_page}_{request_id}')
             ]
         ]
     )
