@@ -44,9 +44,9 @@ def format_history_message(search_history: list, page_number: str = '1') -> str:
         '<b>История поиска</b>'
         '\n\n' +
         '\n\n'.join([
-            f'🔎 <i><b>Поиск</b> ➜ {search_history[i]["input_string"]} <a href="t.me/potom_budet">искать снова</a></i>'
+            f'🔎 <i><b><u>Поиск</u></b> ➜ <code>{search_history[i]["input_string"]}</code> <b>(<a href="t.me/pavel">искать снова</a>)</b></i>'
             if search_history[i].get("input_string")
-            else f'🛒 <b>Товар</b> ➜ {search_history[i]["product_name"]} Цена: {search_history[i]["price"]} Магазин: {search_history[i]["shop"]} <a href="t.me/pavel">страница товара</a>'
+            else f'🛒 <b><u>Товар</u></b> ➜ <code>{search_history[i]["product_name"]}</code> | <b>Цена</b>: <code>{search_history[i]["price"]}</code> | <b>Магазин</b>: <code>{search_history[i]["shop"]}</code> <b>(<a href="t.me/pavel">страница товара</a>)</b>'
             for i in range(((int(page_number) - 1) * LINES_PER_PAGE), min(int(page_number) * LINES_PER_PAGE, len(search_history)))
         ])
     )

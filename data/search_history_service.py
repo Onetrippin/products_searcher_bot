@@ -1,5 +1,5 @@
-async def get_search_history(chat_id):
-    products = [
+async def get_search_history(chat_id: int) -> list:
+    search_history = [
         {'input_string': 'ноутбук для игр'},
         {'product_name': 'Телевизор LG OLED CX 65', 'price': 130000, 'shop': 'Эльдорадо'},
         {'input_string': 'смартфон 2021'},
@@ -60,4 +60,4 @@ async def get_search_history(chat_id):
         {'input_string': 'компьютерная мышь rgb'},
         {'product_name': 'Мышь Logitech G Pro X', 'price': 7500, 'shop': 'Яндекс Маркет'},
     ]
-    return products
+    return search_history
