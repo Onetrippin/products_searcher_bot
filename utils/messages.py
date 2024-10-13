@@ -46,7 +46,6 @@ def format_saved_message(saved_products: list, page_number: str = '1') -> str:
             for i in range(((int(page_number) - 1) * LINES_PER_PAGE),
                            min(int(page_number) * LINES_PER_PAGE, len(saved_products)))
         ])
-
     )
 
 def format_history_message(search_history: list, page_number: str = '1') -> str:
