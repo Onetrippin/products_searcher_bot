@@ -39,8 +39,12 @@ def format_saved_message(saved_products: list, page_number: str = '1') -> str:
         '<b>Избранное</b>'
         '\n\n' +
         '\n\n'.join([
-            f'⭐ <code>{saved_products[i]["product_name"]}</code> | <b>Последняя цена</b>: <code>{saved_products[i]["price"]}</code> | <b>Магазин</b>: <code>{saved_products[i]["shop"]}</code> <b>(<a href="t.me/pavel">страница товара</a>)</b>'
-            for i in range(((int(page_number) - 1) * LINES_PER_PAGE), min(int(page_number) * LINES_PER_PAGE, len(saved_products)))
+            f'⭐ <code>{saved_products[i]["product_name"]}</code> | '
+            f'<b>Последняя цена</b>: <code>{saved_products[i]["price"]}</code> | '
+            f'<b>Магазин</b>: <code>{saved_products[i]["shop"]}</code> '
+            f'<b>(<a href="t.me/pavel">страница товара</a>)</b>'
+            for i in range(((int(page_number) - 1) * LINES_PER_PAGE),
+                           min(int(page_number) * LINES_PER_PAGE, len(saved_products)))
         ])
 
     )
@@ -50,10 +54,18 @@ def format_history_message(search_history: list, page_number: str = '1') -> str:
         '<b>История поиска</b>'
         '\n\n' +
         '\n\n'.join([
-            f'🔎 <i><b><u>Поиск</u></b> ➜ <code>{search_history[i]["input_string"]}</code> <b>(<a href="t.me/pavel">искать снова</a>)</b></i>'
+            f'🔎 <i><b><u>Поиск</u></b> ➜ '
+            f'<code>{search_history[i]["input_string"]}</code> '
+            f'<b>(<a href="t.me/pavel">искать снова</a>)</b></i>'
             if search_history[i].get("input_string")
-            else f'🛒 <b><u>Товар</u></b> ➜ <code>{search_history[i]["product_name"]}</code> | <b>Цена</b>: <code>{search_history[i]["price"]}</code> | <b>Магазин</b>: <code>{search_history[i]["shop"]}</code> <b>(<a href="t.me/pavel">страница товара</a>)</b>'
-            for i in range(((int(page_number) - 1) * LINES_PER_PAGE), min(int(page_number) * LINES_PER_PAGE, len(search_history)))
+            else
+            f'🛒 <b><u>Товар</u></b> ➜ '
+            f'<code>{search_history[i]["product_name"]}</code> | '
+            f'<b>Цена</b>: <code>{search_history[i]["price"]}</code> | '
+            f'<b>Магазин</b>: <code>{search_history[i]["shop"]}</code> '
+            f'<b>(<a href="t.me/pavel">страница товара</a>)</b>'
+            for i in range(((int(page_number) - 1) * LINES_PER_PAGE),
+                           min(int(page_number) * LINES_PER_PAGE, len(search_history)))
         ])
     )
 
