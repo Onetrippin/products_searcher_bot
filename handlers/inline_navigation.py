@@ -18,7 +18,8 @@ async def history_page_changer(callback_query: types.CallbackQuery) -> None:
     _, page_type, current_page, _ = callback_query.data.split('_')
     await callback_query.message.edit_text(
         format_history_message(search_history, current_page),
-        reply_markup=page_navigation_keyboard(page_type, len(search_history), int(current_page))
+        reply_markup=page_navigation_keyboard(page_type, len(search_history), int(current_page)),
+        disable_web_page_preview=True
     )
 
 @router.callback_query(lambda call: call.data.startswith('counter_'))

@@ -32,7 +32,8 @@ async def history_command_handler(message: types.Message) -> None:
     search_history = await get_search_history(message.chat.id)
     await message.answer(
         format_history_message(search_history),
-        reply_markup=page_navigation_keyboard('history', len(search_history))
+        reply_markup=page_navigation_keyboard('history', len(search_history)),
+        disable_web_page_preview=True
     )
 
 @router.message(F.text.lower() == '🔎 искать товары')
