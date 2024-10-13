@@ -34,9 +34,15 @@ def help_message() -> str:
         '"История поиска" - отображается список из 50 последних товаров и результатов, которые вы искали'
     )
 
-def saved_message(message: Message, page_number: str = '1') -> str:
+def format_saved_message(saved_products: list, page_number: str = '1') -> str:
     return (
-        'Это сообщение с избранным'
+        '<b>Избранное</b>'
+        '\n\n' +
+        '\n\n'.join([
+            f'⭐ <code>{saved_products[i]["product_name"]}</code> | <b>Последняя цена</b>: <code>{saved_products[i]["price"]}</code> | <b>Магазин</b>: <code>{saved_products[i]["shop"]}</code> <b>(<a href="t.me/pavel">страница товара</a>)</b>'
+            for i in range(((int(page_number) - 1) * LINES_PER_PAGE), min(int(page_number) * LINES_PER_PAGE, len(saved_products)))
+        ])
+
     )
 
 def format_history_message(search_history: list, page_number: str = '1') -> str:

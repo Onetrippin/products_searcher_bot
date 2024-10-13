@@ -1,8 +1,8 @@
 from aiogram import types, F
 from aiogram.filters import Command
 
-from data import get_search_history
-from utils import (start_message, help_message, saved_message, format_history_message, search_message, other_message,
+from data import get_search_history, get_saved_products
+from utils import (start_message, help_message, format_saved_message, format_history_message, search_message, other_message,
                    main_menu_keyboard, page_navigation_keyboard)
 from . import router
 
@@ -22,9 +22,11 @@ async def help_command_handler(message: types.Message) -> None:
 
 @router.message(F.text.lower() == '⭐ избранное')
 async def saved_command_handler(message: types.Message) -> None:
+    saved_products = await get_saved_products(message.chat.id)
     await message.answer(
-        saved_message(message),
-        reply_markup=page_navigation_keyboard('saved', 100)
+        format_saved_message(saved_products),
+        reply_markup=page_navigation_keyboard('saved', len(saved_products)),
+        disable_web_page_preview=True
     )
 
 @router.message(F.text.lower() == '🕒 история поиска')

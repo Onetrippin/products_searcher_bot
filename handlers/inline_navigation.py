@@ -1,15 +1,17 @@
 from aiogram import types
 
-from utils import saved_message, page_navigation_keyboard, format_history_message
-from data import get_search_history
+from utils import format_saved_message, page_navigation_keyboard, format_history_message
+from data import get_search_history, get_saved_products
 from . import router
 
 @router.callback_query(lambda call: call.data.startswith('page_saved'))
 async def saved_page_changer(callback_query: types.CallbackQuery) -> None:
+    saved_products = await get_saved_products(callback_query.message.chat.id)
     _, page_type, current_page, _ = callback_query.data.split('_')
     await callback_query.message.edit_text(
-        saved_message(callback_query.message, current_page),
-        reply_markup=page_navigation_keyboard(page_type, 100, int(current_page))
+        format_saved_message(saved_products, current_page),
+        reply_markup=page_navigation_keyboard(page_type, len(saved_products), int(current_page)),
+        disable_web_page_preview=True
     )
 
 @router.callback_query(lambda call: call.data.startswith('page_history'))
