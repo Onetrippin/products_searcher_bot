@@ -2,6 +2,7 @@ from typing import Tuple
 
 from aiogram.types import (ReplyKeyboardMarkup, KeyboardButton,
                            InlineKeyboardMarkup, InlineKeyboardButton)
+from aiogram.types.web_app_info import WebAppInfo
 
 from .constants import LINES_PER_PAGE
 
@@ -30,6 +31,42 @@ def page_navigation_keyboard(page_type: str, row_count: int, current_page: int =
                 InlineKeyboardButton(text='⬅️', callback_data=f'page_{page_type}_{prev_page}_{request_id}'),
                 InlineKeyboardButton(text=f'{current_page}/{total_pages}', callback_data=f'counter_{current_page}/{total_pages}'),
                 InlineKeyboardButton(text='➡️', callback_data=f'page_{page_type}_{next_page}_{request_id}')
+            ]
+        ]
+    )
+
+def search_default_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text='Поиск', switch_inline_query_current_chat=''),
+                InlineKeyboardButton(text='Фильтры', callback_data='filters_add')
+            ],
+            [
+                InlineKeyboardButton(text='Отправить ссылку', callback_data='link')
+            ]
+        ]
+    )
+
+def product_page_keyboard(chat_id: int, product_name: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text='Добавить в избранное', callback_data=f'saved_{product_name}')
+            ],
+            [
+                # InlineKeyboardButton(text='Посмотреть отзывы', callback_data=f'reviews_{product_name}')
+                InlineKeyboardButton(text='Посмотреть отзывы',
+                                     url=f'https://t.me/products_searcher_bot?start=reviews=None')
+            ]
+        ]
+    )
+
+def reviews_keyboard(chat_id: int, product_name: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text='Отзывы', web_app=WebAppInfo(url='https://google.com'))
             ]
         ]
     )

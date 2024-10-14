@@ -39,7 +39,7 @@ def format_saved_message(saved_products: list, page_number: str = '1') -> str:
         '<b>Избранное</b>'
         '\n\n' +
         '\n\n'.join([
-            f'⭐ <code>{saved_products[i]["product_name"]}</code> | '
+            f'🌟 <code>{saved_products[i]["product_name"]}</code> | '
             f'<b>Последняя цена</b>: <code>{saved_products[i]["price"]}</code> | '
             f'<b>Магазин</b>: <code>{saved_products[i]["shop"]}</code> '
             f'<b>(<a href="t.me/pavel">страница товара</a>)</b>'
@@ -70,7 +70,34 @@ def format_history_message(search_history: list, page_number: str = '1') -> str:
 
 def search_message(message: Message) -> str:
     return (
-        'Это сообщение с поиском'
+        'Ты можешь начать поиск, нажав на <b><i>Поиск</i></b> или настроить фильтры, нажав на <b><i>Фильтры</i></b>'
+        '\n\n'
+        'Также, нажав на <b><i>Отправить ссылку</i></b>, '
+        'ты можешь отправить мне ссылку на товар в каком-либо магазине и я найду аналоги в других'
+    )
+
+def product_page(product: dict) -> str:
+    return (
+        f'🛒 <b>{product["product_name"]}</b>'
+        '\n\n'
+        '🏆 <b>Лучшее предложение</b>'
+        '\n'
+        f'<b>└</b> Цена: <code>{product["best_price"]}</code> | '
+        f'Магазин: <code>{product["best_price_shop"]}</code> | '
+        f'(<a href="t.me/pavel">ссылка</a>)'
+        '\n\n'
+        '📦 <b>Другие предложения</b>'
+        '\n' +
+        '\n'.join([f'<b>{"└" if i == len(product["all_offers"]) - 1 else "├"}</b> Цена: <code>{offer["price"]}</code> | '
+                   f'Магазин: <code>{offer["shop"]}</code> | '
+                   f'(<a href="t.me/pavel">ссылка</a>)'  for i, offer in enumerate(sorted(product["all_offers"],
+                                                                                          key=lambda x: x['price']))])
+    )
+
+def product_reviews_page(product_name: str) -> str:
+    return (
+        f'Нажми на кнопку <b><i>отзывы</i></b>, '
+        f'чтобы посмотреть отзывы из различных магазинов о товаре <b>{product_name}</b>'
     )
 
 def other_message() -> str:

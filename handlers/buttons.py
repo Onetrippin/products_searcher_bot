@@ -2,12 +2,23 @@ from aiogram import types, F
 from aiogram.filters import Command
 
 from data import get_search_history, get_saved_products
-from utils import (start_message, help_message, format_saved_message, format_history_message, search_message, other_message,
-                   main_menu_keyboard, page_navigation_keyboard)
+from utils import (start_message, help_message, format_saved_message, format_history_message,
+                   search_message, other_message,
+                   main_menu_keyboard, page_navigation_keyboard, search_default_keyboard,
+                   product_reviews_page, reviews_keyboard)
 from . import router
 
 @router.message(Command('start'))
 async def start_command_handler(message: types.Message) -> None:
+    args = message.text.split(maxsplit=1)
+    if len(args) > 1:
+        if args[1].startswith("reviews"):
+            product_name = args[1][8:]
+            await message.answer(
+                product_reviews_page(product_name),
+                reply_markup=reviews_keyboard(message.chat.id, product_name)
+            )
+            return
     await message.answer(
         start_message(message),
         reply_markup=main_menu_keyboard()
@@ -41,12 +52,14 @@ async def history_command_handler(message: types.Message) -> None:
 @router.message(F.text.lower() == '🔎 искать товары')
 async def search_command_handler(message: types.Message) -> None:
     await message.answer(
-        search_message(message)
+        search_message(message),
+        reply_markup=search_default_keyboard()
     )
 
 @router.message(F.text)
 async def other_message_handler(message: types.Message) -> None:
-    await message.answer(
-        other_message(),
-        reply_markup=main_menu_keyboard()
-    )
+    if not message.via_bot and not any(entity.type == "url" for entity in message.entities or []):
+        await message.answer(
+            other_message(),
+            reply_markup=main_menu_keyboard()
+        )
