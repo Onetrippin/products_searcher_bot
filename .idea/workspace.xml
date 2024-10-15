@@ -4,9 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add files + start command handler">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add reviews page">
+      <change afterPath="$PROJECT_DIR$/handlers/filters.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/buttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/buttons.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/inline_navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/inline_navigation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/keyboards.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/messages.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,13 +53,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.bot.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.__init__.executor": "Run",
+    "Python.bot.executor": "Run",
+    "Python.buttons.executor": "Run",
+    "Python.inline_navigation.executor": "Run",
+    "Python.keyboards.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "dev",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -75,11 +89,176 @@
       <option name="project" value="LOCAL" />
       <updated>1728506334760</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1728584607539</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1728584607539</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add utils.messages for all message texts, set default parse_mode, add start message">
+      <option name="closed" value="true" />
+      <created>1728641052808</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1728641052808</updated>
+    </task>
+    <task id="LOCAL-00004" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1728641228689</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1728641228689</updated>
+    </task>
+    <task id="LOCAL-00005" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1728641349759</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1728641349759</updated>
+    </task>
+    <task id="LOCAL-00006" summary="replace the register with a decorator + add help handler">
+      <option name="closed" value="true" />
+      <created>1728682871844</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1728682871844</updated>
+    </task>
+    <task id="LOCAL-00007" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1728683022224</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1728683022224</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add empty handlers">
+      <option name="closed" value="true" />
+      <created>1728684977035</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1728684977035</updated>
+    </task>
+    <task id="LOCAL-00009" summary="rename messages.py to messages_parts.py, add inline nav keyboard">
+      <option name="closed" value="true" />
+      <created>1728734946700</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1728734946700</updated>
+    </task>
+    <task id="LOCAL-00010" summary="add other messages handler + transfer router to __init__.py">
+      <option name="closed" value="true" />
+      <created>1728738694187</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1728738694187</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add inline navigation + add help message text">
+      <option name="closed" value="true" />
+      <created>1728763284952</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1728763284952</updated>
+    </task>
+    <task id="LOCAL-00012" summary="separation messages and keyboards">
+      <option name="closed" value="true" />
+      <created>1728764755718</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1728764755718</updated>
+    </task>
+    <task id="LOCAL-00013" summary="add search history test + format text">
+      <option name="closed" value="true" />
+      <created>1728770397173</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1728770397173</updated>
+    </task>
+    <task id="LOCAL-00014" summary="format search history message">
+      <option name="closed" value="true" />
+      <created>1728843553193</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1728843553194</updated>
+    </task>
+    <task id="LOCAL-00015" summary="format search history message">
+      <option name="closed" value="true" />
+      <created>1728845102543</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1728845102543</updated>
+    </task>
+    <task id="LOCAL-00016" summary="format saved products message">
+      <option name="closed" value="true" />
+      <created>1728850486080</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1728850486080</updated>
+    </task>
+    <task id="LOCAL-00017" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1728850721160</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1728850721160</updated>
+    </task>
+    <task id="LOCAL-00018" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1728850748542</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1728850748542</updated>
+    </task>
+    <task id="LOCAL-00019" summary="many changes: add search logic, add reviews logic">
+      <option name="closed" value="true" />
+      <created>1728936242307</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1728936242308</updated>
+    </task>
+    <task id="LOCAL-00020" summary="add reviews page">
+      <option name="closed" value="true" />
+      <created>1728936284328</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1728936284328</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add files + start command handler" />
-    <option name="LAST_COMMIT_MESSAGE" value="add files + start command handler" />
+    <MESSAGE value="add utils.messages for all message texts, set default parse_mode, add start message" />
+    <MESSAGE value="replace the register with a decorator + add help handler" />
+    <MESSAGE value="add empty handlers" />
+    <MESSAGE value="rename messages.py to messages_parts.py, add inline nav keyboard" />
+    <MESSAGE value="add other messages handler + transfer router to __init__.py" />
+    <MESSAGE value="add inline navigation + add help message text" />
+    <MESSAGE value="separation messages and keyboards" />
+    <MESSAGE value="add search history test + format text" />
+    <MESSAGE value="format search history message" />
+    <MESSAGE value="format saved products message" />
+    <MESSAGE value="refactor" />
+    <MESSAGE value="many changes: add search logic, add reviews logic" />
+    <MESSAGE value="add reviews page" />
+    <option name="LAST_COMMIT_MESSAGE" value="add reviews page" />
   </component>
 </project>
