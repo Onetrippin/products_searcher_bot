@@ -52,13 +52,13 @@ async def history_command_handler(message: types.Message) -> None:
 @router.message(F.text.lower() == '🔎 искать товары')
 async def search_command_handler(message: types.Message) -> None:
     await message.answer(
-        search_message(message),
+        search_message(),
         reply_markup=search_default_keyboard()
     )
 
 @router.message(F.text)
 async def other_message_handler(message: types.Message) -> None:
-    if not message.via_bot and not any(entity.type == "url" for entity in message.entities or []):
+    if not message.via_bot:
         await message.answer(
             other_message(),
             reply_markup=main_menu_keyboard()

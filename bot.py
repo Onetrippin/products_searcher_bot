@@ -1,5 +1,8 @@
 import os
 import asyncio
+import http.server
+import socketserver
+import threading
 
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
@@ -10,6 +13,11 @@ from aiogram.enums.parse_mode import ParseMode
 from handlers import router
 
 load_dotenv()
+
+PORT = 8000
+
+selected_filters = {}
+current_index = {}
 
 def check_and_save_token() -> str:
     token = os.getenv('API_TOKEN')
@@ -40,5 +48,12 @@ async def main() -> None:
     print('Бот запущен')
     await dp.start_polling(bot)
 
+def start_server():
+    Handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        print(f"Сервер запущен на http://localhost:{PORT}")
+        httpd.serve_forever()
+
 if __name__ == '__main__':
+    threading.Thread(target=start_server).start()
     asyncio.run(main())

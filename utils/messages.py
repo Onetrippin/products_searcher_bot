@@ -68,7 +68,7 @@ def format_history_message(search_history: list, page_number: str = '1') -> str:
         ])
     )
 
-def search_message(message: Message) -> str:
+def search_message() -> str:
     return (
         'Ты можешь начать поиск, нажав на <b><i>Поиск</i></b> или настроить фильтры, нажав на <b><i>Фильтры</i></b>'
         '\n\n'
@@ -94,10 +94,32 @@ def product_page(product: dict) -> str:
                                                                                           key=lambda x: x['price']))])
     )
 
+def products_search_result_page(query: str, products: list) -> str:
+    return (
+        f'<b>Поиск "{query}"</b>'
+        '\n\n' +
+        '\n\n'.join([f'<b><u>{products[i]["product_name"]}</u></b> - '
+                   f'лучшая цена: <code>{products[i]["best_price"]}</code> | '
+                   f'магазин: <code>{products[i]["best_price_shop"]}</code> | '
+                   f'(<a href="t.me/pavel">страница товара</a>)'for i in range(len(products))])
+    )
+
 def product_reviews_page(product_name: str) -> str:
     return (
         f'Нажми на кнопку <b><i>отзывы</i></b>, '
         f'чтобы посмотреть отзывы из различных магазинов о товаре <b>{product_name}</b>'
+    )
+
+def filter_message() -> str:
+    return (
+        'Настрой необходимые фильтры, затем нажми назад и выполни поиск.'
+        '\n'
+        'Выбранные тобой фильтры будут применены.'
+    )
+
+def link_message() -> str:
+    return (
+        'Отправь ссылку на товар и я найду аналоги в других магазинах'
     )
 
 def other_message() -> str:
