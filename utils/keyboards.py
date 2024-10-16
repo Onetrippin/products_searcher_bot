@@ -86,14 +86,18 @@ def group_options_by_two(options):
 
 def filter_keyboard(filter_index: int, selected_filters: dict) -> InlineKeyboardMarkup:
     filter_name = list(FILTERS.keys())[filter_index]
+    filter_name_left = list(FILTERS.keys())[filter_index-1] \
+        if filter_index > 0 \
+        else list(FILTERS.keys())[len(FILTERS.keys())-1]
+    filter_name_right = list(FILTERS.keys())[filter_index+1] \
+        if filter_index < len(FILTERS.keys()) - 1 \
+        else list(FILTERS.keys())[0]
     filter_options = FILTERS[filter_name]
     inline_keyboard = [
         [
-            InlineKeyboardButton(text=filter_name, callback_data=f'filters_counter_{filter_name}')
-        ],
-        [
-            InlineKeyboardButton(text='⬅️', callback_data=f'filter_left_{filter_index}'),
-            InlineKeyboardButton(text='➡️', callback_data=f'filter_right_{filter_index}')
+            InlineKeyboardButton(text=f'{filter_name_left} ←', callback_data=f'filter_left_{filter_index}'),
+            InlineKeyboardButton(text=filter_name, callback_data=f'filters_counter_{filter_name}'),
+            InlineKeyboardButton(text=f'→ {filter_name_right}', callback_data=f'filter_right_{filter_index}')
         ]
     ]
     for group in group_options_by_two(filter_options):
@@ -103,6 +107,11 @@ def filter_keyboard(filter_index: int, selected_filters: dict) -> InlineKeyboard
             buttons.append(
                 InlineKeyboardButton(text=f'{option} {icon}', callback_data=f'select_{filter_name}_{option}'))
         inline_keyboard.append(buttons)
+    inline_keyboard.append([
+        InlineKeyboardButton(text='⬅️', callback_data=f'filter_left_{filter_index}'),
+        InlineKeyboardButton(text='страница 1/1', callback_data=f'filters_counter_{filter_name}'),
+        InlineKeyboardButton(text='➡️', callback_data=f'filter_right_{filter_index}')
+    ])
     inline_keyboard.append([
         InlineKeyboardButton(text='Выбрать все', callback_data='select_all'),
         InlineKeyboardButton(text='Очистить выбор', callback_data='clear_selection'),
