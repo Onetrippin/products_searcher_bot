@@ -77,7 +77,8 @@ def link_keyboard() -> ReplyKeyboardMarkup:
             [
                 KeyboardButton(text='Отменить ввод')
             ]
-        ]
+        ],
+        resize_keyboard = True
     )
 
 def group_options_by_two(options):
