@@ -26,6 +26,8 @@ def calculate_page_numbers(current_page: int, row_count: int) -> Tuple[int, int,
 
 def page_navigation_keyboard(page_type: str, row_count: int, current_page: int = 1, request_id: int = 0) -> InlineKeyboardMarkup:
     prev_page, next_page, total_pages = calculate_page_numbers(current_page, row_count)
+    if total_pages == 1:
+        return None
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
@@ -81,42 +83,67 @@ def link_keyboard() -> ReplyKeyboardMarkup:
         resize_keyboard = True
     )
 
-def group_options_by_two(options):
-    return [list(filter(None, group)) for group in zip_longest(*[iter(options)]*2)]
+def group_by_two(array):
+    return [list(filter(None, group)) for group in zip_longest(*[iter(array)]*2)]
 
 
-def filter_keyboard(filter_index: int, selected_filters: dict) -> InlineKeyboardMarkup:
-    filter_name = list(FILTERS.keys())[filter_index]
-    filter_name_left = list(FILTERS.keys())[filter_index-1] \
-        if filter_index > 0 \
-        else list(FILTERS.keys())[len(FILTERS.keys())-1]
-    filter_name_right = list(FILTERS.keys())[filter_index+1] \
-        if filter_index < len(FILTERS.keys()) - 1 \
-        else list(FILTERS.keys())[0]
-    filter_options = FILTERS[filter_name]
+# def filter_keyboard(filter_index: int, selected_filters: dict) -> InlineKeyboardMarkup:
+#     filter_name = list(FILTERS.keys())[filter_index]
+#     filter_name_left = list(FILTERS.keys())[filter_index-1] \
+#         if filter_index > 0 \
+#         else list(FILTERS.keys())[len(FILTERS.keys())-1]
+#     filter_name_right = list(FILTERS.keys())[filter_index+1] \
+#         if filter_index < len(FILTERS.keys()) - 1 \
+#         else list(FILTERS.keys())[0]
+#     filter_options = FILTERS[filter_name]
+#     inline_keyboard = [
+#         [
+#             InlineKeyboardButton(text=f'{filter_name_left} ←', callback_data=f'filter_left_{filter_index}'),
+#             InlineKeyboardButton(text=filter_name, callback_data=f'filters_counter_{filter_name}'),
+#             InlineKeyboardButton(text=f'→ {filter_name_right}', callback_data=f'filter_right_{filter_index}')
+#         ]
+#     ]
+#     for group in group_options_by_two(filter_options):
+#         buttons = []
+#         for option in group:
+#             icon = '✅' if option in selected_filters.get(filter_name, []) else '❌'
+#             buttons.append(
+#                 InlineKeyboardButton(text=f'{option} {icon}', callback_data=f'select_{filter_name}_{option}'))
+#         inline_keyboard.append(buttons)
+#     inline_keyboard.append([
+#         InlineKeyboardButton(text='⬅️', callback_data=f'filter_left_{filter_index}'),
+#         InlineKeyboardButton(text='страница 1/1', callback_data=f'filters_counter_{filter_name}'),
+#         InlineKeyboardButton(text='➡️', callback_data=f'filter_right_{filter_index}')
+#     ])
+#     inline_keyboard.append([
+#         InlineKeyboardButton(text='Выбрать все', callback_data='select_all'),
+#         InlineKeyboardButton(text='Очистить выбор', callback_data='clear_selection'),
+#     ])
+#     inline_keyboard.append([
+#         InlineKeyboardButton(text='Назад', callback_data='back_to_menu')
+#     ])
+#     return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
+
+def filter_keyboard(product_types: list = None) -> InlineKeyboardMarkup:
+    filters = list(FILTERS.keys())
     inline_keyboard = [
         [
-            InlineKeyboardButton(text=f'{filter_name_left} ←', callback_data=f'filter_left_{filter_index}'),
-            InlineKeyboardButton(text=filter_name, callback_data=f'filters_counter_{filter_name}'),
-            InlineKeyboardButton(text=f'→ {filter_name_right}', callback_data=f'filter_right_{filter_index}')
+            InlineKeyboardButton(text='Тип', callback_data=f'filters_set_Тип'),
+            InlineKeyboardButton(text='Магазин', callback_data=f'filters_set_Магазин')
         ]
     ]
-    for group in group_options_by_two(filter_options):
-        buttons = []
-        for option in group:
-            icon = '✅' if option in selected_filters.get(filter_name, []) else '❌'
-            buttons.append(
-                InlineKeyboardButton(text=f'{option} {icon}', callback_data=f'select_{filter_name}_{option}'))
-        inline_keyboard.append(buttons)
-    inline_keyboard.append([
-        InlineKeyboardButton(text='⬅️', callback_data=f'filter_left_{filter_index}'),
-        InlineKeyboardButton(text='страница 1/1', callback_data=f'filters_counter_{filter_name}'),
-        InlineKeyboardButton(text='➡️', callback_data=f'filter_right_{filter_index}')
-    ])
-    inline_keyboard.append([
-        InlineKeyboardButton(text='Выбрать все', callback_data='select_all'),
-        InlineKeyboardButton(text='Очистить выбор', callback_data='clear_selection'),
-    ])
+    if product_types:
+        for group in group_by_two(filters):
+            row = []
+            for filter_ in group:
+                row.append(InlineKeyboardButton(text=filter_, callback_data=f'filters_set_{filter_}'))
+            inline_keyboard.append(row)
+    if len(inline_keyboard) > 5:
+        inline_keyboard.append([
+            InlineKeyboardButton(text='⬅️', callback_data=f'filters_left_'),
+            InlineKeyboardButton(text='1/1', callback_data=f'filters_counter_1'),
+            InlineKeyboardButton(text='➡️', callback_data=f'filters_right_')
+        ])
     inline_keyboard.append([
         InlineKeyboardButton(text='Назад', callback_data='back_to_menu')
     ])

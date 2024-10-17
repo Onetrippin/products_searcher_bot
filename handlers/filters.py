@@ -13,7 +13,7 @@ async def filters_command_handler(callback_query: types.CallbackQuery) -> None:
     current_index[callback_query.from_user.id] = filter_index
     await callback_query.message.edit_text(
         filter_message(),
-        reply_markup=filter_keyboard(filter_index, selected_filters[callback_query.from_user.id])
+        reply_markup=filter_keyboard()
     )
 
 async def send_filter_page(callback_query: types.CallbackQuery, filter_index: int) -> None:
@@ -65,6 +65,6 @@ async def back_to_menu(callback_query: types.CallbackQuery) -> None:
 @router.callback_query(lambda call: call.data.startswith('filters_counter_'))
 async def filter_counter(callback_query: types.CallbackQuery) -> None:
     await callback_query.answer(
-        f'Это страница настройки фильтра "{callback_query.data.split("_")[2]}"',
+        f'Это {callback_query.data.split("_")[2]} страница параметров данного фильтра',
         show_alert=True
     )
