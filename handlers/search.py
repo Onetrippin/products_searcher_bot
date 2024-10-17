@@ -9,7 +9,7 @@ from utils import (product_page, product_page_keyboard, link_message, link_keybo
                    products_search_result_page)
 
 @router.inline_query(lambda query: True)
-async def inline_search(query: types.InlineQuery):
+async def inline_search(query: types.InlineQuery) -> None:
     products = await get_search_result(query.query)
     current_page = int(query.offset) if query.offset else 0
     results = []
