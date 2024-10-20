@@ -16,11 +16,16 @@ async def filters_command_handler(callback_query: types.CallbackQuery) -> None:
         reply_markup=filter_keyboard()
     )
 
-async def send_filter_page(callback_query: types.CallbackQuery, filter_index: int) -> None:
+async def send_filter_page(callback_query: types.CallbackQuery) -> None:
     current_index[callback_query.from_user.id] = filter_index
     message_text = filter_message()
     keyboard = filter_keyboard(filter_index, selected_filters[callback_query.from_user.id])
     await callback_query.message.edit_text(message_text, reply_markup=keyboard)
+
+@router.callback_query(lambda call: call.data.startswith('filters_set_'))
+async def set_filter_page(callback_query: types.CallbackQuery) -> None:
+    filter_name = callback_query.split('_')[2]
+
 
 @router.callback_query(lambda call: call.data.startswith('filter_'))
 async def filter_navigation(callback_query: types.CallbackQuery) -> None:
@@ -55,16 +60,30 @@ async def clear_filters(callback_query: types.CallbackQuery) -> None:
     selected_filters[callback_query.from_user.id][filter_name] = []
     await send_filter_page(callback_query, current_index[callback_query.from_user.id])
 
-@router.callback_query(lambda call: call.data == 'back_to_menu')
-async def back_to_menu(callback_query: types.CallbackQuery) -> None:
-    await callback_query.message.edit_text(
-        search_message(),
-        reply_markup=search_default_keyboard()
-    )
+@router.callback_query(lambda call: call.data.startswith('back_to_'))
+async def back_to(callback_query: types.CallbackQuery) -> None:
+    path = callback_query.split('_')[2]
+    if path == 'menu':
+        await callback_query.message.edit_text(
+            search_message(),
+            reply_markup=search_default_keyboard()
+        )
+    else: #elif path == 'filters':
+        await callback_query.message.edit_text(
+            filter_message(),
+            reply_markup=filter_keyboard()
+        )
 
 @router.callback_query(lambda call: call.data.startswith('filters_counter_'))
 async def filter_counter(callback_query: types.CallbackQuery) -> None:
     await callback_query.answer(
-        f'Это {callback_query.data.split("_")[2]} страница параметров данного фильтра',
+        f'Это {callback_query.data.split("_")[2]} страница фильтров',
+        show_alert=True
+    )
+
+@router.callback_query(lambda call: call.data.startswith('params_counter_'))
+async def params_counter(callback_query: types.CallbackQuery) -> None:
+    await callback_query.answer(
+        f'Это {callback_query.data.split("_")[2]} страница параметров фильтра',
         show_alert=True
     )

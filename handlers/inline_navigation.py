@@ -1,7 +1,7 @@
 from aiogram import types
 
 from utils import (format_saved_message, page_navigation_keyboard, format_history_message)
-from data import get_search_history, get_saved_products
+from services import get_search_history, get_saved_products
 from . import router
 
 @router.callback_query(lambda call: call.data.startswith('page_saved'))

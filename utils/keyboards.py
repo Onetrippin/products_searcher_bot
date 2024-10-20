@@ -1,10 +1,12 @@
 from typing import Tuple
 from itertools import zip_longest
+from math import ceil
 
 from aiogram.types import (ReplyKeyboardMarkup, KeyboardButton,
                            InlineKeyboardMarkup, InlineKeyboardButton)
 from aiogram.types.web_app_info import WebAppInfo
 
+from handlers import inline_search
 from .constants import LINES_PER_PAGE, FILTERS
 
 def main_menu_keyboard() -> ReplyKeyboardMarkup:
@@ -83,7 +85,7 @@ def link_keyboard() -> ReplyKeyboardMarkup:
         resize_keyboard = True
     )
 
-def group_by_two(array):
+def group_by_two(array: list) -> list:
     return [list(filter(None, group)) for group in zip_longest(*[iter(array)]*2)]
 
 
@@ -124,27 +126,55 @@ def group_by_two(array):
 #     ])
 #     return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
 
-def filter_keyboard(product_types: list = None) -> InlineKeyboardMarkup:
-    filters = list(FILTERS.keys())
-    inline_keyboard = [
-        [
-            InlineKeyboardButton(text='Тип', callback_data=f'filters_set_Тип'),
-            InlineKeyboardButton(text='Магазин', callback_data=f'filters_set_Магазин')
-        ]
-    ]
-    if product_types:
-        for group in group_by_two(filters):
+def filter_keyboard(product_filters: list = None, list_number: int = 1) -> InlineKeyboardMarkup:
+    inline_keyboard = []
+    starting_place = (list_number - 1) * 10
+    last_place = list_number * 10
+    if list_number == 1:
+        inline_keyboard.append(
+            [
+                InlineKeyboardButton(text='Тип', callback_data=f'filters_set_Тип'),
+                InlineKeyboardButton(text='Магазин', callback_data=f'filters_set_Магазин')
+            ])
+        starting_place = 2
+    if product_filters:
+        for group in group_by_two(product_filters[starting_place:last_place]):
             row = []
             for filter_ in group:
                 row.append(InlineKeyboardButton(text=filter_, callback_data=f'filters_set_{filter_}'))
             inline_keyboard.append(row)
-    if len(inline_keyboard) > 5:
+    if len(product_filters) > 8:
+        pages_number = ceil((len(product_filters) + 2) / 10)
         inline_keyboard.append([
-            InlineKeyboardButton(text='⬅️', callback_data=f'filters_left_'),
-            InlineKeyboardButton(text='1/1', callback_data=f'filters_counter_1'),
-            InlineKeyboardButton(text='➡️', callback_data=f'filters_right_')
+            InlineKeyboardButton(text='⬅️',
+                                 callback_data=f'filters_left_{list_number - 1 if list_number > 1 else pages_number}'),
+            InlineKeyboardButton(text=f'{list_number}/{pages_number}', callback_data=f'filters_counter_{list_number}'),
+            InlineKeyboardButton(text='➡️',
+                                 callback_data=f'filters_right_{list_number + 1 if list_number < pages_number else 1}')
         ])
     inline_keyboard.append([
         InlineKeyboardButton(text='Назад', callback_data='back_to_menu')
     ])
     return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
+
+def filter_params_keyboard(filter_params: list, list_number: int = 1):
+    inline_keyboard = []
+    starting_place = (list_number - 1) * 10
+    last_place = list_number * 10
+    for group in group_by_two(filter_params[starting_place:last_place]):
+        row = []
+        for filter_ in group:
+            row.append(InlineKeyboardButton(text=filter_, callback_data=f'filters_set_{filter_}'))
+        inline_keyboard.append(row)
+    if len(filter_params) > 10:
+        pages_number = ceil((len(filter_params)) / 10)
+        inline_keyboard.append([
+            InlineKeyboardButton(text='⬅️',
+                                 callback_data=f'params_left_{list_number - 1 if list_number > 1 else pages_number}'),
+            InlineKeyboardButton(text=f'{list_number}/{pages_number}', callback_data=f'params_counter_{list_number}'),
+            InlineKeyboardButton(text='➡️',
+                                 callback_data=f'params_right_{list_number + 1 if list_number < pages_number else 1}')
+        ])
+    inline_keyboard.append([
+        InlineKeyboardButton(text='Назад', callback_data='back_to_filters')
+    ])

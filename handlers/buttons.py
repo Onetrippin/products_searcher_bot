@@ -1,7 +1,7 @@
 from aiogram import types, F
 from aiogram.filters import Command
 
-from data import get_search_history, get_saved_products
+from services import get_search_history, get_saved_products
 from utils import (start_message, help_message, format_saved_message, format_history_message,
                    search_message, other_message,
                    main_menu_keyboard, page_navigation_keyboard, search_default_keyboard,

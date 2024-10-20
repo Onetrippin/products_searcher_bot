@@ -4,7 +4,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.filters.state import StateFilter
 
 from . import router
-from data import get_search_result
+from services import get_search_result
 from utils import (product_page, product_page_keyboard, link_message, link_keyboard, main_menu_keyboard,
                    products_search_result_page)
 
