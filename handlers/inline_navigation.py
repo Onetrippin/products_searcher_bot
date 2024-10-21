@@ -4,6 +4,7 @@ from utils import (format_saved_message, page_navigation_keyboard, format_histor
 from services import get_search_history, get_saved_products
 from . import router
 
+
 @router.callback_query(lambda call: call.data.startswith('page_saved'))
 async def saved_page_changer(callback_query: types.CallbackQuery) -> None:
     saved_products = await get_saved_products(callback_query.message.chat.id)

@@ -5,6 +5,7 @@ from utils import filter_message, filter_keyboard, search_message, search_defaul
 from utils.constants import FILTERS
 from bot import selected_filters, current_index
 
+
 @router.callback_query(lambda call: call.data == 'filters_add')
 async def filters_command_handler(callback_query: types.CallbackQuery) -> None:
     selected_filters[callback_query.from_user.id] = {} if not selected_filters.get(callback_query.from_user.id)\

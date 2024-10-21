@@ -12,6 +12,7 @@ from aiogram.enums.parse_mode import ParseMode
 
 from handlers import router
 
+
 load_dotenv()
 
 PORT = 8000

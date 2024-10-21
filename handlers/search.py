@@ -8,6 +8,7 @@ from services import get_search_result
 from utils import (product_page, product_page_keyboard, link_message, link_keyboard, main_menu_keyboard,
                    products_search_result_page)
 
+
 @router.inline_query(lambda query: True)
 async def inline_search(query: types.InlineQuery) -> None:
     products = await get_search_result(query.query)

@@ -2,6 +2,7 @@ from aiogram.types import Message
 
 from utils.constants import LINES_PER_PAGE
 
+
 def start_message(message: Message) -> str:
     return (
         f'<b>Привет, {message.from_user.first_name}!</b>'

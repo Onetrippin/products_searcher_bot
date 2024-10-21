@@ -8,6 +8,7 @@ from utils import (start_message, help_message, format_saved_message, format_his
                    product_reviews_page, reviews_keyboard)
 from . import router
 
+
 @router.message(Command('start'))
 async def start_command_handler(message: types.Message) -> None:
     args = message.text.split(maxsplit=1)

@@ -9,6 +9,7 @@ from aiogram.types.web_app_info import WebAppInfo
 from handlers import inline_search
 from .constants import LINES_PER_PAGE, FILTERS
 
+
 def main_menu_keyboard() -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(
         keyboard=[
