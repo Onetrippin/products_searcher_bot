@@ -1,0 +1,1 @@
+from .ozon import get_search_result as ozon_search

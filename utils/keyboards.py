@@ -6,7 +6,6 @@ from aiogram.types import (ReplyKeyboardMarkup, KeyboardButton,
                            InlineKeyboardMarkup, InlineKeyboardButton)
 from aiogram.types.web_app_info import WebAppInfo
 
-from handlers import inline_search
 from .constants import LINES_PER_PAGE, FILTERS
 
 
