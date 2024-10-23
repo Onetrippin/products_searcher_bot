@@ -30,7 +30,7 @@ def calculate_page_numbers(current_page: int, row_count: int) -> Tuple[int, int,
 def page_navigation_keyboard(page_type: str, row_count: int, current_page: int = 1, request_id: int = 0) -> InlineKeyboardMarkup:
     prev_page, next_page, total_pages = calculate_page_numbers(current_page, row_count)
     if total_pages == 1:
-        return None
+        return
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
@@ -158,7 +158,7 @@ def filter_keyboard(product_filters: list = None, list_number: int = 1) -> Inlin
     ])
     return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
 
-def filter_params_keyboard(filter_params: list, list_number: int = 1):
+def filter_params_keyboard(filter_params: list, list_number: int = 1) -> InlineKeyboardMarkup:
     inline_keyboard = []
     starting_place = (list_number - 1) * 10
     last_place = list_number * 10
@@ -179,3 +179,4 @@ def filter_params_keyboard(filter_params: list, list_number: int = 1):
     inline_keyboard.append([
         InlineKeyboardButton(text='Назад', callback_data='back_to_filters')
     ])
+    return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)

@@ -49,9 +49,9 @@ async def main() -> None:
     print('Бот запущен')
     await dp.start_polling(bot)
 
-def start_server():
-    Handler = http.server.SimpleHTTPRequestHandler
-    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+def start_server() -> None:
+    handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(("", PORT), handler) as httpd:
         print(f"Сервер запущен на http://localhost:{PORT}")
         httpd.serve_forever()
 
