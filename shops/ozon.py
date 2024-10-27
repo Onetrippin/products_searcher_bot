@@ -1,7 +1,6 @@
 import asyncio
 import json
 from typing import Tuple
-import re
 
 import aiohttp
 from aiohttp import ClientSession

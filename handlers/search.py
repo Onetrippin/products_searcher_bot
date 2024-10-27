@@ -1,3 +1,5 @@
+import asyncio
+
 from aiogram import types
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -7,20 +9,46 @@ from . import router
 from services import get_search_result
 from utils import (product_page, product_page_keyboard, link_message, link_keyboard, main_menu_keyboard,
                    products_search_result_page)
+from utils.constants import DELAY_BETWEEN_API_REQUESTS
 
+
+user_queries = {}
 
 @router.inline_query(lambda query: True)
 async def inline_search(query: types.InlineQuery) -> None:
+    if len(query.query) < 3:
+        await query.answer([types.InlineQueryResultArticle(
+            id='few_characters',
+            title='Подсказка',
+            input_message_content=types.InputTextMessageContent(
+                message_text='Для начала поиска введи <b>хотя бы 3</b> символа',
+                disable_web_page_preview=True
+            ),
+            description='Для начала поиска введи хотя бы 3 символа',
+            thumbnail_url='https://img.icons8.com/?size=100&id=63684&format=png&color=000000',
+        )])
+        return
+    user_id = query.from_user.id
+    new_query = query.query
+    user_queries[user_id] = user_queries.setdefault(user_id, {})
+    user_queries[user_id]['query'] = [new_query, None]
+    if user_queries[user_id]['query'][1] is not None:
+        user_queries[user_id]['query'][1].cancel()
+    user_queries[user_id]['query'][1] = asyncio.create_task(send_query_with_delay(query))
+
+async def send_query_with_delay(query: types.InlineQuery) -> None:
+    await asyncio.sleep(DELAY_BETWEEN_API_REQUESTS if not query.offset else 0)
     products = await get_search_result(query.query)
     current_page = int(query.offset) if query.offset else 0
     results = []
     results_per_page = 50
     if current_page == 0:
         results.append(types.InlineQueryResultArticle(
-            id=str(10000000),
+            id='search',
             title=f'Поиск "{query.query}"',
             input_message_content=types.InputTextMessageContent(
-                message_text=products_search_result_page(query.query, products),
+                # message_text=products_search_result_page(query.query, products),
+                message_text='Это сообщение с результатами поиска',
                 disable_web_page_preview=True
             ),
             description='Ты увидишь все товары найденные по вводу и сможешь добавить фильтры',
