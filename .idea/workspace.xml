@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add ozon parser">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add lower limit on the number of characters entered">
       <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/ozon.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/ozon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -291,7 +287,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729726474667</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="add lower limit on the number of characters entered">
+      <option name="closed" value="true" />
+      <created>1730061418028</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1730061418028</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -325,6 +329,7 @@
     <MESSAGE value="changed filters logic, but it's not working now + add files for API requests" />
     <MESSAGE value="add style" />
     <MESSAGE value="add ozon parser" />
-    <option name="LAST_COMMIT_MESSAGE" value="add ozon parser" />
+    <MESSAGE value="add lower limit on the number of characters entered" />
+    <option name="LAST_COMMIT_MESSAGE" value="add lower limit on the number of characters entered" />
   </component>
 </project>

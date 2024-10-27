@@ -28,6 +28,18 @@ async def inline_search(query: types.InlineQuery) -> None:
             thumbnail_url='https://img.icons8.com/?size=100&id=63684&format=png&color=000000',
         )])
         return
+    elif len(query.query) > 70:
+        await query.answer([types.InlineQueryResultArticle(
+            id='many_characters',
+            title='Подсказка',
+            input_message_content=types.InputTextMessageContent(
+                message_text='<b>Слишком длинный</b> запрос, ищи более конкретно',
+                disable_web_page_preview=True
+            ),
+            description='Слишком длинный запрос, ищи более конкретно',
+            thumbnail_url='https://img.icons8.com/?size=100&id=63684&format=png&color=000000',
+        )])
+        return
     user_id = query.from_user.id
     new_query = query.query
     user_queries[user_id] = user_queries.setdefault(user_id, {})
