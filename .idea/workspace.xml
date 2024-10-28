@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="integrated ozon parser">
-      <change afterPath="$PROJECT_DIR$/shops/wildberries.py" afterDir="false" />
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add + integrated wb parser">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/ozon.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/ozon.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/wildberries.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/wildberries.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -317,7 +313,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730141149016</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="add + integrated wb parser">
+      <option name="closed" value="true" />
+      <created>1730147372529</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1730147372529</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -354,6 +358,7 @@
     <MESSAGE value="add lower limit on the number of characters entered" />
     <MESSAGE value="add upper limit on the number of characters entered" />
     <MESSAGE value="integrated ozon parser" />
-    <option name="LAST_COMMIT_MESSAGE" value="integrated ozon parser" />
+    <MESSAGE value="add + integrated wb parser" />
+    <option name="LAST_COMMIT_MESSAGE" value="add + integrated wb parser" />
   </component>
 </project>

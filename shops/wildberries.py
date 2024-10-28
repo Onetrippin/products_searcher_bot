@@ -58,12 +58,53 @@ async def parse_search_request(result_str: str) -> list:
         prices = product.get('sizes', {})[0].get('price')
         product_info['orig_price'] = prices.get('basic') / 100
         product_info['price'] = int((prices.get('product') / 100) * 0.97)
-        product_id = str(product.get('id'))
-        product_info['image'] = (f'https://basket-17.wbbasket.ru/vol{product_id[:4]}/part{product_id[:6]}/{product_id}'
+        product_id = product.get('id')
+        vol = product_id // 100000
+        part = product_id // 1000
+        product_info['image'] = (f'https://basket-{await get_basket_number(vol)}.wbbasket.ru'
+                                 f'/vol{vol}'
+                                 f'/part{part}/{product_id}'
                                  f'/images/c516x688/1.webp')
         product_info['shop'] = 'Wildberries'
         products_list.append(product_info)
     return products_list
+
+async def get_basket_number(vol: int) -> str:
+    if vol <= 143:
+        return '01'
+    elif vol <= 287:
+        return '02'
+    elif vol <= 431:
+        return '03'
+    elif vol <= 719:
+        return '04'
+    elif vol <= 1007:
+        return '05'
+    elif vol <= 1061:
+        return '06'
+    elif vol <= 1115:
+        return '07'
+    elif vol <= 1169:
+        return '08'
+    elif vol <= 1313:
+        return '09'
+    elif vol <= 1601:
+        return '10'
+    elif vol <= 1655:
+        return '11'
+    elif vol <= 1919:
+        return '12'
+    elif vol <= 2045:
+        return '13'
+    elif vol <= 2189:
+        return '14'
+    elif vol <= 2405:
+        return '15'
+    elif vol <= 2621:
+        return '16'
+    elif vol <= 2837:
+        return '17'
+    return '18'
 
 async def get_search_result(session: ClientSession, query: str, offset: int) -> list:
     return await get_search_request(session, query, offset)
