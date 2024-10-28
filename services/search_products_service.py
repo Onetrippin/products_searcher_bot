@@ -3,7 +3,7 @@ from typing import Tuple
 
 from aiohttp import ClientSession
 
-from shops import ozon_search
+from shops import ozon_search, wb_search
 
 
 # async def get_search_result(query: str) -> list:
@@ -228,15 +228,18 @@ from shops import ozon_search
 
 async def get_search_result(query: str, session: ClientSession, offset: int, links: dict) -> Tuple[dict, list]:
     ozon_next_link, ozon_products = await ozon_search(session, query, offset, links)
+    wb_products = await wb_search(session, query, offset)
     all_products = []
+    unsorted_products = ozon_products + wb_products
+    sorted_products = sorted(unsorted_products, key=lambda dictionary: dictionary['price'])
     next_links = {'ozon': ozon_next_link}
-    for ozon_product in ozon_products:
+    for product in sorted_products:
         all_products.append({
-            'product_name': ozon_product.get('title'),
-            'best_price': ozon_product.get('price'),
-            'best_price_shop': 'Ozon',
-            'product_image': ozon_product.get('image'),
+            'product_name': product.get('title'),
+            'best_price': product.get('price'),
+            'best_price_shop': product.get('shop'),
+            'product_image': product.get('image'),
             'all_offers': [{'price': 7600, 'shop': 'Эльдорадо'},
                            {'price': 7550, 'shop': 'ДНС'}]
         })
-    return next_links, all_products
+    return next_links, all_products[:50]

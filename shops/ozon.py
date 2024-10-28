@@ -87,9 +87,9 @@ async def get_products_info(products: dict) -> list:
             atom_type = atom_object.get('type')
             if atom_type == 'priceV2':
                 price = atom_object.get('priceV2', {}).get('price')
-                product_info['price'] = price[0].get('text').replace(' ', '').replace('\u2009', '')[:-1].strip()
+                product_info['price'] = int(price[0].get('text').replace(' ', '').replace('\u2009', '')[:-1].strip())
                 if len(price) > 1:
-                    product_info['orig_price'] = price[1].get('text').replace(' ', '').replace('\u2009', '')[:-1].strip()
+                    product_info['orig_price'] = int(price[1].get('text').replace(' ', '').replace('\u2009', '')[:-1].strip())
                     product_info['discount'] = atom_object.get('priceV2', {}).get('discount')
             elif atom_type == 'textAtom':
                 title = atom_object.get('textAtom', {}).get('text')
@@ -100,6 +100,7 @@ async def get_products_info(products: dict) -> list:
                 if item.get('icon', {}).get('tintColor') == 'ozRating':
                     product_info['rating'] = item.get('title').strip()
         product_info['image'] = product.get('tileImage', {}).get('items')[0].get('image', {}).get('link')
+        product_info['shop'] = 'Ozon'
         products_list.append(product_info)
     return products_list
 
