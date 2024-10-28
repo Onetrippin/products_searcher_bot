@@ -19,6 +19,7 @@ PORT = 8000
 
 selected_filters = {}
 current_index = {}
+user_queries = {}
 
 def check_and_save_token() -> str:
     token = os.getenv('API_TOKEN')

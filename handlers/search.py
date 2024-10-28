@@ -4,15 +4,15 @@ from aiogram import types
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.filters.state import StateFilter
+from aiohttp import ClientSession
 
 from . import router
 from services import get_search_result
 from utils import (product_page, product_page_keyboard, link_message, link_keyboard, main_menu_keyboard,
                    products_search_result_page)
 from utils.constants import DELAY_BETWEEN_API_REQUESTS
+from bot import user_queries
 
-
-user_queries = {}
 
 @router.inline_query(lambda query: True)
 async def inline_search(query: types.InlineQuery) -> None:
@@ -44,13 +44,19 @@ async def inline_search(query: types.InlineQuery) -> None:
     new_query = query.query
     user_queries[user_id] = user_queries.setdefault(user_id, {})
     user_queries[user_id]['query'] = [new_query, None]
+    user_queries[user_id]['session'] = ClientSession() if not user_queries[user_id].get('session')\
+        else user_queries[user_id]['session']
     if user_queries[user_id]['query'][1] is not None:
         user_queries[user_id]['query'][1].cancel()
-    user_queries[user_id]['query'][1] = asyncio.create_task(send_query_with_delay(query))
+    user_queries[user_id]['query'][1] = asyncio.create_task(send_query_with_delay(query, user_queries[user_id]['session']))
 
-async def send_query_with_delay(query: types.InlineQuery) -> None:
+async def send_query_with_delay(query: types.InlineQuery, session: ClientSession) -> None:
     await asyncio.sleep(DELAY_BETWEEN_API_REQUESTS if not query.offset else 0)
-    products = await get_search_result(query.query)
+    next_links, products = await get_search_result(query.query,
+                                                   session,
+                                                   query.offset if query.offset else 0,
+                                                   user_queries[query.from_user.id].get('links'))
+    user_queries[query.from_user.id]['links'] = next_links
     current_page = int(query.offset) if query.offset else 0
     results = []
     results_per_page = 50
@@ -67,7 +73,8 @@ async def send_query_with_delay(query: types.InlineQuery) -> None:
             thumbnail_url='https://img.icons8.com/color/search',
         ))
         results_per_page -= 1
-    start_index = current_page * results_per_page
+    # start_index = current_page * results_per_page
+    start_index = 0
     end_index = min((current_page + 1) * results_per_page, len(products))
     for i in range(start_index, end_index):
         results.append(types.InlineQueryResultArticle(
@@ -79,7 +86,7 @@ async def send_query_with_delay(query: types.InlineQuery) -> None:
             ),
             reply_markup=product_page_keyboard(query.from_user.id, products[i]['product_name']),
             description=f'Лучшая цена {products[i]["best_price"]} в магазине {products[i]["best_price_shop"]}',
-            thumbnail_url='https://img.icons8.com/color/search',
+            thumbnail_url=products[i]['product_image'],
         ))
     next_offset = current_page + 1
     await query.answer(results, next_offset=str(next_offset))
