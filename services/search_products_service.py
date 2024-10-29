@@ -231,7 +231,13 @@ async def get_search_result(query: str, session: ClientSession, offset: int, lin
     wb_products = await wb_search(session, query, offset)
     all_products = []
     unsorted_products = ozon_products + wb_products
-    sorted_products = sorted(unsorted_products, key=lambda dictionary: dictionary['price'])
+    sorted_products = sorted(
+        list(filter(
+            lambda dictionary: dictionary.get('price'),
+            unsorted_products
+        )),
+        key=lambda dictionary: dictionary['price'])
+    print(sorted_products)
     next_links = {'ozon': ozon_next_link}
     for product in sorted_products:
         all_products.append({
