@@ -237,7 +237,6 @@ async def get_search_result(query: str, session: ClientSession, offset: int, lin
             unsorted_products
         )),
         key=lambda dictionary: dictionary['price'])
-    print(sorted_products)
     next_links = {'ozon': ozon_next_link}
     for product in sorted_products:
         all_products.append({
