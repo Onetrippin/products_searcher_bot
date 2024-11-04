@@ -7,3 +7,7 @@ FILTERS = {
     'Бренд': ['LG', 'Samsung', 'Apple', 'Razer', 'Logitech', 'Sony', 'Xiaomi', 'Philips', 'OnePlus', 'HP']
 }
 DELAY_BETWEEN_API_REQUESTS = 1
+OFFSET_COEFFICIENTS = {
+    'wb': 100,
+    'mvideo': 72
+}

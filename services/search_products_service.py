@@ -5,7 +5,8 @@ from typing import Tuple, Dict, Any, List, Optional
 
 from aiohttp import ClientSession
 
-from shops import ozon_search, wb_search
+from shops import ozon_search, wb_search, mvideo_search
+from utils.constants import OFFSET_COEFFICIENTS
 
 
 # async def get_search_result(query: str) -> list:
@@ -246,11 +247,11 @@ class SourceManager:
             self.next_link, data, self.total_products = await self.fetch_data(
                 self.session, self.query, self.offset, self.next_link
             )
-        elif self.name in ['wb']:
+        elif self.name in ['wb', 'mvideo']:
             data, self.total_products = await self.fetch_data(
                 self.session, self.query, self.offset, self.next_link
             )
-            self.next_link = str(self.total_products - 100 * self.offset)
+            self.next_link = str(self.total_products - OFFSET_COEFFICIENTS[self.name] * self.offset)
         else:
             data = []
         if data:
@@ -271,7 +272,7 @@ class SourceManager:
             result = self.data[self.index]
             self.index += 1
             return result
-        return None
+        return {}
 
 
 class UserData:
@@ -283,7 +284,7 @@ class UserData:
     async def fill_heap(self) -> None:
         for source in self.sources:
             first_element = await source.get_next()
-            if first_element is not None:
+            if first_element is not None and 'price' in first_element:
                 heapq.heappush(self.heap, (first_element['price'], next(self.counter), first_element, source))
 
     async def get_next_batch(self, batch_size=50) -> List[Dict[str, Any]]:
