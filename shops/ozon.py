@@ -10,7 +10,7 @@ from selectolax.parser import HTMLParser
 
 url = 'https://www.ozon.ru/'
 
-async def get_first_search_request(session: ClientSession, query: str) -> Tuple[str, list]:
+async def get_first_search_request(session: ClientSession, query: str) -> Tuple[str, list, int]:
     headers = {
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
         'accept-language': 'ru-RU,ru;q=0.9',
@@ -40,7 +40,7 @@ async def get_first_search_request(session: ClientSession, query: str) -> Tuple[
             next_url = await get_redirect_link(await response.text())
     except aiohttp.ClientError as err:
         print(f'Ошибка {err} при отправке запроса к озону')
-        return
+        return '', [], 0
     if not next_url:
         return await parse_first_search_request(await response.text())
     try:
@@ -49,7 +49,7 @@ async def get_first_search_request(session: ClientSession, query: str) -> Tuple[
             return await parse_first_search_request(await response.text())
     except aiohttp.ClientError as err:
         print(f'Ошибка {err} при отправке запроса к озону')
-        return
+        return '', [], 0
 
 async def get_redirect_link(html_code: str) -> str:
     tree = HTMLParser(html_code)
@@ -63,17 +63,20 @@ async def get_redirect_link(html_code: str) -> str:
             decoded_url = raw_url.replace(r'\/', '/').encode().decode('unicode_escape')
             return decoded_url
 
-async def parse_first_search_request(html_code: str) -> Tuple[str, list]:
+async def parse_first_search_request(html_code: str) -> Tuple[str, list, int]:
     tree = HTMLParser(html_code)
     client_state = tree.css_first('div.client-state')
     search_results = client_state.css_first('div[id*="searchResultsV2"]')
+    if not search_results:
+        return '', [], 0
     data_state = json.loads(search_results.attrs['data-state'])
     products = data_state.get('items')
     products_list = await get_products_info(products)
     mega_paginator = client_state.css_first('div[id*="megaPaginator"]')
     data_state = json.loads(mega_paginator.attrs['data-state'])
     next_url = data_state.get('nextPage')
-    return next_url, products_list
+    total_products = int(re.search(r'"totalFound":(\d+)', html_code).group(1))
+    return next_url, products_list, total_products
 
 async def get_products_info(products: dict) -> list:
     products_list = []
@@ -104,7 +107,7 @@ async def get_products_info(products: dict) -> list:
         products_list.append(product_info)
     return products_list
 
-async def get_not_first_search_request(session: ClientSession, query: str, offset: int, now_url: str) -> Tuple[str, list]:
+async def get_not_first_search_request(session: ClientSession, now_url: str) -> Tuple[str, list, int]:
     headers = {
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
         'accept-language': 'ru-RU,ru;q=0.9',
@@ -130,20 +133,27 @@ async def get_not_first_search_request(session: ClientSession, query: str, offse
             return await parse_not_first_search_request(await response.text())
     except aiohttp.ClientError as err:
         print(f"HTTP error occurred: {err}")
-        return
+        return '', [], 0
 
-async def parse_not_first_search_request(page_code: str) -> Tuple[str, list]:
+async def parse_not_first_search_request(page_code: str) -> Tuple[str, list, int]:
     page_dict = json.loads(page_code)
     widget_states = page_dict.get('widgetStates')
+    if not widget_states:
+        return '', [], 0
     found_key = None
     for key in widget_states.keys():
         if key.startswith('searchResultsV2'):
             found_key = key
     products = json.loads(widget_states.get(found_key)).get('items')
     products_list = await get_products_info(products)
-    return page_dict.get('nextPage'), products_list
+    return page_dict.get('nextPage'), products_list, 0
 
-async def get_search_result(session: ClientSession, query: str, offset: int, links: dict) -> Tuple[str, list]:
+async def get_search_result(session: ClientSession,
+                            query: str,
+                            offset: int,
+                            links: dict) -> Tuple[str, list, int]:
     if offset == 0:
         return await get_first_search_request(session, query)
-    return await get_not_first_search_request(session, query, offset, links['ozon'])
+    elif len(links['ozon']) < 5:
+        return '', [], 0
+    return await get_not_first_search_request(session, links['ozon'])

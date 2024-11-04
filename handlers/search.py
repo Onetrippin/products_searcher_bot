@@ -54,7 +54,7 @@ async def send_query_with_delay(query: types.InlineQuery, session: ClientSession
     await asyncio.sleep(DELAY_BETWEEN_API_REQUESTS if not query.offset else 0)
     next_links, products = await get_search_result(query.query,
                                                    session,
-                                                   query.offset if query.offset else 0,
+                                                   int(query.offset) if query.offset else 0,
                                                    user_queries[query.from_user.id].get('links'))
     user_queries[query.from_user.id]['links'] = next_links
     current_page = int(query.offset) if query.offset else 0
@@ -75,7 +75,8 @@ async def send_query_with_delay(query: types.InlineQuery, session: ClientSession
         results_per_page -= 1
     # start_index = current_page * results_per_page
     start_index = 0
-    end_index = min((current_page + 1) * results_per_page, len(products))
+    # end_index = min((current_page + 1) * results_per_page, len(products))
+    end_index = min(results_per_page, len(products))
     for i in range(start_index, end_index):
         results.append(types.InlineQueryResultArticle(
             id=str(i),

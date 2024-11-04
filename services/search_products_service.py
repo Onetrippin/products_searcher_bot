@@ -1,4 +1,5 @@
 import asyncio
+import heapq
 from typing import Tuple
 
 from aiohttp import ClientSession
@@ -226,9 +227,64 @@ from shops import ozon_search, wb_search
 #                          'product_name' in product and query.lower() in product['product_name'].lower()]
 #     return search_result
 
+
+class SourceManager:
+    def __init__(self, fetch_data_function):
+        self.data = []
+        self.index = 0
+        self.max_value = None
+        self.fetch_data = fetch_data_function
+        self.load_more_data()
+
+    def load_more_data(self):
+        new_data = self.fetch_data()
+        if new_data:
+            self.data = new_data
+            self.index = 0
+            self.max_value = self.data[-1]
+
+    def get_next(self):
+        if self.index < len(self.data):
+            result = self.data[self.index]
+            self.index += 1
+            return result
+        return
+
+    def is_depleted(self):
+        return self.index >= len(self.data)
+
+class UserData:
+    def __init__(self, sources):
+        self.sources = [SourceManager(fetch) for fetch in sources]
+        self.heap = []
+        self.current_batch = []
+        self.fill_heap()
+
+    def fill_heap(self):
+        for source in self.sources:
+            if source.data:
+                first_element = source.get_next()
+                if first_element is not None:
+                    heapq.heappush(self.heap, (first_element, source))
+
+    def get_next_batch(self, batch_size=50):
+        self.current_batch = []
+
+        while len(self.current_batch) < batch_size:
+            if not self.heap:
+                break
+            min_value, source = heapq.heappop(self.heap)
+            self.current_batch.append(min_value)
+            if source.is_depleted():
+                source.load_more_data()
+            next_value = source.get_next()
+            if next_value is not None:
+                heapq.heappush(self.heap, (next_value, source))
+        return self.current_batch
+
 async def get_search_result(query: str, session: ClientSession, offset: int, links: dict) -> Tuple[dict, list]:
-    ozon_next_link, ozon_products = await ozon_search(session, query, offset, links)
-    wb_products = await wb_search(session, query, offset)
+    ozon_next_link, ozon_products, total_ozon_products = await ozon_search(session, query, offset, links)
+    wb_products, wb_total_products = await wb_search(session, query, offset, links)
     all_products = []
     unsorted_products = ozon_products + wb_products
     sorted_products = sorted(
@@ -237,7 +293,7 @@ async def get_search_result(query: str, session: ClientSession, offset: int, lin
             unsorted_products
         )),
         key=lambda dictionary: dictionary['price'])
-    next_links = {'ozon': ozon_next_link}
+    next_links = {'ozon': ozon_next_link, 'wb': str(wb_total_products - 100 * offset)}
     for product in sorted_products:
         all_products.append({
             'product_name': product.get('title'),

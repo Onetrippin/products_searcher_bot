@@ -1,12 +1,12 @@
 import asyncio
 import json
+from typing import Tuple
 
 import aiohttp
 from aiohttp import ClientSession
-import imageio
 
 
-async def get_search_request(session: ClientSession, query: str, offset: int) -> list:
+async def get_search_request(session: ClientSession, query: str, offset: int) -> Tuple[list, int]:
     headers = {
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
         'accept-language': 'ru-RU,ru;q=0.9',
@@ -27,13 +27,14 @@ async def get_search_request(session: ClientSession, query: str, offset: int) ->
         'appType': '1',
         'curr': 'rub',
         'dest': '-5818883',
-        'page': str(offset),
         'query': query,
         'resultset': 'catalog',
         'sort': 'priceup',
         'spp': '30',
         'suppressSpellcheck': 'false'
     }
+    if offset > 0:
+        params['page'] = str(offset)
     try:
         async with session.get('https://search.wb.ru/exactmatch/ru/common/v7/search',
                                headers=headers,
@@ -42,11 +43,13 @@ async def get_search_request(session: ClientSession, query: str, offset: int) ->
             return await parse_search_request(await response.text())
     except aiohttp.ClientError as err:
         print(f'Ошибка {err} при отправке запроса к вб')
-        return
+        return [], 0
 
-async def parse_search_request(result_str: str) -> list:
+async def parse_search_request(result_str: str) -> Tuple[list, int]:
     result = json.loads(result_str)
-    products = result.get('data', {}).get('products')
+    data = result.get('data', {})
+    total_products = int(data.get('total'))
+    products = data.get('products')
     products_list = []
     for product in products:
         product_info = {}
@@ -67,7 +70,7 @@ async def parse_search_request(result_str: str) -> list:
                                  f'/images/c516x688/1.webp')
         product_info['shop'] = 'Wildberries'
         products_list.append(product_info)
-    return products_list
+    return products_list, total_products
 
 async def get_basket_number(vol: int) -> str:
     if vol <= 143:
@@ -106,5 +109,7 @@ async def get_basket_number(vol: int) -> str:
         return '17'
     return '18'
 
-async def get_search_result(session: ClientSession, query: str, offset: int) -> list:
-    return await get_search_request(session, query, offset)
+async def get_search_result(session: ClientSession, query: str, offset: int, links: dict) -> Tuple[list, int]:
+    if not links or not links.get('wb') or int(links['wb']) > 0:
+        return await get_search_request(session, query, offset)
+    return [], 0
