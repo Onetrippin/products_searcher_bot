@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="deleted print">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="fix incomplete loading of all products">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shops/ozon.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/ozon.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shops/wildberries.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/wildberries.py" afterDir="false" />
@@ -348,7 +349,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730530309856</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="fix incomplete loading of all products">
+      <option name="closed" value="true" />
+      <created>1730724863920</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1730724863920</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -363,7 +372,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add utils.messages for all message texts, set default parse_mode, add start message" />
     <MESSAGE value="replace the register with a decorator + add help handler" />
     <MESSAGE value="add empty handlers" />
     <MESSAGE value="rename messages.py to messages_parts.py, add inline nav keyboard" />
@@ -388,6 +396,7 @@
     <MESSAGE value="fixed non-loading images" />
     <MESSAGE value="fix an error occurred when receiving the price of an item that is not in stock" />
     <MESSAGE value="deleted print" />
-    <option name="LAST_COMMIT_MESSAGE" value="deleted print" />
+    <MESSAGE value="fix incomplete loading of all products" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix incomplete loading of all products" />
   </component>
 </project>

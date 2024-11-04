@@ -34,7 +34,7 @@ async def get_search_request(session: ClientSession, query: str, offset: int) ->
         'suppressSpellcheck': 'false'
     }
     if offset > 0:
-        params['page'] = str(offset)
+        params['page'] = str(offset + 1)
     try:
         async with session.get('https://search.wb.ru/exactmatch/ru/common/v7/search',
                                headers=headers,
@@ -109,7 +109,7 @@ async def get_basket_number(vol: int) -> str:
         return '17'
     return '18'
 
-async def get_search_result(session: ClientSession, query: str, offset: int, links: dict) -> Tuple[list, int]:
-    if not links or not links.get('wb') or int(links['wb']) > 0:
+async def get_search_result(session: ClientSession, query: str, offset: int, link: str) -> Tuple[list, int]:
+    if not link or int(link) > 0:
         return await get_search_request(session, query, offset)
     return [], 0

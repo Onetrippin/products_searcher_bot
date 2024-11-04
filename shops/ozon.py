@@ -151,9 +151,9 @@ async def parse_not_first_search_request(page_code: str) -> Tuple[str, list, int
 async def get_search_result(session: ClientSession,
                             query: str,
                             offset: int,
-                            links: dict) -> Tuple[str, list, int]:
+                            link: str) -> Tuple[str, list, int]:
     if offset == 0:
         return await get_first_search_request(session, query)
-    elif len(links['ozon']) < 5:
+    elif len(link) < 5:
         return '', [], 0
-    return await get_not_first_search_request(session, links['ozon'])
+    return await get_not_first_search_request(session, link)

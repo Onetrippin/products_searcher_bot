@@ -1,6 +1,7 @@
 import asyncio
 import heapq
-from typing import Tuple
+import itertools
+from typing import Tuple, Dict, Any, List, Optional
 
 from aiohttp import ClientSession
 
@@ -229,58 +230,73 @@ from shops import ozon_search, wb_search
 
 
 class SourceManager:
-    def __init__(self, fetch_data_function):
+    def __init__(self, fetch_data_function, session: ClientSession, query: str, name: str) -> None:
         self.data = []
         self.index = 0
-        self.max_value = None
         self.fetch_data = fetch_data_function
-        self.load_more_data()
+        self.session = session
+        self.query = query
+        self.offset = 0
+        self.next_link = None
+        self.name = name
+        self.total_products = 0
 
-    def load_more_data(self):
-        new_data = self.fetch_data()
-        if new_data:
-            self.data = new_data
+    async def load_more_data(self) -> None:
+        if self.name in ['ozon']:
+            self.next_link, data, self.total_products = await self.fetch_data(
+                self.session, self.query, self.offset, self.next_link
+            )
+        elif self.name in ['wb']:
+            data, self.total_products = await self.fetch_data(
+                self.session, self.query, self.offset, self.next_link
+            )
+            self.next_link = str(self.total_products - 100 * self.offset)
+        else:
+            data = []
+        if data:
+            self.data = sorted(
+                [item for item in data if item.get('price') is not None],
+                key=lambda item: item['price']
+            )
             self.index = 0
-            self.max_value = self.data[-1]
+            self.offset += 1
 
-    def get_next(self):
+    async def get_next(self) -> dict:
         if self.index < len(self.data):
             result = self.data[self.index]
             self.index += 1
             return result
-        return
+        await self.load_more_data()
+        if self.index < len(self.data):
+            result = self.data[self.index]
+            self.index += 1
+            return result
+        return None
 
-    def is_depleted(self):
-        return self.index >= len(self.data)
 
 class UserData:
-    def __init__(self, sources):
-        self.sources = [SourceManager(fetch) for fetch in sources]
+    def __init__(self, sources: List[SourceManager]) -> None:
+        self.sources = sources
         self.heap = []
-        self.current_batch = []
-        self.fill_heap()
+        self.counter = itertools.count()
 
-    def fill_heap(self):
+    async def fill_heap(self) -> None:
         for source in self.sources:
-            if source.data:
-                first_element = source.get_next()
-                if first_element is not None:
-                    heapq.heappush(self.heap, (first_element, source))
+            first_element = await source.get_next()
+            if first_element is not None:
+                heapq.heappush(self.heap, (first_element['price'], next(self.counter), first_element, source))
 
-    def get_next_batch(self, batch_size=50):
-        self.current_batch = []
-
-        while len(self.current_batch) < batch_size:
+    async def get_next_batch(self, batch_size=50) -> List[Dict[str, Any]]:
+        current_batch = []
+        while len(current_batch) < batch_size:
             if not self.heap:
                 break
-            min_value, source = heapq.heappop(self.heap)
-            self.current_batch.append(min_value)
-            if source.is_depleted():
-                source.load_more_data()
-            next_value = source.get_next()
-            if next_value is not None:
-                heapq.heappush(self.heap, (next_value, source))
-        return self.current_batch
+            _, _, min_item, source = heapq.heappop(self.heap)
+            current_batch.append(min_item)
+            next_item = await source.get_next()
+            if next_item is not None and 'price' in next_item:
+                heapq.heappush(self.heap, (next_item['price'], next(self.counter), next_item, source))
+        return current_batch
 
 async def get_search_result(query: str, session: ClientSession, offset: int, links: dict) -> Tuple[dict, list]:
     ozon_next_link, ozon_products, total_ozon_products = await ozon_search(session, query, offset, links)
