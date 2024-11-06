@@ -7,8 +7,8 @@ from aiohttp import ClientSession
 
 from utils.constants import OFFSET_COEFFICIENTS
 
-url = 'https://www.mvideo.ru/'
 
+url = 'https://www.mvideo.ru/'
 
 cookies = {
     'MVID_REGION_ID': '5',
