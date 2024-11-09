@@ -9,5 +9,6 @@ FILTERS = {
 DELAY_BETWEEN_API_REQUESTS = 1
 OFFSET_COEFFICIENTS = {
     'wb': 100,
-    'mvideo': 72
+    'mvideo': 72,
+    'rbt': 44
 }
