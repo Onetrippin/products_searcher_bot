@@ -60,7 +60,7 @@ async def get_products_ids(session: ClientSession, query: str, offset: int) -> T
         'filterParams': 'WyLQotC%2B0LvRjNC60L4g0LIg0L3QsNC70LjRh9C40LgiLCItMTIiLCLQlNCwIl0%3D'
     }
     try:
-        async with session.get(f'{url}bff/products/search',
+        async with session.get(f'{url}bff/products/v2/search',
                                params=params,
                                cookies=cookies,
                                headers=headers) as response:
