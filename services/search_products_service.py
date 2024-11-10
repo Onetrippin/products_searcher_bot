@@ -247,7 +247,7 @@ class SourceManager:
             self.next_link, data, self.total_products = await self.fetch_data(
                 self.session, self.query, self.offset, self.next_link
             )
-        elif self.name in ['wb', 'mvideo', 'rbt']:
+        elif self.name in ['wb', 'mvideo', 'citilink']:
             data, self.total_products = await self.fetch_data(
                 self.session, self.query, self.offset, self.next_link
             )
