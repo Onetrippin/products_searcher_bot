@@ -1,4 +1,3 @@
-import asyncio
 import json
 from typing import Tuple
 import re
@@ -40,9 +39,6 @@ async def get_first_search_request(session: AsyncSession, query: str) -> Tuple[s
                                      params=params)
         response.raise_for_status()
         next_url = await get_redirect_link(response.text)
-        # async with session.get(f'{url}search', headers=headers, params=params) as response:
-        #     response.raise_for_status()
-        #     next_url = await get_redirect_link(await response.text())
     except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к озону')
         return '', [], 0
@@ -53,9 +49,6 @@ async def get_first_search_request(session: AsyncSession, query: str) -> Tuple[s
                                      headers=headers)
         response.raise_for_status()
         return await parse_first_search_request(response.text)
-        # async with session.get(next_url, headers=headers) as response:
-        #     response.raise_for_status()
-        #     return await parse_first_search_request(await response.text())
     except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к озону')
         return '', [], 0
@@ -140,10 +133,6 @@ async def get_not_first_search_request(session: AsyncSession, now_url: str) -> T
                                      headers=headers)
         response.raise_for_status()
         return await parse_not_first_search_request(response.text)
-        # async with session.get(f'https://www.ozon.ru/api/entrypoint-api.bx/page/json/v2?url={now_url}',
-        #                        headers=headers) as response:
-        #     response.raise_for_status()
-        #     return await parse_not_first_search_request(await response.text())
     except HTTPError as err:
         print(f"HTTP error occurred: {err}")
         return '', [], 0

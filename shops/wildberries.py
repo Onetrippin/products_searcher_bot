@@ -1,4 +1,3 @@
-import asyncio
 import json
 from typing import Tuple
 
@@ -41,11 +40,6 @@ async def get_search_request(session: AsyncSession, query: str, offset: int) -> 
                                      params=params)
         response.raise_for_status()
         return await parse_search_request(response.text)
-        # async with session.get('https://search.wb.ru/exactmatch/ru/common/v7/search',
-        #                        headers=headers,
-        #                        params=params) as response:
-        #     response.raise_for_status()
-        #     return await parse_search_request(await response.text())
     except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к вб')
         return [], 0

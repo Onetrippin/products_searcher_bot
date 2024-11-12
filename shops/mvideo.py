@@ -1,4 +1,3 @@
-import asyncio
 import json
 from typing import Tuple
 
@@ -66,12 +65,6 @@ async def get_products_ids(session: AsyncSession, query: str, offset: int) -> Tu
                                      headers=headers)
         response.raise_for_status()
         return await parse_products_ids(response.text)
-        # async with session.get(f'{url}bff/products/v2/search',
-        #                        params=params,
-        #                        cookies=cookies,
-        #                        headers=headers) as response:
-        #     response.raise_for_status()
-        #     return await parse_products_ids(await response.text())
     except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к мвидео')
         return [], 0
@@ -106,12 +99,6 @@ async def get_products_info(session: AsyncSession, products_ids: list) -> list:
                                       json=data)
         response.raise_for_status()
         return await parse_products_info(response.text)
-        # async with session.post(f'{url}bff/product-details/list',
-        #                         cookies=cookies,
-        #                         headers=headers,
-        #                         json=data) as response:
-        #     response.raise_for_status()
-        #     return await parse_products_info(await response.text())
     except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к мвидео')
         return []
@@ -147,12 +134,6 @@ async def get_products_prices(session: AsyncSession, products_ids: list) -> dict
                                      headers=headers)
         response.raise_for_status()
         return await parse_products_prices(response.text)
-        # async with session.get(f'{url}bff/products/prices',
-        #                        params=params,
-        #                        cookies=cookies,
-        #                        headers=headers) as response:
-        #     response.raise_for_status()
-        #     return await parse_products_prices(await response.text())
     except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к мвидео')
         return {}

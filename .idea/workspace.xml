@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="change mvideo search with v2">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="replaced usage aiohttp with usage curl_cffi">
       <change beforePath="$PROJECT_DIR$/shops/citilink.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/citilink.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shops/mvideo.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/mvideo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shops/ozon.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/ozon.py" afterDir="false" />
@@ -401,7 +396,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731239254168</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="replaced usage aiohttp with usage curl_cffi">
+      <option name="closed" value="true" />
+      <created>1731448641117</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1731448641117</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -416,7 +419,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="separation messages and keyboards" />
     <MESSAGE value="add search history test + format text" />
     <MESSAGE value="format search history message" />
     <MESSAGE value="format saved products message" />
@@ -441,6 +443,7 @@
     <MESSAGE value="add and integrate mvideo parser" />
     <MESSAGE value="add citilink parser" />
     <MESSAGE value="change mvideo search with v2" />
-    <option name="LAST_COMMIT_MESSAGE" value="change mvideo search with v2" />
+    <MESSAGE value="replaced usage aiohttp with usage curl_cffi" />
+    <option name="LAST_COMMIT_MESSAGE" value="replaced usage aiohttp with usage curl_cffi" />
   </component>
 </project>

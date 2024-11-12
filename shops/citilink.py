@@ -1,4 +1,3 @@
-import asyncio
 from typing import Tuple
 import json
 
@@ -57,11 +56,6 @@ async def get_search_request(session: AsyncSession, query: str, offset: int) -> 
                                       json=data)
         response.raise_for_status()
         return await parse_search_request(response.text)
-        # async with session.post(f'{url}graphql/',
-        #                         headers=headers,
-        #                         json=data) as response:
-        #     response.raise_for_status()
-        #     return await parse_search_request(await response.text())
     except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к ситилинку')
         return [], 0
