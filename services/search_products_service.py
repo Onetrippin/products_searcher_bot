@@ -3,7 +3,7 @@ import heapq
 import itertools
 from typing import Tuple, Dict, Any, List, Optional
 
-from aiohttp import ClientSession
+from curl_cffi.requests import AsyncSession
 
 from shops import ozon_search, wb_search, mvideo_search
 from utils.constants import OFFSET_COEFFICIENTS
@@ -231,7 +231,7 @@ from utils.constants import OFFSET_COEFFICIENTS
 
 
 class SourceManager:
-    def __init__(self, fetch_data_function, session: ClientSession, query: str, name: str) -> None:
+    def __init__(self, fetch_data_function, session: AsyncSession, query: str, name: str) -> None:
         self.data = []
         self.index = 0
         self.fetch_data = fetch_data_function
@@ -299,7 +299,7 @@ class UserData:
                 heapq.heappush(self.heap, (next_item['price'], next(self.counter), next_item, source))
         return current_batch
 
-async def get_search_result(query: str, session: ClientSession, offset: int, links: dict) -> Tuple[dict, list]:
+async def get_search_result(query: str, session: AsyncSession, offset: int, links: dict) -> Tuple[dict, list]:
     ozon_next_link, ozon_products, total_ozon_products = await ozon_search(session, query, offset, links)
     wb_products, wb_total_products = await wb_search(session, query, offset, links)
     all_products = []

@@ -2,11 +2,11 @@ import asyncio
 import json
 from typing import Tuple
 
-import aiohttp
-from aiohttp import ClientSession
+from curl_cffi.requests.exceptions import HTTPError
+from curl_cffi.requests import AsyncSession
 
 
-async def get_search_request(session: ClientSession, query: str, offset: int) -> Tuple[list, int]:
+async def get_search_request(session: AsyncSession, query: str, offset: int) -> Tuple[list, int]:
     headers = {
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
         'accept-language': 'ru-RU,ru;q=0.9',
@@ -36,12 +36,17 @@ async def get_search_request(session: ClientSession, query: str, offset: int) ->
     if offset > 0:
         params['page'] = str(offset + 1)
     try:
-        async with session.get('https://search.wb.ru/exactmatch/ru/common/v7/search',
-                               headers=headers,
-                               params=params) as response:
-            response.raise_for_status()
-            return await parse_search_request(await response.text())
-    except aiohttp.ClientError as err:
+        response = await session.get('https://search.wb.ru/exactmatch/ru/common/v7/search',
+                                     headers=headers,
+                                     params=params)
+        response.raise_for_status()
+        return await parse_search_request(response.text)
+        # async with session.get('https://search.wb.ru/exactmatch/ru/common/v7/search',
+        #                        headers=headers,
+        #                        params=params) as response:
+        #     response.raise_for_status()
+        #     return await parse_search_request(await response.text())
+    except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к вб')
         return [], 0
 
@@ -109,7 +114,7 @@ async def get_basket_number(vol: int) -> str:
         return '17'
     return '18'
 
-async def get_search_result(session: ClientSession, query: str, offset: int, link: str) -> Tuple[list, int]:
+async def get_search_result(session: AsyncSession, query: str, offset: int, link: str) -> Tuple[list, int]:
     if not link or int(link) > 0:
         return await get_search_request(session, query, offset)
     return [], 0

@@ -1,5 +1,6 @@
 import os
 import asyncio
+from asyncio import WindowsSelectorEventLoopPolicy
 import http.server
 import socketserver
 import threading
@@ -16,6 +17,8 @@ from handlers import router
 load_dotenv()
 
 PORT = 8000
+
+asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
 
 selected_filters = {}
 current_index = {}

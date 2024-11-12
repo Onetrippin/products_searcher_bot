@@ -4,7 +4,7 @@ from aiogram import types
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.filters.state import StateFilter
-from aiohttp import ClientSession
+from curl_cffi.requests import AsyncSession
 
 from . import router
 from services import get_search_result, UserData, SourceManager
@@ -45,13 +45,13 @@ async def inline_search(query: types.InlineQuery) -> None:
     new_query = query.query
     user_queries[user_id] = user_queries.setdefault(user_id, {})
     user_queries[user_id]['query'] = [new_query, None]
-    user_queries[user_id]['session'] = ClientSession() if not user_queries[user_id].get('session')\
+    user_queries[user_id]['session'] = AsyncSession(impersonate='chrome123') if not user_queries[user_id].get('session')\
         else user_queries[user_id]['session']
     if user_queries[user_id]['query'][1] is not None:
         user_queries[user_id]['query'][1].cancel()
     user_queries[user_id]['query'][1] = asyncio.create_task(send_query_with_delay(query, user_queries[user_id]['session']))
 
-async def send_query_with_delay(query: types.InlineQuery, session: ClientSession) -> None:
+async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession) -> None:
     await asyncio.sleep(DELAY_BETWEEN_API_REQUESTS if not query.offset else 0)
     # next_links, products = await get_search_result(query.query,
     #                                                session,

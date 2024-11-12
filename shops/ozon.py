@@ -3,14 +3,14 @@ import json
 from typing import Tuple
 import re
 
-import aiohttp
-from aiohttp import ClientSession
+from curl_cffi.requests.exceptions import HTTPError
+from curl_cffi.requests import AsyncSession
 from selectolax.parser import HTMLParser
 
 
 url = 'https://www.ozon.ru/'
 
-async def get_first_search_request(session: ClientSession, query: str) -> Tuple[str, list, int]:
+async def get_first_search_request(session: AsyncSession, query: str) -> Tuple[str, list, int]:
     headers = {
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
         'accept-language': 'ru-RU,ru;q=0.9',
@@ -35,19 +35,28 @@ async def get_first_search_request(session: ClientSession, query: str) -> Tuple[
         'text': query
     }
     try:
-        async with session.get(f'{url}search', headers=headers, params=params) as response:
-            response.raise_for_status()
-            next_url = await get_redirect_link(await response.text())
-    except aiohttp.ClientError as err:
+        response = await session.get(f'{url}search',
+                                     headers=headers,
+                                     params=params)
+        response.raise_for_status()
+        next_url = await get_redirect_link(response.text)
+        # async with session.get(f'{url}search', headers=headers, params=params) as response:
+        #     response.raise_for_status()
+        #     next_url = await get_redirect_link(await response.text())
+    except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к озону')
         return '', [], 0
     if not next_url:
-        return await parse_first_search_request(await response.text())
+        return await parse_first_search_request(response.text)
     try:
-        async with session.get(next_url, headers=headers) as response:
-            response.raise_for_status()
-            return await parse_first_search_request(await response.text())
-    except aiohttp.ClientError as err:
+        response = await session.get(next_url,
+                                     headers=headers)
+        response.raise_for_status()
+        return await parse_first_search_request(response.text)
+        # async with session.get(next_url, headers=headers) as response:
+        #     response.raise_for_status()
+        #     return await parse_first_search_request(await response.text())
+    except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к озону')
         return '', [], 0
 
@@ -107,7 +116,7 @@ async def get_products_info(products: dict) -> list:
         products_list.append(product_info)
     return products_list
 
-async def get_not_first_search_request(session: ClientSession, now_url: str) -> Tuple[str, list, int]:
+async def get_not_first_search_request(session: AsyncSession, now_url: str) -> Tuple[str, list, int]:
     headers = {
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
         'accept-language': 'ru-RU,ru;q=0.9',
@@ -127,11 +136,15 @@ async def get_not_first_search_request(session: ClientSession, now_url: str) -> 
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'
     }
     try:
-        async with session.get(f'https://www.ozon.ru/api/entrypoint-api.bx/page/json/v2?url={now_url}',
-                               headers=headers) as response:
-            response.raise_for_status()
-            return await parse_not_first_search_request(await response.text())
-    except aiohttp.ClientError as err:
+        response = await session.get(f'{url}api/entrypoint-api.bx/page/json/v2?url={now_url}',
+                                     headers=headers)
+        response.raise_for_status()
+        return await parse_not_first_search_request(response.text)
+        # async with session.get(f'https://www.ozon.ru/api/entrypoint-api.bx/page/json/v2?url={now_url}',
+        #                        headers=headers) as response:
+        #     response.raise_for_status()
+        #     return await parse_not_first_search_request(await response.text())
+    except HTTPError as err:
         print(f"HTTP error occurred: {err}")
         return '', [], 0
 
@@ -148,7 +161,7 @@ async def parse_not_first_search_request(page_code: str) -> Tuple[str, list, int
     products_list = await get_products_info(products)
     return page_dict.get('nextPage'), products_list, 0
 
-async def get_search_result(session: ClientSession,
+async def get_search_result(session: AsyncSession,
                             query: str,
                             offset: int,
                             link: str) -> Tuple[str, list, int]:

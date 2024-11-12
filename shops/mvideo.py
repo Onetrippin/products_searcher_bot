@@ -2,8 +2,8 @@ import asyncio
 import json
 from typing import Tuple
 
-import aiohttp
-from aiohttp import ClientSession
+from curl_cffi.requests.exceptions import HTTPError
+from curl_cffi.requests import AsyncSession
 
 from utils.constants import OFFSET_COEFFICIENTS
 
@@ -34,7 +34,7 @@ headers = {
 }
 
 
-async def get_search_request(session: ClientSession, query: str, offset: int) -> Tuple[list, int]:
+async def get_search_request(session: AsyncSession, query: str, offset: int) -> Tuple[list, int]:
     products_ids, total_products = await get_products_ids(session, query, offset)
     if not products_ids:
         return [], 0
@@ -51,7 +51,7 @@ async def get_search_request(session: ClientSession, query: str, offset: int) ->
     return products_list, total_products
 
 
-async def get_products_ids(session: ClientSession, query: str, offset: int) -> Tuple[list, int]:
+async def get_products_ids(session: AsyncSession, query: str, offset: int) -> Tuple[list, int]:
     params = {
         'query': query,
         'offset': str(OFFSET_COEFFICIENTS['mvideo'] * offset),
@@ -60,13 +60,19 @@ async def get_products_ids(session: ClientSession, query: str, offset: int) -> T
         'filterParams': 'WyLQotC%2B0LvRjNC60L4g0LIg0L3QsNC70LjRh9C40LgiLCItMTIiLCLQlNCwIl0%3D'
     }
     try:
-        async with session.get(f'{url}bff/products/v2/search',
-                               params=params,
-                               cookies=cookies,
-                               headers=headers) as response:
-            response.raise_for_status()
-            return await parse_products_ids(await response.text())
-    except aiohttp.ClientError as err:
+        response = await session.get(f'{url}bff/products/v2/search',
+                                     params=params,
+                                     cookies=cookies,
+                                     headers=headers)
+        response.raise_for_status()
+        return await parse_products_ids(response.text)
+        # async with session.get(f'{url}bff/products/v2/search',
+        #                        params=params,
+        #                        cookies=cookies,
+        #                        headers=headers) as response:
+        #     response.raise_for_status()
+        #     return await parse_products_ids(await response.text())
+    except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к мвидео')
         return [], 0
 
@@ -77,7 +83,7 @@ async def parse_products_ids(result_str: str) -> Tuple[list, int]:
     products_ids = body.get('products')
     return products_ids, total_products
 
-async def get_products_info(session: ClientSession, products_ids: list) -> list:
+async def get_products_info(session: AsyncSession, products_ids: list) -> list:
     data = {
         'productIds': products_ids,
         'mediaTypes': [
@@ -94,13 +100,19 @@ async def get_products_info(session: ClientSession, products_ids: list) -> list:
         },
     }
     try:
-        async with session.post(f'{url}bff/product-details/list',
-                                cookies=cookies,
-                                headers=headers,
-                                json=data) as response:
-            response.raise_for_status()
-            return await parse_products_info(await response.text())
-    except aiohttp.ClientError as err:
+        response = await session.post(f'{url}bff/product-details/list',
+                                      cookies=cookies,
+                                      headers=headers,
+                                      json=data)
+        response.raise_for_status()
+        return await parse_products_info(response.text)
+        # async with session.post(f'{url}bff/product-details/list',
+        #                         cookies=cookies,
+        #                         headers=headers,
+        #                         json=data) as response:
+        #     response.raise_for_status()
+        #     return await parse_products_info(await response.text())
+    except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к мвидео')
         return []
 
@@ -122,20 +134,26 @@ async def parse_products_info(result_str: str) -> list:
         })
     return products
 
-async def get_products_prices(session: ClientSession, products_ids: list) -> dict:
+async def get_products_prices(session: AsyncSession, products_ids: list) -> dict:
     params = {
         'productIds': ','.join(products_ids),
         'addBonusRubles': 'true',
         'isPromoApplied': 'true',
     }
     try:
-        async with session.get(f'{url}bff/products/prices',
-                               params=params,
-                               cookies=cookies,
-                               headers=headers) as response:
-            response.raise_for_status()
-            return await parse_products_prices(await response.text())
-    except aiohttp.ClientError as err:
+        response = await session.get(f'{url}bff/products/prices',
+                                     params=params,
+                                     cookies=cookies,
+                                     headers=headers)
+        response.raise_for_status()
+        return await parse_products_prices(response.text)
+        # async with session.get(f'{url}bff/products/prices',
+        #                        params=params,
+        #                        cookies=cookies,
+        #                        headers=headers) as response:
+        #     response.raise_for_status()
+        #     return await parse_products_prices(await response.text())
+    except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к мвидео')
         return {}
 
@@ -153,7 +171,7 @@ async def parse_products_prices(result_str: str) -> dict:
         for price in prices
     }
 
-async def get_search_result(session: ClientSession, query: str, offset: int, link: str) -> Tuple[list, int]:
+async def get_search_result(session: AsyncSession, query: str, offset: int, link: str) -> Tuple[list, int]:
     if not link or int(link) > 0:
         return await get_search_request(session, query, offset)
     return [], 0

@@ -2,15 +2,15 @@ import asyncio
 from typing import Tuple
 import json
 
-import aiohttp
-from aiohttp import ClientSession
+from curl_cffi.requests.exceptions import HTTPError
+from curl_cffi.requests import AsyncSession
 
 from utils.constants import OFFSET_COEFFICIENTS
 
 
 url = 'https://www.citilink.ru/'
 
-async def get_search_request(session: ClientSession, query: str, offset: int) -> Tuple[list, int]:
+async def get_search_request(session: AsyncSession, query: str, offset: int) -> Tuple[list, int]:
     offset += 1
     headers = {
         'accept': '*/*',
@@ -52,12 +52,17 @@ async def get_search_request(session: ClientSession, query: str, offset: int) ->
             }
     }
     try:
-        async with session.post(f'{url}graphql/',
-                                headers=headers,
-                                json=data) as response:
-            response.raise_for_status()
-            return await parse_search_request(await response.text())
-    except aiohttp.ClientError as err:
+        response = await session.post(f'{url}graphql/',
+                                      headers=headers,
+                                      json=data)
+        response.raise_for_status()
+        return await parse_search_request(response.text)
+        # async with session.post(f'{url}graphql/',
+        #                         headers=headers,
+        #                         json=data) as response:
+        #     response.raise_for_status()
+        #     return await parse_search_request(await response.text())
+    except HTTPError as err:
         print(f'Ошибка {err} при отправке запроса к ситилинку')
         return [], 0
 
@@ -93,7 +98,7 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
     return products_list, total_products
 
 
-async def get_search_result(session: ClientSession, query: str, offset: int, link: str) -> Tuple[list, int]:
+async def get_search_result(session: AsyncSession, query: str, offset: int, link: str) -> Tuple[list, int]:
     if not link or int(link) > 0:
         return await get_search_request(session, query, offset)
     return [], 0
