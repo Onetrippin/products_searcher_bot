@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="replaced usage aiohttp with usage curl_cffi">
-      <change beforePath="$PROJECT_DIR$/shops/citilink.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/citilink.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/mvideo.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/mvideo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/ozon.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/ozon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/wildberries.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/wildberries.py" afterDir="false" />
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="deleted unnecessary comments">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/rbt.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/rbt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,23 +48,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
-    &quot;Python.bot.executor&quot;: &quot;Run&quot;,
-    &quot;Python.buttons.executor&quot;: &quot;Run&quot;,
-    &quot;Python.inline_navigation.executor&quot;: &quot;Run&quot;,
-    &quot;Python.keyboards.executor&quot;: &quot;Run&quot;,
-    &quot;Python.mvideo.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ozon.executor&quot;: &quot;Run&quot;,
-    &quot;Python.search.executor&quot;: &quot;Run&quot;,
-    &quot;Python.search_products_service.executor&quot;: &quot;Run&quot;,
-    &quot;Python.wildberries.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.__init__.executor": "Run",
+    "Python.bot.executor": "Run",
+    "Python.buttons.executor": "Run",
+    "Python.inline_navigation.executor": "Run",
+    "Python.keyboards.executor": "Run",
+    "Python.mvideo.executor": "Run",
+    "Python.ozon.executor": "Run",
+    "Python.rbt.executor": "Run",
+    "Python.search.executor": "Run",
+    "Python.search_products_service.executor": "Run",
+    "Python.wildberries.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "dev",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\I\PycharmProjects\products_searcher_bot\services" />
@@ -404,7 +407,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731448641117</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="deleted unnecessary comments">
+      <option name="closed" value="true" />
+      <created>1731449073242</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1731449073242</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -419,7 +430,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add search history test + format text" />
     <MESSAGE value="format search history message" />
     <MESSAGE value="format saved products message" />
     <MESSAGE value="refactor" />
@@ -444,6 +454,7 @@
     <MESSAGE value="add citilink parser" />
     <MESSAGE value="change mvideo search with v2" />
     <MESSAGE value="replaced usage aiohttp with usage curl_cffi" />
-    <option name="LAST_COMMIT_MESSAGE" value="replaced usage aiohttp with usage curl_cffi" />
+    <MESSAGE value="deleted unnecessary comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="deleted unnecessary comments" />
   </component>
 </project>

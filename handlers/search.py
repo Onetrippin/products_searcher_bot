@@ -78,7 +78,8 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession)
             SourceManager(ozon_search, session, query.query, 'ozon'),
             SourceManager(wb_search, session, query.query, 'wb'),
             SourceManager(mvideo_search, session, query.query, 'mvideo'),
-            SourceManager(citilink_search, session, query.query, 'citilink')
+            SourceManager(citilink_search, session, query.query, 'citilink'),
+            SourceManager(rbt_search, session, query.query, 'rbt')
         ]
         user_queries[query.from_user.id]['data'] = UserData(sources=sources)
         await user_queries[query.from_user.id]['data'].fill_heap()
