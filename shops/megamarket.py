@@ -79,8 +79,6 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
                 else item.get('favoriteOffer', {}).get('price')
         })
     total_products = int(result.get('total'))
-    print(products_list)
-    print(total_products)
     return products_list, total_products
 
 async def get_search_result(session: AsyncSession, query: str, offset: int, link: str) -> Tuple[list, int]:
