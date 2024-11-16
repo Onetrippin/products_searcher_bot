@@ -12,5 +12,6 @@ OFFSET_COEFFICIENTS = {
     'mvideo': 72,
     'rbt': 400,
     'citilink': 200,
-    'eldorado': 210
+    'eldorado': 210,
+    'megamarket': 44
 }

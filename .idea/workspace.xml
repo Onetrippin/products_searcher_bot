@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="fix RBT parser, it's working)">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add eldorado parser">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shops/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/eldorado.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/eldorado.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/megamarket.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/megamarket.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -426,7 +426,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731453198700</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="add eldorado parser">
+      <option name="closed" value="true" />
+      <created>1731791432691</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1731791432691</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -434,14 +442,25 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="search-parsers" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="format saved products message" />
     <MESSAGE value="refactor" />
     <MESSAGE value="many changes: add search logic, add reviews logic" />
     <MESSAGE value="add reviews page" />
@@ -466,6 +485,7 @@
     <MESSAGE value="replaced usage aiohttp with usage curl_cffi" />
     <MESSAGE value="deleted unnecessary comments" />
     <MESSAGE value="fix RBT parser, it's working)" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix RBT parser, it's working)" />
+    <MESSAGE value="add eldorado parser" />
+    <option name="LAST_COMMIT_MESSAGE" value="add eldorado parser" />
   </component>
 </project>
