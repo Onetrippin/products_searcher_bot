@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="deleted unnecessary comments">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="fix RBT parser, it's working)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/rbt.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/rbt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/eldorado.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/eldorado.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,14 +25,16 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Onetrippin&quot;
-  }
-}</component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {}
+}]]></component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Onetrippin/products_searcher_bot.git&quot;,
@@ -53,6 +55,7 @@
     "Python.__init__.executor": "Run",
     "Python.bot.executor": "Run",
     "Python.buttons.executor": "Run",
+    "Python.eldorado.executor": "Run",
     "Python.inline_navigation.executor": "Run",
     "Python.keyboards.executor": "Run",
     "Python.mvideo.executor": "Run",
@@ -62,7 +65,7 @@
     "Python.search_products_service.executor": "Run",
     "Python.wildberries.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "search-parsers",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
@@ -415,7 +418,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731449073242</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="fix RBT parser, it's working)">
+      <option name="closed" value="true" />
+      <created>1731453198700</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1731453198700</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -430,7 +441,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="format search history message" />
     <MESSAGE value="format saved products message" />
     <MESSAGE value="refactor" />
     <MESSAGE value="many changes: add search logic, add reviews logic" />
@@ -455,6 +465,7 @@
     <MESSAGE value="change mvideo search with v2" />
     <MESSAGE value="replaced usage aiohttp with usage curl_cffi" />
     <MESSAGE value="deleted unnecessary comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="deleted unnecessary comments" />
+    <MESSAGE value="fix RBT parser, it's working)" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix RBT parser, it's working)" />
   </component>
 </project>
