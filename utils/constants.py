@@ -13,5 +13,6 @@ OFFSET_COEFFICIENTS = {
     'rbt': 400,
     'citilink': 200,
     'eldorado': 210,
-    'megamarket': 44
+    'megamarket': 44,
+    'aliexpress': 1
 }
