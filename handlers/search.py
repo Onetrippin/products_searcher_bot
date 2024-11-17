@@ -12,7 +12,8 @@ from utils import (product_page, product_page_keyboard, link_message, link_keybo
                    products_search_result_page)
 from utils.constants import DELAY_BETWEEN_API_REQUESTS
 from bot import user_queries
-from shops import ozon_search, wb_search, mvideo_search, rbt_search, citilink_search
+from shops import (ozon_search, wb_search, mvideo_search, rbt_search, citilink_search, eldorado_search,
+                   megamarket_search, aliexpress_search, onlinetrade_search)
 
 
 @router.inline_query(lambda query: True)
@@ -79,7 +80,11 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession)
             SourceManager(wb_search, session, query.query, 'wb'),
             SourceManager(mvideo_search, session, query.query, 'mvideo'),
             SourceManager(citilink_search, session, query.query, 'citilink'),
-            SourceManager(rbt_search, session, query.query, 'rbt')
+            SourceManager(rbt_search, session, query.query, 'rbt'),
+            SourceManager(eldorado_search, session, query.query, 'eldorado'),
+            SourceManager(megamarket_search, session, query.query, 'megamarket'),
+            SourceManager(aliexpress_search, session, query.query, 'aliexpress'),
+            SourceManager(onlinetrade_search, session, query.query, 'onlinetrade')
         ]
         user_queries[query.from_user.id]['data'] = UserData(sources=sources)
         await user_queries[query.from_user.id]['data'].fill_heap()
