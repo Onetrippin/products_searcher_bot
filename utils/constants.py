@@ -14,5 +14,6 @@ OFFSET_COEFFICIENTS = {
     'citilink': 200,
     'eldorado': 210,
     'megamarket': 44,
-    'aliexpress': 1
+    'aliexpress': 1,
+    'onlinetrade': 30
 }
