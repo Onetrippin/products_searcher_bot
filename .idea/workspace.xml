@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add aliexpress parser">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add onlinetrade parser">
       <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/onlinetrade.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/onlinetrade.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/aliexpress.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/aliexpress.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -475,7 +471,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731860952136</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="add onlinetrade parser">
+      <option name="closed" value="true" />
+      <created>1731878552060</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1731878552060</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -502,7 +506,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="update help message, update filters keyboard" />
     <MESSAGE value="changed filters logic, but it's not working now + add files for API requests" />
     <MESSAGE value="add style" />
     <MESSAGE value="add ozon parser" />
@@ -527,6 +530,7 @@
     <MESSAGE value="fix incorrect display of out-of-stock items" />
     <MESSAGE value="fix incorrect megamarket display of out-of-stock items" />
     <MESSAGE value="add aliexpress parser" />
-    <option name="LAST_COMMIT_MESSAGE" value="add aliexpress parser" />
+    <MESSAGE value="add onlinetrade parser" />
+    <option name="LAST_COMMIT_MESSAGE" value="add onlinetrade parser" />
   </component>
 </project>

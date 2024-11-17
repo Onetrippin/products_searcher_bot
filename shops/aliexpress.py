@@ -80,10 +80,10 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
             'rating': product.get('rating'),
             'image': f'https:{product.get("imgSrc")}',
             'shop': 'AliExpress',
-            'price': int(product.get('finalPrice').replace(' ', '')[:-1]),
-            'orig_price': int(product.get('fullPrice').replace(' ', '')[:-1]) \
+            'price': int(float(product.get('finalPrice').replace(' ', '').replace(',', '.')[:-1])),
+            'orig_price': int(float(product.get('fullPrice').replace(' ', '').replace(',', '.')[:-1])) \
                 if product.get('fullPrice') \
-                else int(product.get('finalPrice').replace(' ', '')[:-1])
+                else int(float(product.get('finalPrice').replace(' ', '').replace(',', '.')[:-1]))
         })
     total_products = result.get('data', {}).get('pagination', {}).get('totalPages')
     return products_list, total_products
