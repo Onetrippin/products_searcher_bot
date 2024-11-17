@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add eldorado parser">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add megamarket parser">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shops/megamarket.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/megamarket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,9 +28,9 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {}
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {}
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Onetrippin/products_searcher_bot.git&quot;,
@@ -58,6 +54,7 @@
     "Python.eldorado.executor": "Run",
     "Python.inline_navigation.executor": "Run",
     "Python.keyboards.executor": "Run",
+    "Python.megamarket.executor": "Run",
     "Python.mvideo.executor": "Run",
     "Python.ozon.executor": "Run",
     "Python.rbt.executor": "Run",
@@ -434,7 +431,23 @@
       <option name="project" value="LOCAL" />
       <updated>1731791432691</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="add megamarket parser">
+      <option name="closed" value="true" />
+      <created>1731795030998</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1731795030998</updated>
+    </task>
+    <task id="LOCAL-00045" summary="add megamarket parser">
+      <option name="closed" value="true" />
+      <created>1731795203059</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1731795203060</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -461,7 +474,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor" />
     <MESSAGE value="many changes: add search logic, add reviews logic" />
     <MESSAGE value="add reviews page" />
     <MESSAGE value="add many functions + add filters + add link" />
@@ -486,6 +498,7 @@
     <MESSAGE value="deleted unnecessary comments" />
     <MESSAGE value="fix RBT parser, it's working)" />
     <MESSAGE value="add eldorado parser" />
-    <option name="LAST_COMMIT_MESSAGE" value="add eldorado parser" />
+    <MESSAGE value="add megamarket parser" />
+    <option name="LAST_COMMIT_MESSAGE" value="add megamarket parser" />
   </component>
 </project>

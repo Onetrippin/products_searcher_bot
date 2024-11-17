@@ -68,6 +68,8 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
     products_list = []
     for item in items:
         title_32 = item.get('goods', {}).get('title')[:29]
+        if item.get('favoriteOffer', {}).get('price') == 0:
+            continue
         products_list.append({
             'title': title_32[:title_32.rfind(' ')] + '...',
             'rating': item.get('rating'),
@@ -79,6 +81,8 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
                 else item.get('favoriteOffer', {}).get('price')
         })
     total_products = int(result.get('total'))
+    print(result)
+    print(products_list)
     return products_list, total_products
 
 async def get_search_result(session: AsyncSession, query: str, offset: int, link: str) -> Tuple[list, int]:
