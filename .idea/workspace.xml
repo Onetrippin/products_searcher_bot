@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add onlinetrade parser">
-      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/aliexpress.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/aliexpress.py" afterDir="false" />
-    </list>
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="refactor" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,7 +59,7 @@
     "Python.search_products_service.executor": "Run",
     "Python.wildberries.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "search-parsers",
+    "git-widget-placeholder": "dev",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
@@ -86,14 +83,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00001" summary="add files + start command handler">
-      <option name="closed" value="true" />
-      <created>1728506334760</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1728506334760</updated>
     </task>
     <task id="LOCAL-00002" summary="refactor">
       <option name="closed" value="true" />
@@ -479,7 +468,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731878552060</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1731879779448</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1731879779448</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -506,7 +503,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed filters logic, but it's not working now + add files for API requests" />
     <MESSAGE value="add style" />
     <MESSAGE value="add ozon parser" />
     <MESSAGE value="add lower limit on the number of characters entered" />
@@ -531,6 +527,7 @@
     <MESSAGE value="fix incorrect megamarket display of out-of-stock items" />
     <MESSAGE value="add aliexpress parser" />
     <MESSAGE value="add onlinetrade parser" />
-    <option name="LAST_COMMIT_MESSAGE" value="add onlinetrade parser" />
+    <MESSAGE value="refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor" />
   </component>
 </project>
