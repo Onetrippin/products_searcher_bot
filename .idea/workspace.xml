@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="deleted unnecessary comments">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add onlinetrade parser">
       <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/rbt.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/rbt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/aliexpress.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/aliexpress.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,13 +21,15 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Onetrippin&quot;
-  }
+  &quot;lastFilter&quot;: {}
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
@@ -53,8 +51,10 @@
     "Python.__init__.executor": "Run",
     "Python.bot.executor": "Run",
     "Python.buttons.executor": "Run",
+    "Python.eldorado.executor": "Run",
     "Python.inline_navigation.executor": "Run",
     "Python.keyboards.executor": "Run",
+    "Python.megamarket.executor": "Run",
     "Python.mvideo.executor": "Run",
     "Python.ozon.executor": "Run",
     "Python.rbt.executor": "Run",
@@ -62,7 +62,7 @@
     "Python.search_products_service.executor": "Run",
     "Python.wildberries.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "search-parsers",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
@@ -415,7 +415,71 @@
       <option name="project" value="LOCAL" />
       <updated>1731449073242</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="fix RBT parser, it's working)">
+      <option name="closed" value="true" />
+      <created>1731453198700</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1731453198700</updated>
+    </task>
+    <task id="LOCAL-00043" summary="add eldorado parser">
+      <option name="closed" value="true" />
+      <created>1731791432691</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1731791432691</updated>
+    </task>
+    <task id="LOCAL-00044" summary="add megamarket parser">
+      <option name="closed" value="true" />
+      <created>1731795030998</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1731795030998</updated>
+    </task>
+    <task id="LOCAL-00045" summary="add megamarket parser">
+      <option name="closed" value="true" />
+      <created>1731795203059</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1731795203060</updated>
+    </task>
+    <task id="LOCAL-00046" summary="fix incorrect display of out-of-stock items">
+      <option name="closed" value="true" />
+      <created>1731840931714</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1731840931714</updated>
+    </task>
+    <task id="LOCAL-00047" summary="fix incorrect megamarket display of out-of-stock items">
+      <option name="closed" value="true" />
+      <created>1731840967872</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1731840967872</updated>
+    </task>
+    <task id="LOCAL-00048" summary="add aliexpress parser">
+      <option name="closed" value="true" />
+      <created>1731860952136</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1731860952136</updated>
+    </task>
+    <task id="LOCAL-00049" summary="add onlinetrade parser">
+      <option name="closed" value="true" />
+      <created>1731878552060</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1731878552060</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -423,20 +487,25 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="search-parsers" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="format search history message" />
-    <MESSAGE value="format saved products message" />
-    <MESSAGE value="refactor" />
-    <MESSAGE value="many changes: add search logic, add reviews logic" />
-    <MESSAGE value="add reviews page" />
-    <MESSAGE value="add many functions + add filters + add link" />
-    <MESSAGE value="update help message, update filters keyboard" />
     <MESSAGE value="changed filters logic, but it's not working now + add files for API requests" />
     <MESSAGE value="add style" />
     <MESSAGE value="add ozon parser" />
@@ -455,6 +524,13 @@
     <MESSAGE value="change mvideo search with v2" />
     <MESSAGE value="replaced usage aiohttp with usage curl_cffi" />
     <MESSAGE value="deleted unnecessary comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="deleted unnecessary comments" />
+    <MESSAGE value="fix RBT parser, it's working)" />
+    <MESSAGE value="add eldorado parser" />
+    <MESSAGE value="add megamarket parser" />
+    <MESSAGE value="fix incorrect display of out-of-stock items" />
+    <MESSAGE value="fix incorrect megamarket display of out-of-stock items" />
+    <MESSAGE value="add aliexpress parser" />
+    <MESSAGE value="add onlinetrade parser" />
+    <option name="LAST_COMMIT_MESSAGE" value="add onlinetrade parser" />
   </component>
 </project>
