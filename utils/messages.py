@@ -173,6 +173,17 @@ def filter_message() -> str:
         '<b>Сначала <u>выбери тип товара</u> для того, чтобы появились фильтры для этого типа</b>'
     )
 
+def filter_set_message(filter_name: str, selected_parameters: list = None) -> str:
+    selected_parameters_info = ('Не выбрано ни одного параметра, '
+                                'следовательно данный фильтр не будет учитываться при поиске') \
+        if not selected_parameters \
+        else f'Выбранные параметры: {", ".join(selected_parameters)}'
+    return (
+        f'Выбери параметры для фильтра {filter_name}'
+        '\n\n'
+        f'{selected_parameters_info}'
+    )
+
 def link_message() -> str:
     return (
         'Отправь ссылку на товар и я найду аналоги в других магазинах'

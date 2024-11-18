@@ -1,34 +1,48 @@
 from aiogram import types
 
 from . import router
-from utils import filter_message, filter_keyboard, search_message, search_default_keyboard
+from utils import (filter_message, filter_keyboard,
+                   search_message, search_default_keyboard,
+                   filter_set_message, filter_params_keyboard)
 from utils.constants import FILTERS
-from bot import selected_filters, current_index
+from bot import user_queries
 
 
 @router.callback_query(lambda call: call.data == 'filters_add')
 async def filters_command_handler(callback_query: types.CallbackQuery) -> None:
-    selected_filters[callback_query.from_user.id] = {} if not selected_filters.get(callback_query.from_user.id)\
-        else selected_filters[callback_query.from_user.id]
-    filter_index = 0
-    current_index[callback_query.from_user.id] = filter_index
     await callback_query.message.edit_text(
         filter_message(),
         reply_markup=filter_keyboard()
     )
 
-async def send_filter_page(callback_query: types.CallbackQuery) -> None:
-    current_index[callback_query.from_user.id] = filter_index
-    message_text = filter_message()
-    keyboard = filter_keyboard(filter_index, selected_filters[callback_query.from_user.id])
-    await callback_query.message.edit_text(message_text, reply_markup=keyboard)
-
 @router.callback_query(lambda call: call.data.startswith('filters_set_'))
 async def set_filter_page(callback_query: types.CallbackQuery) -> None:
-    filter_name = callback_query.split('_')[2]
+    params = callback_query.data.split('_')
+    filter_name = params[2]
+    try:
+        filter_param = params[3]
+    except IndexError:
+        filter_param = None
+    if filter_param:
+        user_id = callback_query.from_user.id
+        user_queries[user_id] = user_queries.setdefault(user_id, {})
+        user_queries[user_id]['filters'] = user_queries[user_id].setdefault('filters', {})
+        user_queries[user_id]['filters'][filter_name] = user_queries[user_id]['filters'].setdefault(filter_name, [])
+        if filter_param == 'all':
+            user_queries[user_id]['filters'][filter_name] = FILTERS[filter_name].copy()
+        elif filter_param == 'clear':
+            user_queries[user_id]['filters'][filter_name].clear()
+        elif filter_param in user_queries.get(user_id, {}).get('filters', {}).get(filter_name, []):
+            user_queries[user_id]['filters'][filter_name].remove(filter_param)
+        else:
+            user_queries[user_id]['filters'][filter_name].append(filter_param)
+    selected_parameters = user_queries.get(callback_query.from_user.id, {}).get('filters', {}).get(filter_name)
+    await callback_query.message.edit_text(
+        filter_set_message(filter_name, selected_parameters),
+        reply_markup=filter_params_keyboard(filter_name, FILTERS[filter_name], selected_parameters)
+    )
 
-
-@router.callback_query(lambda call: call.data.startswith('filter_'))
+@router.callback_query(lambda call: call.data.startswith('filters_'))
 async def filter_navigation(callback_query: types.CallbackQuery) -> None:
     _, direction, filter_index = callback_query.data.split('_')
     filter_index = int(filter_index)
@@ -38,32 +52,9 @@ async def filter_navigation(callback_query: types.CallbackQuery) -> None:
         new_filter_index = 0 if filter_index == len(FILTERS) - 1 else filter_index + 1
     await send_filter_page(callback_query, new_filter_index)
 
-@router.callback_query(lambda call: call.data == 'select_all')
-async def select_all_filters(callback_query: types.CallbackQuery) -> None:
-    filter_name = list(FILTERS.keys())[current_index[callback_query.from_user.id]]
-    selected_filters[callback_query.from_user.id][filter_name] = FILTERS[filter_name].copy()
-    await send_filter_page(callback_query, current_index[callback_query.from_user.id])
-
-@router.callback_query(lambda call: call.data.startswith('select_'))
-async def select_filter_option(callback_query: types.CallbackQuery) -> None:
-    _, filter_name, option = callback_query.data.split('_')
-    if filter_name not in selected_filters[callback_query.from_user.id]:
-        selected_filters[callback_query.from_user.id][filter_name] = []
-    if option in selected_filters[callback_query.from_user.id][filter_name]:
-        selected_filters[callback_query.from_user.id][filter_name].remove(option)
-    else:
-        selected_filters[callback_query.from_user.id][filter_name].append(option)
-    await send_filter_page(callback_query, current_index[callback_query.from_user.id])
-
-@router.callback_query(lambda call: call.data == 'clear_selection')
-async def clear_filters(callback_query: types.CallbackQuery) -> None:
-    filter_name = list(FILTERS.keys())[current_index[callback_query.from_user.id]]
-    selected_filters[callback_query.from_user.id][filter_name] = []
-    await send_filter_page(callback_query, current_index[callback_query.from_user.id])
-
 @router.callback_query(lambda call: call.data.startswith('back_to_'))
 async def back_to(callback_query: types.CallbackQuery) -> None:
-    path = callback_query.split('_')[2]
+    path = callback_query.data.split('_')[2]
     if path == 'menu':
         await callback_query.message.edit_text(
             search_message(),

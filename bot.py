@@ -20,8 +20,6 @@ PORT = 8000
 
 asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
 
-selected_filters = {}
-current_index = {}
 user_queries = {}
 
 def check_and_save_token() -> str:
