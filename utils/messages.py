@@ -152,7 +152,7 @@ def products_search_result_page(query: str, products: list) -> str:
     return (
         f'<b>Поиск "{query}"</b>'
         '\n\n' +
-        '\n\n'.join([f'<b><u>{products[i]["product_name"]}</u></b> - '
+        '\n\n'.join([f'<b><u>{products[i]["product_full_name"]}</u></b> - '
                    f'лучшая цена: <code>{products[i]["best_price"]}</code> | '
                    f'магазин: <code>{products[i]["best_price_shop"]}</code> | '
                    f'(<a href="t.me/pavel">страница товара</a>)'for i in range(len(products))])

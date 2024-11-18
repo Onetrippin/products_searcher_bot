@@ -9,8 +9,8 @@ from curl_cffi.requests import AsyncSession
 from . import router
 from services import get_search_result, UserData, SourceManager
 from utils import (product_page, product_page_keyboard, link_message, link_keyboard, main_menu_keyboard,
-                   products_search_result_page)
-from utils.constants import DELAY_BETWEEN_API_REQUESTS
+                   products_search_result_page, page_navigation_keyboard)
+from utils.constants import DELAY_BETWEEN_API_REQUESTS, SEARCH_LINES_PER_PAGE
 from utils.translator import SHOPS_NORMAL_TO_SHORT
 from bot import user_queries
 from shops import (ozon_search, wb_search, mvideo_search, rbt_search, citilink_search, eldorado_search,
@@ -62,19 +62,6 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession)
     results = []
     results_per_page = 50
     current_page = int(query.offset) if query.offset else 0
-    if current_page == 0:
-        results.append(types.InlineQueryResultArticle(
-            id='search',
-            title=f'Поиск "{query.query}"',
-            input_message_content=types.InputTextMessageContent(
-                # message_text=products_search_result_page(query.query, products),
-                message_text='Это сообщение с результатами поиска',
-                disable_web_page_preview=True
-            ),
-            description='Ты увидишь все товары найденные по вводу и сможешь добавить фильтры',
-            thumbnail_url='https://img.icons8.com/color/search',
-        ))
-        results_per_page -= 1
     if not query.offset:
         sources = [
             SourceManager(ozon_search, session, query.query, 'ozon'),
@@ -99,12 +86,34 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession)
     for product in products:
         all_products.append({
             'product_name': product.get('title'),
+            'product_full_name': product.get('full_title'),
             'best_price': product.get('price'),
             'best_price_shop': product.get('shop'),
             'product_image': product.get('image'),
-            'all_offers': [{'price': 7600, 'shop': 'Эльдорадо'},
-                           {'price': 7550, 'shop': 'ДНС'}]
+            'all_offers': [{'price': 0, 'shop': None},
+                           {'price': 0, 'shop': None},
+                           {'price': 0, 'shop': None}]
         })
+    user_queries[query.from_user.id]['now_products'] = user_queries[query.from_user.id].setdefault('now_products', [])
+    if user_queries[query.from_user.id]['now_products'] and current_page == 0:
+        user_queries[query.from_user.id]['now_products'] = []
+    user_queries[query.from_user.id]['now_products'].extend(all_products)
+    if current_page == 0:
+        results.append(types.InlineQueryResultArticle(
+            id='search',
+            title=f'Поиск "{query.query}"',
+            input_message_content=types.InputTextMessageContent(
+                message_text=products_search_result_page(query.query,
+                                                         user_queries[query.from_user.id]['now_products'][:SEARCH_LINES_PER_PAGE]),
+                disable_web_page_preview=True
+            ),
+            reply_markup=page_navigation_keyboard('search',
+                                                  len(user_queries[query.from_user.id]['now_products']),
+                                                  query=query.query),
+            description='Ты увидишь все товары найденные по вводу и сможешь добавить фильтры',
+            thumbnail_url='https://img.icons8.com/color/search',
+        ))
+        results_per_page -= 1
     # start_index = current_page * results_per_page
     start_index = 0
     # end_index = min((current_page + 1) * results_per_page, len(products))

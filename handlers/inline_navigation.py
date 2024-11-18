@@ -1,8 +1,11 @@
 from aiogram import types
 
-from utils import (format_saved_message, page_navigation_keyboard, format_history_message)
+from utils import (format_saved_message, page_navigation_keyboard, format_history_message, products_search_result_page)
 from services import get_search_history, get_saved_products
+from utils.constants import SEARCH_LINES_PER_PAGE
 from . import router
+from bot import user_queries
+from utils.bot_singleton import BotSingleton
 
 
 @router.callback_query(lambda call: call.data.startswith('page_saved'))
@@ -22,6 +25,43 @@ async def history_page_changer(callback_query: types.CallbackQuery) -> None:
     await callback_query.message.edit_text(
         format_history_message(search_history, current_page),
         reply_markup=page_navigation_keyboard(page_type, len(search_history), int(current_page)),
+        disable_web_page_preview=True
+    )
+
+@router.callback_query(lambda call: call.data.startswith('page_search'))
+async def search_page_changer(callback_query: types.CallbackQuery) -> None:
+    _, _, current_page, query = callback_query.data.split('_', 3)
+    current_page = int(current_page)
+    user_id = callback_query.from_user.id
+    products = user_queries.get(user_id, {}).get('now_products', [])
+    if (len(products) - current_page * SEARCH_LINES_PER_PAGE) < SEARCH_LINES_PER_PAGE * 2:
+        new_products = await user_queries[user_id]['data'].get_next_batch(50)
+        if not new_products:
+            current_page = 1
+        else:
+            all_products = []
+            for product in new_products:
+                all_products.append({
+                    'product_name': product.get('title'),
+                    'product_full_name': product.get('full_title'),
+                    'best_price': product.get('price'),
+                    'best_price_shop': product.get('shop'),
+                    'product_image': product.get('image'),
+                    'all_offers': [{'price': 0, 'shop': None},
+                                   {'price': 0, 'shop': None},
+                                   {'price': 0, 'shop': None}]
+                })
+            user_queries[user_id]['now_products'].extend(all_products)
+    current_page_products = user_queries[user_id]['now_products'] \
+        [current_page * SEARCH_LINES_PER_PAGE + 1:current_page * SEARCH_LINES_PER_PAGE + (SEARCH_LINES_PER_PAGE + 1)]
+    bot = await BotSingleton.instance()
+    await bot.edit_message_text(
+        products_search_result_page(query, current_page_products),
+        inline_message_id=callback_query.inline_message_id,
+        reply_markup=page_navigation_keyboard('search',
+                                              len(user_queries[callback_query.from_user.id]['now_products']),
+                                              current_page,
+                                              query),
         disable_web_page_preview=True
     )
 

@@ -1,4 +1,5 @@
 LINES_PER_PAGE = 8
+SEARCH_LINES_PER_PAGE = 6
 FILTERS = {
     'Магазин': ['Ozon', 'Wildberries', 'Мегамаркет', 'ОНЛАЙНТРЕЙД',
                 'Ситилинк', 'М.Видео', 'Эльдорадо', 'RBT',
