@@ -110,9 +110,11 @@ async def parse_products_info(result_str: str) -> list:
         return []
     products = []
     for product in products_list:
-        title_32 = product.get('name')[:29]
+        title = product.get('name')
+        title_32 = title[:29]
         product_id = product.get('productId')
         products.append({
+            'full_title': title,
             'title': title_32[:title_32.rfind(' ')] + '...',
             'rating': product.get('rating').get('star'),
             'image': f'https://img.mvideo.ru/Pdb/small_pic/480/{product_id}b.jpg',

@@ -74,8 +74,10 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
         product = product_dict.get('product')
         if not product:
             continue
-        title_32 = product.get('productTitle')[:29]
+        title = product.get('productTitle')
+        title_32 = title[:29]
         products_list.append({
+            'full_title': title,
             'title': title_32[:title_32.rfind(' ')] + '...',
             'rating': product.get('rating'),
             'image': f'https:{product.get("imgSrc")}',

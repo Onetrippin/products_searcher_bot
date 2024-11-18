@@ -69,11 +69,13 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
         return [], 0
     products_list = []
     for product in products:
-        title_32 = product.get('name')[:29]
+        title = product.get('name')
+        title_32 = title[:29]
         price = product.get('price', {})
         if not price.get('club'):
             continue
         product_dict = {
+            'full_title': title,
             'title': title_32[:title_32.rfind(' ')] + '...',
             # 'image': product.get('images', {}).get('citilink', [{}])[0].get('sources', [{}, {}, {}])[2].get('url'),
             'price': int(product.get('price', {}).get('club')),

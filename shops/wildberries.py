@@ -55,6 +55,7 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
         brand = f'{product.get("brand")} ' if product.get('brand') else ''
         title = brand + product.get('name')
         title_32 = title[:29]
+        product_info['full_title'] = title
         product_info['title'] = title_32[:title_32.rfind(' ')] + '...'
         product_info['rating'] = product.get('reviewRating')
         prices = product.get('sizes', {})[0].get('price')
