@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add selection filter parameters">
-      <change beforePath="$PROJECT_DIR$/handlers/filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/filters.py" afterDir="false" />
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add filter parameters navigation">
+      <change afterPath="$PROJECT_DIR$/utils/translator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/keyboards.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -86,14 +88,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00004" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1728641228689</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1728641228689</updated>
     </task>
     <task id="LOCAL-00005" summary="refactor">
       <option name="closed" value="true" />
@@ -479,7 +473,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731921803931</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="add filter parameters navigation">
+      <option name="closed" value="true" />
+      <created>1731923365690</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1731923365690</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -493,7 +495,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="search-parsers" />
+                        <option value="HEAD" />
                       </list>
                     </value>
                   </entry>
@@ -506,7 +508,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add ozon parser" />
     <MESSAGE value="add lower limit on the number of characters entered" />
     <MESSAGE value="add upper limit on the number of characters entered" />
     <MESSAGE value="integrated ozon parser" />
@@ -531,6 +532,7 @@
     <MESSAGE value="add onlinetrade parser" />
     <MESSAGE value="refactor" />
     <MESSAGE value="add selection filter parameters" />
-    <option name="LAST_COMMIT_MESSAGE" value="add selection filter parameters" />
+    <MESSAGE value="add filter parameters navigation" />
+    <option name="LAST_COMMIT_MESSAGE" value="add filter parameters navigation" />
   </component>
 </project>

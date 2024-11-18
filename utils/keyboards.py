@@ -88,7 +88,7 @@ def link_keyboard() -> ReplyKeyboardMarkup:
 def group_by_two(array: list) -> list:
     return [list(filter(None, group)) for group in zip_longest(*[iter(array)]*2)]
 
-def filter_keyboard(product_filters: list = None, list_number: int = 1) -> InlineKeyboardMarkup:
+def filter_keyboard(list_number: int = 1, product_filters: list = None) -> InlineKeyboardMarkup:
     inline_keyboard = []
     starting_place = (list_number - 1) * 10
     last_place = list_number * 10

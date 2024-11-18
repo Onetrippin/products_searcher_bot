@@ -11,6 +11,7 @@ from services import get_search_result, UserData, SourceManager
 from utils import (product_page, product_page_keyboard, link_message, link_keyboard, main_menu_keyboard,
                    products_search_result_page)
 from utils.constants import DELAY_BETWEEN_API_REQUESTS
+from utils.translator import SHOPS_NORMAL_TO_SHORT
 from bot import user_queries
 from shops import (ozon_search, wb_search, mvideo_search, rbt_search, citilink_search, eldorado_search,
                    megamarket_search, aliexpress_search, onlinetrade_search)
@@ -86,6 +87,11 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession)
             SourceManager(aliexpress_search, session, query.query, 'aliexpress'),
             SourceManager(onlinetrade_search, session, query.query, 'onlinetrade')
         ]
+        if user_queries[query.from_user.id]['filters']['Магазин']:
+            shops_filter = list(map(lambda shop_name: SHOPS_NORMAL_TO_SHORT.get(shop_name, shop_name),
+                                    user_queries[query.from_user.id]['filters']['Магазин'].copy()))
+            filtered_sources = [source for source in sources if source.name in shops_filter]
+            sources = filtered_sources
         user_queries[query.from_user.id]['data'] = UserData(sources=sources)
         await user_queries[query.from_user.id]['data'].fill_heap()
     products = await user_queries[query.from_user.id]['data'].get_next_batch(results_per_page)
