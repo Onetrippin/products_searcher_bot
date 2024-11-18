@@ -87,7 +87,7 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession)
             SourceManager(aliexpress_search, session, query.query, 'aliexpress'),
             SourceManager(onlinetrade_search, session, query.query, 'onlinetrade')
         ]
-        if user_queries[query.from_user.id]['filters']['Магазин']:
+        if user_queries.get(query.from_user.id, {}).get('filters', {}).get('Магазин'):
             shops_filter = list(map(lambda shop_name: SHOPS_NORMAL_TO_SHORT.get(shop_name, shop_name),
                                     user_queries[query.from_user.id]['filters']['Магазин'].copy()))
             filtered_sources = [source for source in sources if source.name in shops_filter]
@@ -122,7 +122,7 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession)
             thumbnail_url=all_products[i]['product_image'],
         ))
     next_offset = current_page + 1
-    await query.answer(results, next_offset=str(next_offset))
+    await query.answer(results, next_offset=str(next_offset), cache_time=0)
 
 
 class LinkStates(StatesGroup):
