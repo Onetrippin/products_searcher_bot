@@ -129,20 +129,20 @@ def filter_params_keyboard(filter_name: str, filter_params: list, selected_filte
             icon = '❌'
             if selected_filter_params and filter_ in selected_filter_params:
                 icon = '✅'
-            row.append(InlineKeyboardButton(text=f'{filter_} {icon}', callback_data=f'filters_set_{filter_name}_{filter_}'))
+            row.append(InlineKeyboardButton(text=f'{filter_} {icon}', callback_data=f'filters_set_{filter_name}_{filter_}_{list_number}'))
         inline_keyboard.append(row)
     if len(filter_params) > 10:
         pages_number = ceil((len(filter_params)) / 10)
         inline_keyboard.append([
             InlineKeyboardButton(text='⬅️',
-                                 callback_data=f'params_{filter_name}_left_{list_number - 1 if list_number > 1 else pages_number}'),
+                                 callback_data=f'params_{filter_name}_{list_number - 1 if list_number > 1 else pages_number}'),
             InlineKeyboardButton(text=f'{list_number}/{pages_number}', callback_data=f'params_counter_{list_number}'),
             InlineKeyboardButton(text='➡️',
-                                 callback_data=f'params_{filter_name}_right_{list_number + 1 if list_number < pages_number else 1}')
+                                 callback_data=f'params_{filter_name}_{list_number + 1 if list_number < pages_number else 1}')
         ])
     inline_keyboard.append([
-        InlineKeyboardButton(text='Выбрать все', callback_data=f'filters_set_{filter_name}_all'),
-        InlineKeyboardButton(text='Очистить выбор', callback_data=f'filters_set_{filter_name}_clear'),
+        InlineKeyboardButton(text='Выбрать все', callback_data=f'filters_set_{filter_name}_all_{list_number}'),
+        InlineKeyboardButton(text='Очистить выбор', callback_data=f'filters_set_{filter_name}_clear_{list_number}'),
     ])
     inline_keyboard.append([
         InlineKeyboardButton(text='Назад', callback_data='back_to_filters')
