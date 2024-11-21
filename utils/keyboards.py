@@ -107,16 +107,17 @@ def filter_keyboard(list_number: int = 1, product_filters: list = None) -> Inlin
         for group in group_by_two(product_filters[starting_place:last_place]):
             row = []
             for filter_ in group:
-                row.append(InlineKeyboardButton(text=filter_, callback_data=f'filters_set_{filter_}'))
+                filter_name = list(filter_.keys())[0]
+                row.append(InlineKeyboardButton(text=filter_name, callback_data=f'filters_set_{filter_name}'))
             inline_keyboard.append(row)
         if len(product_filters) > 8:
             pages_number = ceil((len(product_filters) + 2) / 10)
             inline_keyboard.append([
                 InlineKeyboardButton(text='⬅️',
-                                     callback_data=f'filters_left_{list_number - 1 if list_number > 1 else pages_number}'),
+                                     callback_data=f'filters_{list_number - 1 if list_number > 1 else pages_number}'),
                 InlineKeyboardButton(text=f'{list_number}/{pages_number}', callback_data=f'filters_counter_{list_number}'),
                 InlineKeyboardButton(text='➡️',
-                                     callback_data=f'filters_right_{list_number + 1 if list_number < pages_number else 1}')
+                                     callback_data=f'filters_{list_number + 1 if list_number < pages_number else 1}')
             ])
     inline_keyboard.append([
         InlineKeyboardButton(text='Назад', callback_data='back_to_menu')

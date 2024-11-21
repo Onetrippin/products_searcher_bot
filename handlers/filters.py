@@ -25,9 +25,10 @@ async def params_counter(callback_query: types.CallbackQuery) -> None:
 
 @router.callback_query(lambda call: call.data == 'filters_add')
 async def filters_command_handler(callback_query: types.CallbackQuery) -> None:
+    product_filters = user_queries.get(callback_query.from_user.id, {}).get('filters')
     await callback_query.message.edit_text(
         filter_message(),
-        reply_markup=filter_keyboard()
+        reply_markup=filter_keyboard(product_filters=product_filters)
     )
 
 @router.callback_query(lambda call: call.data.startswith('filters_set_'))
@@ -65,13 +66,13 @@ async def set_filter_page(callback_query: types.CallbackQuery) -> None:
 
 @router.callback_query(lambda call: call.data.startswith('filters_'))
 async def filter_navigation(callback_query: types.CallbackQuery) -> None:
-    _, direction, filter_index = callback_query.data.split('_')
-    filter_index = int(filter_index)
-    if direction == 'left':
-        new_filter_index = len(FILTERS) - 1 if filter_index == 0 else filter_index - 1
-    else: # elif direction == "right":
-        new_filter_index = 0 if filter_index == len(FILTERS) - 1 else filter_index + 1
-    await send_filter_page(callback_query, new_filter_index)
+    _, list_number = callback_query.data.split('_')
+    list_number = int(list_number)
+    product_filters = user_queries.get(callback_query.from_user.id, {}).get('filters')
+    await callback_query.message.edit_text(
+        filter_message(),
+        reply_markup=filter_keyboard(list_number=list_number, product_filters=product_filters)
+    )
 
 @router.callback_query(lambda call: call.data.startswith('params_'))
 async def params_navigation(callback_query: types.CallbackQuery) -> None:

@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add full title for each product">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="remove keyboard in the absence of search res + add message about this">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/filters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/keyboards.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/messages.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,14 +88,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00008" summary="add empty handlers">
-      <option name="closed" value="true" />
-      <created>1728684977035</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1728684977035</updated>
     </task>
     <task id="LOCAL-00009" summary="rename messages.py to messages_parts.py, add inline nav keyboard">
       <option name="closed" value="true" />
@@ -480,7 +473,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731937188012</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="remove keyboard in the absence of search res + add message about this">
+      <option name="closed" value="true" />
+      <created>1732164604731</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1732164604734</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -507,7 +508,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add + integrated wb parser" />
     <MESSAGE value="fixed non-loading images" />
     <MESSAGE value="fix an error occurred when receiving the price of an item that is not in stock" />
     <MESSAGE value="deleted print" />
@@ -532,6 +532,7 @@
     <MESSAGE value="add shops filter" />
     <MESSAGE value="fix cashing search results and getting info about whether there is a filter by shops" />
     <MESSAGE value="add full title for each product" />
-    <option name="LAST_COMMIT_MESSAGE" value="add full title for each product" />
+    <MESSAGE value="remove keyboard in the absence of search res + add message about this" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove keyboard in the absence of search res + add message about this" />
   </component>
 </project>
