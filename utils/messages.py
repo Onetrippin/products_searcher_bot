@@ -149,13 +149,17 @@ def product_page(product: dict) -> str:
     )
 
 def products_search_result_page(query: str, products: list) -> str:
+    if products:
+        return (
+            f'<b>Поиск "{query}"</b>'
+            '\n\n' +
+            '\n\n'.join([f'<b><u>{products[i]["product_full_name"]}</u></b> - '
+                       f'лучшая цена: <code>{products[i]["best_price"]}</code> | '
+                       f'магазин: <code>{products[i]["best_price_shop"]}</code> | '
+                       f'(<a href="t.me/pavel">страница товара</a>)'for i in range(len(products))])
+        )
     return (
-        f'<b>Поиск "{query}"</b>'
-        '\n\n' +
-        '\n\n'.join([f'<b><u>{products[i]["product_full_name"]}</u></b> - '
-                   f'лучшая цена: <code>{products[i]["best_price"]}</code> | '
-                   f'магазин: <code>{products[i]["best_price_shop"]}</code> | '
-                   f'(<a href="t.me/pavel">страница товара</a>)'for i in range(len(products))])
+        f'<b>Ничего не найдено по запросу: <code>{query}</code></b>'
     )
 
 def product_reviews_page(product_name: str) -> str:

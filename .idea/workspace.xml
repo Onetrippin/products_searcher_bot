@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add full title for each product">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/inline_navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/inline_navigation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/keyboards.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/messages.py" afterDir="false" />
     </list>

@@ -32,7 +32,7 @@ def calculate_page_numbers(current_page: int, row_count: int, type_: str = None)
 
 def page_navigation_keyboard(page_type: str, row_count: int, current_page: int = 1, query: str = None) -> InlineKeyboardMarkup:
     prev_page, next_page, total_pages = calculate_page_numbers(current_page, row_count, page_type)
-    if total_pages == 1:
+    if total_pages == 0 or total_pages == 1:
         return InlineKeyboardMarkup(inline_keyboard=[])
     return InlineKeyboardMarkup(
         inline_keyboard=[
