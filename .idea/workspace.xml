@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="remove keyboard in the absence of search res + add message about this">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="fix filters navigation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/filters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/inline_navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/inline_navigation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/keyboards.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/messages.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,14 +90,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00009" summary="rename messages.py to messages_parts.py, add inline nav keyboard">
-      <option name="closed" value="true" />
-      <created>1728734946700</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1728734946700</updated>
     </task>
     <task id="LOCAL-00010" summary="add other messages handler + transfer router to __init__.py">
       <option name="closed" value="true" />
@@ -481,7 +475,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732164604734</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="fix filters navigation">
+      <option name="closed" value="true" />
+      <created>1732168511913</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1732168511913</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -508,7 +510,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed non-loading images" />
     <MESSAGE value="fix an error occurred when receiving the price of an item that is not in stock" />
     <MESSAGE value="deleted print" />
     <MESSAGE value="fix incomplete loading of all products" />
@@ -533,6 +534,7 @@
     <MESSAGE value="fix cashing search results and getting info about whether there is a filter by shops" />
     <MESSAGE value="add full title for each product" />
     <MESSAGE value="remove keyboard in the absence of search res + add message about this" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove keyboard in the absence of search res + add message about this" />
+    <MESSAGE value="fix filters navigation" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix filters navigation" />
   </component>
 </project>

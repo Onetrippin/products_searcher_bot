@@ -25,10 +25,11 @@ async def params_counter(callback_query: types.CallbackQuery) -> None:
 
 @router.callback_query(lambda call: call.data == 'filters_add')
 async def filters_command_handler(callback_query: types.CallbackQuery) -> None:
-    product_filters = user_queries.get(callback_query.from_user.id, {}).get('filters')
+    filters = user_queries.setdefault(callback_query.from_user.id, {}).setdefault('filters', get_formatted_filter(FILTERS))
+    any_selected = get_formatted_any_selected(filters)
     await callback_query.message.edit_text(
-        filter_message(),
-        reply_markup=filter_keyboard(product_filters=product_filters)
+        filter_message(filters, any_selected),
+        reply_markup=filter_keyboard(product_filters=filters, any_selected=any_selected)
     )
 
 @router.callback_query(lambda call: call.data.startswith('filters_set_'))
@@ -42,24 +43,21 @@ async def set_filter_page(callback_query: types.CallbackQuery) -> None:
     except IndexError:
         filter_param = None
         list_number = 1
+    user_id = callback_query.from_user.id
+    all_params = user_queries.setdefault(user_id, {}).setdefault('filters', get_formatted_filter(FILTERS)).get(
+        filter_name).get('params')
     if filter_param:
-        user_id = callback_query.from_user.id
-        user_queries[user_id] = user_queries.setdefault(user_id, {})
-        user_queries[user_id]['filters'] = user_queries[user_id].setdefault('filters', {})
-        user_queries[user_id]['filters'][filter_name] = user_queries[user_id]['filters'].setdefault(filter_name, [])
         if filter_param == 'all':
-            user_queries[user_id]['filters'][filter_name] = FILTERS[filter_name].copy()
+            all_params.update({param: True for param in all_params})
         elif filter_param == 'clear':
-            user_queries[user_id]['filters'][filter_name].clear()
-        elif filter_param in user_queries.get(user_id, {}).get('filters', {}).get(filter_name, []):
-            user_queries[user_id]['filters'][filter_name].remove(filter_param)
+            all_params.update({param: False for param in all_params})
         else:
-            user_queries[user_id]['filters'][filter_name].append(filter_param)
-    selected_parameters = user_queries.get(callback_query.from_user.id, {}).get('filters', {}).get(filter_name)
+            all_params[filter_param] = not(all_params.get(filter_param))
+    user_queries[user_id]['filters'][filter_name]['any_selected'] = any(all_params.values())
     try:
         await callback_query.message.edit_text(
-            filter_set_message(filter_name, selected_parameters),
-            reply_markup=filter_params_keyboard(filter_name, FILTERS[filter_name], selected_parameters, list_number)
+            filter_set_message(filter_name, all_params),
+            reply_markup=filter_params_keyboard(filter_name, all_params, list_number)
         )
     except TelegramBadRequest:
         pass
@@ -68,32 +66,49 @@ async def set_filter_page(callback_query: types.CallbackQuery) -> None:
 async def filter_navigation(callback_query: types.CallbackQuery) -> None:
     _, list_number = callback_query.data.split('_')
     list_number = int(list_number)
-    product_filters = user_queries.get(callback_query.from_user.id, {}).get('filters')
+    filters = user_queries.get(callback_query.from_user.id, {}).get('filters')
+    any_selected = get_formatted_any_selected(filters)
     await callback_query.message.edit_text(
-        filter_message(),
-        reply_markup=filter_keyboard(list_number=list_number, product_filters=product_filters)
+        filter_message(filters, any_selected),
+        reply_markup=filter_keyboard(list_number, filters, any_selected)
     )
 
 @router.callback_query(lambda call: call.data.startswith('params_'))
 async def params_navigation(callback_query: types.CallbackQuery) -> None:
     _, filter_name, list_number = callback_query.data.split('_')
     list_number = int(list_number)
-    selected_parameters = user_queries.get(callback_query.from_user.id, {}).get('filters', {}).get(filter_name)
+    all_params = user_queries.get(callback_query.from_user.id, {}).get('filters', {}).get(filter_name, {}).get('params')
     await callback_query.message.edit_text(
-        filter_set_message(filter_name, selected_parameters),
-        reply_markup=filter_params_keyboard(filter_name, FILTERS[filter_name], selected_parameters, list_number)
+        filter_set_message(filter_name, all_params),
+        reply_markup=filter_params_keyboard(filter_name, all_params, list_number)
     )
 
 @router.callback_query(lambda call: call.data.startswith('back_to_'))
 async def back_to(callback_query: types.CallbackQuery) -> None:
-    path = callback_query.data.split('_')[2]
+    path = callback_query.data.split('_', maxsplit=2)[2]
     if path == 'menu':
         await callback_query.message.edit_text(
             search_message(),
             reply_markup=search_default_keyboard()
         )
     else: #elif path == 'filters':
+        filters = user_queries.setdefault(callback_query.from_user.id, {}).setdefault('filters',
+                                                                                      get_formatted_filter(FILTERS))
+        any_selected = get_formatted_any_selected(filters)
+        list_number = int(path.split('_')[1])
         await callback_query.message.edit_text(
-            filter_message(),
-            reply_markup=filter_keyboard()
+            filter_message(filters, any_selected),
+            reply_markup=filter_keyboard(list_number, filters, any_selected)
         )
+
+def get_formatted_filter(filter_: dict) -> dict:
+    formatted_filter = {}
+    for key, value in filter_.items():
+        formatted_filter[key] = {
+            'params': {item: False for item in value},
+            'any_selected': False
+        }
+    return formatted_filter
+
+def get_formatted_any_selected(filters: dict) -> dict:
+    return {filter_name: info.get('any_selected') for filter_name, info in filters.items()}

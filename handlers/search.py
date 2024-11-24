@@ -74,9 +74,10 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession)
             SourceManager(aliexpress_search, session, query.query, 'aliexpress'),
             SourceManager(onlinetrade_search, session, query.query, 'onlinetrade')
         ]
-        if user_queries.get(query.from_user.id, {}).get('filters', {}).get('Магазин'):
+        if user_queries.get(query.from_user.id, {}).get('filters', {}).get('Магазин').get('any_selected'):
             shops_filter = list(map(lambda shop_name: SHOPS_NORMAL_TO_SHORT.get(shop_name, shop_name),
-                                    user_queries[query.from_user.id]['filters']['Магазин'].copy()))
+                                    [param for param, value in user_queries.get(query.from_user.id).get(
+                                        'filters').get('Магазин').get('params').items() if value]))
             filtered_sources = [source for source in sources if source.name in shops_filter]
             sources = filtered_sources
         user_queries[query.from_user.id]['data'] = UserData(sources=sources)

@@ -92,25 +92,20 @@ def link_keyboard() -> ReplyKeyboardMarkup:
 def group_by_two(array: list) -> list:
     return [list(filter(None, group)) for group in zip_longest(*[iter(array)]*2)]
 
-def filter_keyboard(list_number: int = 1, product_filters: list = None) -> InlineKeyboardMarkup:
+def filter_keyboard(list_number: int = 1, product_filters: dict = None, any_selected: dict = False) -> InlineKeyboardMarkup:
     inline_keyboard = []
     starting_place = (list_number - 1) * 10
     last_place = list_number * 10
-    if list_number == 1:
-        inline_keyboard.append(
-            [
-                InlineKeyboardButton(text='Тип', callback_data=f'filters_set_Тип'),
-                InlineKeyboardButton(text='Магазин', callback_data=f'filters_set_Магазин')
-            ])
-        starting_place = 2
     if product_filters:
-        for group in group_by_two(product_filters[starting_place:last_place]):
+        for group in group_by_two(list(product_filters.keys())[starting_place:last_place]):
             row = []
-            for filter_ in group:
-                filter_name = list(filter_.keys())[0]
-                row.append(InlineKeyboardButton(text=filter_name, callback_data=f'filters_set_{filter_name}'))
+            for filter_name in group:
+                icon = ''
+                if any_selected.get(filter_name):
+                    icon = ' ✅'
+                row.append(InlineKeyboardButton(text=f'{filter_name}{icon}', callback_data=f'filters_set_{filter_name}'))
             inline_keyboard.append(row)
-        if len(product_filters) > 8:
+        if len(product_filters) > 10:
             pages_number = ceil((len(product_filters) + 2) / 10)
             inline_keyboard.append([
                 InlineKeyboardButton(text='⬅️',
@@ -124,17 +119,17 @@ def filter_keyboard(list_number: int = 1, product_filters: list = None) -> Inlin
     ])
     return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
 
-def filter_params_keyboard(filter_name: str, filter_params: list, selected_filter_params: list = None, list_number: int = 1) -> InlineKeyboardMarkup:
+def filter_params_keyboard(filter_name: str, filter_params: dict, list_number: int = 1) -> InlineKeyboardMarkup:
     inline_keyboard = []
     starting_place = (list_number - 1) * 10
     last_place = list_number * 10
-    for group in group_by_two(filter_params[starting_place:last_place]):
+    for group in group_by_two(list(filter_params.keys())[starting_place:last_place]):
         row = []
-        for filter_ in group:
-            icon = '❌'
-            if selected_filter_params and filter_ in selected_filter_params:
-                icon = '✅'
-            row.append(InlineKeyboardButton(text=f'{filter_} {icon}', callback_data=f'filters_set_{filter_name}_{filter_}_{list_number}'))
+        for param in group:
+            icon = ''
+            if filter_params.get(param):
+                icon = ' ✅'
+            row.append(InlineKeyboardButton(text=f'{param}{icon}', callback_data=f'filters_set_{filter_name}_{param}_{list_number}'))
         inline_keyboard.append(row)
     if len(filter_params) > 10:
         pages_number = ceil((len(filter_params)) / 10)
@@ -150,6 +145,6 @@ def filter_params_keyboard(filter_name: str, filter_params: list, selected_filte
         InlineKeyboardButton(text='Очистить выбор', callback_data=f'filters_set_{filter_name}_clear_{list_number}'),
     ])
     inline_keyboard.append([
-        InlineKeyboardButton(text='Назад', callback_data='back_to_filters')
+        InlineKeyboardButton(text='Назад', callback_data=f'back_to_filters_{list_number}')
     ])
     return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)

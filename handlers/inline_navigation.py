@@ -34,7 +34,7 @@ async def search_page_changer(callback_query: types.CallbackQuery) -> None:
     current_page = int(current_page)
     user_id = callback_query.from_user.id
     products = user_queries.get(user_id, {}).get('now_products', [])
-    if (len(products) - current_page * SEARCH_LINES_PER_PAGE) < SEARCH_LINES_PER_PAGE * 2:
+    if (len(products) - current_page * SEARCH_LINES_PER_PAGE) < SEARCH_LINES_PER_PAGE * 2 and len(products) % 50 == 0:
         new_products = await user_queries[user_id]['data'].get_next_batch(50)
         if not new_products:
             current_page = 1
@@ -53,7 +53,7 @@ async def search_page_changer(callback_query: types.CallbackQuery) -> None:
                 })
             user_queries[user_id]['now_products'].extend(all_products)
     current_page_products = user_queries[user_id]['now_products'] \
-        [current_page * SEARCH_LINES_PER_PAGE + 1:current_page * SEARCH_LINES_PER_PAGE + (SEARCH_LINES_PER_PAGE + 1)]
+        [(current_page - 1) * SEARCH_LINES_PER_PAGE:current_page * SEARCH_LINES_PER_PAGE]
     bot = await BotSingleton.instance()
     await bot.edit_message_text(
         products_search_result_page(query, current_page_products),
