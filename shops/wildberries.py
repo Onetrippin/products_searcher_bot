@@ -30,10 +30,9 @@ async def get_search_request(session: AsyncSession, query: str, offset: int) -> 
         'resultset': 'catalog',
         'sort': 'priceup',
         'spp': '30',
-        'suppressSpellcheck': 'false'
+        'suppressSpellcheck': 'false',
+        'page': str(offset + 1)
     }
-    if offset > 0:
-        params['page'] = str(offset + 1)
     try:
         response = await session.get('https://search.wb.ru/exactmatch/ru/common/v7/search',
                                      headers=headers,
