@@ -65,6 +65,8 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
         return [], 0
     products_list = []
     for item in data:
+        if not item.get('fastOrder'):
+            continue
         title = item.get('name')
         title_32 = title[:29]
         products_list.append({
