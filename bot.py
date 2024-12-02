@@ -10,6 +10,8 @@ from aiogram.utils.token import TokenValidationError
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums.parse_mode import ParseMode
 
+from data import DatabaseConnection
+from data import DatabaseMiddleware
 from handlers import router
 from utils.bot_singleton import BotSingleton
 
@@ -51,13 +53,22 @@ async def main() -> None:
     dp = Dispatcher()
     dp.include_router(router)
     print('Бот запущен')
-    await dp.start_polling(bot)
+    db_instance = DatabaseConnection.get_instance('database.db')
+    await db_instance.connect()
+    dp.update.middleware(DatabaseMiddleware(db_instance))
+    print('Бот готов пахать')
+    try:
+        await dp.start_polling(bot)
+    finally:
+        await db_instance.close()
 
 def start_server() -> None:
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", PORT), handler) as httpd:
         print(f"Сервер запущен на http://localhost:{PORT}")
         httpd.serve_forever()
+
+
 
 async def start() -> None:
     bot_task = asyncio.create_task(main())

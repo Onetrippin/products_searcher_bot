@@ -5,13 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="changed bot initialization, add search result nav">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/middleware.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/eldorado.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/eldorado.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/megamarket.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/megamarket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/mvideo.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/mvideo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/wildberries.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/wildberries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +38,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Onetrippin/products_searcher_bot.git&quot;,
-    &quot;accountId&quot;: &quot;295b72c1-519e-41ed-9d10-7fd25a948f88&quot;
+    &quot;accountId&quot;: &quot;415110db-cc34-42d7-9f46-8c150ce666ef&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -56,6 +55,7 @@
     &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
     &quot;Python.bot.executor&quot;: &quot;Run&quot;,
     &quot;Python.buttons.executor&quot;: &quot;Run&quot;,
+    &quot;Python.db.executor&quot;: &quot;Run&quot;,
     &quot;Python.eldorado.executor&quot;: &quot;Run&quot;,
     &quot;Python.inline_navigation.executor&quot;: &quot;Run&quot;,
     &quot;Python.keyboards.executor&quot;: &quot;Run&quot;,
@@ -68,6 +68,7 @@
     &quot;Python.wildberries.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;filters&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/program/products_searcher_bot&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
@@ -79,7 +80,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0e3be3396995-c546a90a8094-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.23339.19" />
+        <option value="bundled-python-sdk-98f27166c754-ba05f1cad1b1-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.21829.153" />
       </set>
     </attachedChunks>
   </component>
