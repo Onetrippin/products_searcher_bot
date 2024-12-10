@@ -149,13 +149,17 @@ def product_page(product: dict) -> str:
     )
 
 def products_search_result_page(query: str, products: list) -> str:
+    if products:
+        return (
+            f'<b>Поиск "{query}"</b>'
+            '\n\n' +
+            '\n\n'.join([f'<b><u>{products[i]["product_full_name"]}</u></b> - '
+                       f'лучшая цена: <code>{products[i]["best_price"]}</code> | '
+                       f'магазин: <code>{products[i]["best_price_shop"]}</code> | '
+                       f'(<a href="t.me/pavel">страница товара</a>)'for i in range(len(products))])
+        )
     return (
-        f'<b>Поиск "{query}"</b>'
-        '\n\n' +
-        '\n\n'.join([f'<b><u>{products[i]["product_name"]}</u></b> - '
-                   f'лучшая цена: <code>{products[i]["best_price"]}</code> | '
-                   f'магазин: <code>{products[i]["best_price_shop"]}</code> | '
-                   f'(<a href="t.me/pavel">страница товара</a>)'for i in range(len(products))])
+        f'<b>Ничего не найдено по запросу: <code>{query}</code></b>'
     )
 
 def product_reviews_page(product_name: str) -> str:
@@ -164,13 +168,38 @@ def product_reviews_page(product_name: str) -> str:
         f'чтобы посмотреть отзывы из различных магазинов о товаре <b>{product_name}</b>'
     )
 
-def filter_message() -> str:
+def filter_message(filters: dict, any_selected: dict) -> str:
+    selected_filters_info = '' \
+        if not any(any_selected.values()) \
+        else ('\n\n'
+              '<b>Настроенные фильтры</b>:'
+              '\n'
+              f'{"\n".join(
+                  [f"<b><i>{filter_name}</i></b>: {', '.join(
+                      [param for param, value in filter_params.get(
+                          'params').items() if value])}" for filter_name, filter_params in filters.items() if any_selected.get(
+                      filter_name)])}')
+    warning_type_needed = ('\n\n'
+                           '<b>Сначала <u>выбери тип товара</u> для того, чтобы появились фильтры для этого типа</b>') \
+        if not any_selected.get('Тип') \
+        else ''
     return (
         'Настрой необходимые фильтры, затем нажми назад и выполни поиск.'
         '\n'
         'Выбранные тобой фильтры будут применены.'
+        f'{selected_filters_info}'
+        f'{warning_type_needed}'
+    )
+
+def filter_set_message(filter_name: str, params: dict = None) -> str:
+    selected_parameters_info = ('<i>Не выбрано ни одного параметра</i>, '
+                                'следовательно, данный фильтр <b><u>не будет</u></b> учитываться при поиске') \
+        if not any(params.values()) \
+        else f'Выбранные параметры: {", ".join([key for key, value in params.items() if value])}'
+    return (
+        f'Выбери параметры для фильтра <b><i>{filter_name}</i></b>'
         '\n\n'
-        '<b>Сначала <u>выбери тип товара</u> для того, чтобы появились фильтры для этого типа</b>'
+        f'{selected_parameters_info}'
     )
 
 def link_message() -> str:

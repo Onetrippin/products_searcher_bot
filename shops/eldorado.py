@@ -65,8 +65,12 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
         return [], 0
     products_list = []
     for item in data:
-        title_32 = item.get('name')[:29]
+        if not item.get('fastOrder'):
+            continue
+        title = item.get('name')
+        title_32 = title[:29]
         products_list.append({
+            'full_title': title,
             'title': title_32[:title_32.rfind(' ')] + '...',
             'rating': item.get('rating'),
             'image': f'https://static.eldorado.ru{item.get("images", [{}])[0].get("url")}',

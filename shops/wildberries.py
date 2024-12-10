@@ -30,10 +30,9 @@ async def get_search_request(session: AsyncSession, query: str, offset: int) -> 
         'resultset': 'catalog',
         'sort': 'priceup',
         'spp': '30',
-        'suppressSpellcheck': 'false'
+        'suppressSpellcheck': 'false',
+        'page': str(offset + 1)
     }
-    if offset > 0:
-        params['page'] = str(offset + 1)
     try:
         response = await session.get('https://search.wb.ru/exactmatch/ru/common/v7/search',
                                      headers=headers,
@@ -55,6 +54,7 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
         brand = f'{product.get("brand")} ' if product.get('brand') else ''
         title = brand + product.get('name')
         title_32 = title[:29]
+        product_info['full_title'] = title
         product_info['title'] = title_32[:title_32.rfind(' ')] + '...'
         product_info['rating'] = product.get('reviewRating')
         prices = product.get('sizes', {})[0].get('price')

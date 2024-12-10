@@ -99,6 +99,7 @@ async def get_products_info(products: dict) -> list:
             elif atom_type == 'textAtom':
                 title = atom_object.get('textAtom', {}).get('text')
                 title_32 = re.sub(r'&#[xX]?[0-9a-fA-F]+;', '', title)[:29]
+                product_info['full_title'] = title
                 product_info['title'] = title_32[:title_32.rfind(' ')] + '...'
             elif atom_type == 'labelList':
                 item = atom_object.get('labelList', {}).get('items')[0]

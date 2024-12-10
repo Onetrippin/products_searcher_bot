@@ -77,6 +77,7 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
         except AttributeError:
             continue
         products_list.append({
+            'full_title': title,
             'title': title_32[:title_32.rfind(' ')] + '...',
             'rating': rating,
             'image': products_info[i].css_first('img').attrs['src'],

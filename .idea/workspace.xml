@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="refactor" />
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="changed bot initialization, add search result nav">
+      <change afterPath="$PROJECT_DIR$/data/middleware.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,7 +38,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Onetrippin/products_searcher_bot.git&quot;,
-    &quot;accountId&quot;: &quot;295b72c1-519e-41ed-9d10-7fd25a948f88&quot;
+    &quot;accountId&quot;: &quot;415110db-cc34-42d7-9f46-8c150ce666ef&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -43,26 +50,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.__init__.executor": "Run",
-    "Python.bot.executor": "Run",
-    "Python.buttons.executor": "Run",
-    "Python.eldorado.executor": "Run",
-    "Python.inline_navigation.executor": "Run",
-    "Python.keyboards.executor": "Run",
-    "Python.megamarket.executor": "Run",
-    "Python.mvideo.executor": "Run",
-    "Python.ozon.executor": "Run",
-    "Python.rbt.executor": "Run",
-    "Python.search.executor": "Run",
-    "Python.search_products_service.executor": "Run",
-    "Python.wildberries.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
+    &quot;Python.bot.executor&quot;: &quot;Run&quot;,
+    &quot;Python.buttons.executor&quot;: &quot;Run&quot;,
+    &quot;Python.db.executor&quot;: &quot;Run&quot;,
+    &quot;Python.eldorado.executor&quot;: &quot;Run&quot;,
+    &quot;Python.inline_navigation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.keyboards.executor&quot;: &quot;Run&quot;,
+    &quot;Python.megamarket.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mvideo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ozon.executor&quot;: &quot;Run&quot;,
+    &quot;Python.rbt.executor&quot;: &quot;Run&quot;,
+    &quot;Python.search.executor&quot;: &quot;Run&quot;,
+    &quot;Python.search_products_service.executor&quot;: &quot;Run&quot;,
+    &quot;Python.wildberries.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;filters&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/program/products_searcher_bot&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\I\PycharmProjects\products_searcher_bot\services" />
@@ -71,7 +80,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0e3be3396995-c546a90a8094-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.23339.19" />
+        <option value="bundled-python-sdk-98f27166c754-ba05f1cad1b1-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.21829.153" />
       </set>
     </attachedChunks>
   </component>
@@ -83,70 +92,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00002" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1728584607539</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1728584607539</updated>
-    </task>
-    <task id="LOCAL-00003" summary="add utils.messages for all message texts, set default parse_mode, add start message">
-      <option name="closed" value="true" />
-      <created>1728641052808</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1728641052808</updated>
-    </task>
-    <task id="LOCAL-00004" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1728641228689</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1728641228689</updated>
-    </task>
-    <task id="LOCAL-00005" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1728641349759</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1728641349759</updated>
-    </task>
-    <task id="LOCAL-00006" summary="replace the register with a decorator + add help handler">
-      <option name="closed" value="true" />
-      <created>1728682871844</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1728682871844</updated>
-    </task>
-    <task id="LOCAL-00007" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1728683022224</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1728683022224</updated>
-    </task>
-    <task id="LOCAL-00008" summary="add empty handlers">
-      <option name="closed" value="true" />
-      <created>1728684977035</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1728684977035</updated>
-    </task>
-    <task id="LOCAL-00009" summary="rename messages.py to messages_parts.py, add inline nav keyboard">
-      <option name="closed" value="true" />
-      <created>1728734946700</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1728734946700</updated>
     </task>
     <task id="LOCAL-00010" summary="add other messages handler + transfer router to __init__.py">
       <option name="closed" value="true" />
@@ -476,7 +421,71 @@
       <option name="project" value="LOCAL" />
       <updated>1731879779448</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1731879878136</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1731879878136</updated>
+    </task>
+    <task id="LOCAL-00052" summary="add selection filter parameters">
+      <option name="closed" value="true" />
+      <created>1731921803931</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1731921803931</updated>
+    </task>
+    <task id="LOCAL-00053" summary="add filter parameters navigation">
+      <option name="closed" value="true" />
+      <created>1731923365690</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1731923365690</updated>
+    </task>
+    <task id="LOCAL-00054" summary="add shops filter">
+      <option name="closed" value="true" />
+      <created>1731935207847</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1731935207847</updated>
+    </task>
+    <task id="LOCAL-00055" summary="fix cashing search results and getting info about whether there is a filter by shops">
+      <option name="closed" value="true" />
+      <created>1731936009894</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1731936009894</updated>
+    </task>
+    <task id="LOCAL-00056" summary="add full title for each product">
+      <option name="closed" value="true" />
+      <created>1731937188012</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1731937188012</updated>
+    </task>
+    <task id="LOCAL-00057" summary="remove keyboard in the absence of search res + add message about this">
+      <option name="closed" value="true" />
+      <created>1732164604731</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1732164604734</updated>
+    </task>
+    <task id="LOCAL-00058" summary="fix filters navigation">
+      <option name="closed" value="true" />
+      <created>1732168511913</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1732168511913</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -490,7 +499,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="search-parsers" />
+                        <option value="HEAD" />
                       </list>
                     </value>
                   </entry>
@@ -503,13 +512,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add style" />
-    <MESSAGE value="add ozon parser" />
-    <MESSAGE value="add lower limit on the number of characters entered" />
-    <MESSAGE value="add upper limit on the number of characters entered" />
-    <MESSAGE value="integrated ozon parser" />
-    <MESSAGE value="add + integrated wb parser" />
-    <MESSAGE value="fixed non-loading images" />
     <MESSAGE value="fix an error occurred when receiving the price of an item that is not in stock" />
     <MESSAGE value="deleted print" />
     <MESSAGE value="fix incomplete loading of all products" />
@@ -528,6 +530,13 @@
     <MESSAGE value="add aliexpress parser" />
     <MESSAGE value="add onlinetrade parser" />
     <MESSAGE value="refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor" />
+    <MESSAGE value="add selection filter parameters" />
+    <MESSAGE value="add filter parameters navigation" />
+    <MESSAGE value="add shops filter" />
+    <MESSAGE value="fix cashing search results and getting info about whether there is a filter by shops" />
+    <MESSAGE value="add full title for each product" />
+    <MESSAGE value="remove keyboard in the absence of search res + add message about this" />
+    <MESSAGE value="fix filters navigation" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix filters navigation" />
   </component>
 </project>

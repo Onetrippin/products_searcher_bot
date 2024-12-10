@@ -33,8 +33,10 @@ headers = {
 }
 
 
-async def get_search_request(session: AsyncSession, query: str, offset: int) -> Tuple[list, int]:
-    products_ids, total_products = await get_products_ids(session, query, offset)
+async def get_search_request(session: AsyncSession, query: str, offset: int, link: str | None, limit_subtraction: int = 0) -> Tuple[list, int]:
+    if link and int(link) < OFFSET_COEFFICIENTS.get('mvideo'):
+        limit_subtraction = OFFSET_COEFFICIENTS.get('mvideo') - int(link)
+    products_ids, total_products = await get_products_ids(session, query, offset, limit_subtraction)
     if not products_ids:
         return [], 0
     products_list = await get_products_info(session, products_ids)
@@ -50,11 +52,11 @@ async def get_search_request(session: AsyncSession, query: str, offset: int) -> 
     return products_list, total_products
 
 
-async def get_products_ids(session: AsyncSession, query: str, offset: int) -> Tuple[list, int]:
+async def get_products_ids(session: AsyncSession, query: str, offset: int, limit_subtraction: int) -> Tuple[list, int]:
     params = {
         'query': query,
         'offset': str(OFFSET_COEFFICIENTS['mvideo'] * offset),
-        'limit': str(OFFSET_COEFFICIENTS['mvideo']),
+        'limit': str(OFFSET_COEFFICIENTS['mvideo'] - limit_subtraction),
         'sort': 'price_asc',
         'filterParams': 'WyLQotC%2B0LvRjNC60L4g0LIg0L3QsNC70LjRh9C40LgiLCItMTIiLCLQlNCwIl0%3D'
     }
@@ -110,9 +112,11 @@ async def parse_products_info(result_str: str) -> list:
         return []
     products = []
     for product in products_list:
-        title_32 = product.get('name')[:29]
+        title = product.get('name')
+        title_32 = title[:29]
         product_id = product.get('productId')
         products.append({
+            'full_title': title,
             'title': title_32[:title_32.rfind(' ')] + '...',
             'rating': product.get('rating').get('star'),
             'image': f'https://img.mvideo.ru/Pdb/small_pic/480/{product_id}b.jpg',
@@ -154,5 +158,5 @@ async def parse_products_prices(result_str: str) -> dict:
 
 async def get_search_result(session: AsyncSession, query: str, offset: int, link: str) -> Tuple[list, int]:
     if not link or int(link) > 0:
-        return await get_search_request(session, query, offset)
+        return await get_search_request(session, query, offset, link)
     return [], 0

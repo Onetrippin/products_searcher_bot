@@ -251,7 +251,7 @@ class SourceManager:
             data, self.total_products = await self.fetch_data(
                 self.session, self.query, self.offset, self.next_link
             )
-            self.next_link = str(self.total_products - OFFSET_COEFFICIENTS[self.name] * self.offset)
+            self.next_link = str(self.total_products - OFFSET_COEFFICIENTS[self.name] * (self.offset + 1))
         else:
             data = []
         if data:
