@@ -1,8 +1,8 @@
 import os
 import asyncio
+from asyncio import WindowsSelectorEventLoopPolicy
 import http.server
 import socketserver
-import threading
 
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
@@ -10,14 +10,20 @@ from aiogram.utils.token import TokenValidationError
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums.parse_mode import ParseMode
 
+from data import DatabaseConnection
+from data import DatabaseMiddleware
 from handlers import router
+from utils.bot_singleton import BotSingleton
+
 
 load_dotenv()
 
 PORT = 8000
 
-selected_filters = {}
-current_index = {}
+asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
+
+user_queries = {}
+
 
 def check_and_save_token() -> str:
     token = os.getenv('API_TOKEN')
@@ -43,17 +49,32 @@ async def main() -> None:
     except Exception as e:
         print(f'Произошла ошибка: {e}')
         exit(1)
+    await BotSingleton.init_bot(bot)
     dp = Dispatcher()
     dp.include_router(router)
     print('Бот запущен')
-    await dp.start_polling(bot)
+    db_instance = DatabaseConnection.get_instance('database.db')
+    await db_instance.connect()
+    dp.update.middleware(DatabaseMiddleware(db_instance))
+    print('Бот готов пахать')
+    try:
+        await dp.start_polling(bot)
+    finally:
+        await db_instance.close()
 
-def start_server():
-    Handler = http.server.SimpleHTTPRequestHandler
-    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+def start_server() -> None:
+    handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(("", PORT), handler) as httpd:
         print(f"Сервер запущен на http://localhost:{PORT}")
         httpd.serve_forever()
 
+
+
+async def start() -> None:
+    bot_task = asyncio.create_task(main())
+    loop = asyncio.get_event_loop()
+    await loop.run_in_executor(None, start_server)
+    await bot_task
+
 if __name__ == '__main__':
-    threading.Thread(target=start_server).start()
-    asyncio.run(main())
+    asyncio.run(start())

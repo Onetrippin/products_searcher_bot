@@ -1,3 +1,2 @@
-from .search_history_service import get_search_history
-from .saved_products_service import get_saved_products
-from .search_products_service import get_search_result
+from .db import DatabaseConnection
+from .middleware import DatabaseMiddleware

@@ -1,5 +1,6 @@
 from aiogram import Router
 
+
 router = Router()
 
 from .inline_navigation import *

@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add many functions + add filters + add link">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="changed bot initialization, add search result nav">
+      <change afterPath="$PROJECT_DIR$/data/middleware.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/keyboards.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/messages.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,18 +25,20 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Onetrippin&quot;
-  }
+  &quot;lastFilter&quot;: {}
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Onetrippin/products_searcher_bot.git&quot;,
-    &quot;accountId&quot;: &quot;295b72c1-519e-41ed-9d10-7fd25a948f88&quot;
+    &quot;accountId&quot;: &quot;415110db-cc34-42d7-9f46-8c150ce666ef&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -45,23 +50,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.__init__.executor": "Run",
-    "Python.bot.executor": "Run",
-    "Python.buttons.executor": "Run",
-    "Python.inline_navigation.executor": "Run",
-    "Python.keyboards.executor": "Run",
-    "Python.search_products_service.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
+    &quot;Python.bot.executor&quot;: &quot;Run&quot;,
+    &quot;Python.buttons.executor&quot;: &quot;Run&quot;,
+    &quot;Python.db.executor&quot;: &quot;Run&quot;,
+    &quot;Python.eldorado.executor&quot;: &quot;Run&quot;,
+    &quot;Python.inline_navigation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.keyboards.executor&quot;: &quot;Run&quot;,
+    &quot;Python.megamarket.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mvideo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ozon.executor&quot;: &quot;Run&quot;,
+    &quot;Python.rbt.executor&quot;: &quot;Run&quot;,
+    &quot;Python.search.executor&quot;: &quot;Run&quot;,
+    &quot;Python.search_products_service.executor&quot;: &quot;Run&quot;,
+    &quot;Python.wildberries.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;filters&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/program/products_searcher_bot&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\I\PycharmProjects\products_searcher_bot\services" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0e3be3396995-c546a90a8094-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.23339.19" />
+        <option value="bundled-python-sdk-98f27166c754-ba05f1cad1b1-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.21829.153" />
       </set>
     </attachedChunks>
   </component>
@@ -73,78 +92,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00001" summary="add files + start command handler">
-      <option name="closed" value="true" />
-      <created>1728506334760</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1728506334760</updated>
-    </task>
-    <task id="LOCAL-00002" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1728584607539</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1728584607539</updated>
-    </task>
-    <task id="LOCAL-00003" summary="add utils.messages for all message texts, set default parse_mode, add start message">
-      <option name="closed" value="true" />
-      <created>1728641052808</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1728641052808</updated>
-    </task>
-    <task id="LOCAL-00004" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1728641228689</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1728641228689</updated>
-    </task>
-    <task id="LOCAL-00005" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1728641349759</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1728641349759</updated>
-    </task>
-    <task id="LOCAL-00006" summary="replace the register with a decorator + add help handler">
-      <option name="closed" value="true" />
-      <created>1728682871844</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1728682871844</updated>
-    </task>
-    <task id="LOCAL-00007" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1728683022224</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1728683022224</updated>
-    </task>
-    <task id="LOCAL-00008" summary="add empty handlers">
-      <option name="closed" value="true" />
-      <created>1728684977035</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1728684977035</updated>
-    </task>
-    <task id="LOCAL-00009" summary="rename messages.py to messages_parts.py, add inline nav keyboard">
-      <option name="closed" value="true" />
-      <created>1728734946700</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1728734946700</updated>
     </task>
     <task id="LOCAL-00010" summary="add other messages handler + transfer router to __init__.py">
       <option name="closed" value="true" />
@@ -242,25 +189,354 @@
       <option name="project" value="LOCAL" />
       <updated>1728951118202</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="update help message, update filters keyboard">
+      <option name="closed" value="true" />
+      <created>1729109187329</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1729109187329</updated>
+    </task>
+    <task id="LOCAL-00023" summary="changed filters logic, but it's not working now + add files for API requests">
+      <option name="closed" value="true" />
+      <created>1729434067514</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1729434067514</updated>
+    </task>
+    <task id="LOCAL-00024" summary="add style">
+      <option name="closed" value="true" />
+      <created>1729510826894</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1729510826895</updated>
+    </task>
+    <task id="LOCAL-00025" summary="add style">
+      <option name="closed" value="true" />
+      <created>1729713741922</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1729713741922</updated>
+    </task>
+    <task id="LOCAL-00026" summary="add ozon parser">
+      <option name="closed" value="true" />
+      <created>1729726474667</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1729726474667</updated>
+    </task>
+    <task id="LOCAL-00027" summary="add lower limit on the number of characters entered">
+      <option name="closed" value="true" />
+      <created>1730061418028</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1730061418028</updated>
+    </task>
+    <task id="LOCAL-00028" summary="add upper limit on the number of characters entered">
+      <option name="closed" value="true" />
+      <created>1730061748011</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1730061748011</updated>
+    </task>
+    <task id="LOCAL-00029" summary="integrated ozon parser">
+      <option name="closed" value="true" />
+      <created>1730141149016</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1730141149016</updated>
+    </task>
+    <task id="LOCAL-00030" summary="add + integrated wb parser">
+      <option name="closed" value="true" />
+      <created>1730147372529</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1730147372529</updated>
+    </task>
+    <task id="LOCAL-00031" summary="fixed non-loading images">
+      <option name="closed" value="true" />
+      <created>1730155486914</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1730155486914</updated>
+    </task>
+    <task id="LOCAL-00032" summary="fix an error occurred when receiving the price of an item that is not in stock">
+      <option name="closed" value="true" />
+      <created>1730197954029</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1730197954029</updated>
+    </task>
+    <task id="LOCAL-00033" summary="deleted print">
+      <option name="closed" value="true" />
+      <created>1730530309856</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1730530309856</updated>
+    </task>
+    <task id="LOCAL-00034" summary="fix incomplete loading of all products">
+      <option name="closed" value="true" />
+      <created>1730724863920</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1730724863920</updated>
+    </task>
+    <task id="LOCAL-00035" summary="add loading of products in 50 pieces with data loading if necessary">
+      <option name="closed" value="true" />
+      <created>1730738578761</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1730738578761</updated>
+    </task>
+    <task id="LOCAL-00036" summary="create shops parsers files">
+      <option name="closed" value="true" />
+      <created>1730745215506</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1730745215506</updated>
+    </task>
+    <task id="LOCAL-00037" summary="add and integrate mvideo parser">
+      <option name="closed" value="true" />
+      <created>1730756290120</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1730756290120</updated>
+    </task>
+    <task id="LOCAL-00038" summary="add citilink parser">
+      <option name="closed" value="true" />
+      <created>1731228562793</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1731228562794</updated>
+    </task>
+    <task id="LOCAL-00039" summary="change mvideo search with v2">
+      <option name="closed" value="true" />
+      <created>1731239254168</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1731239254168</updated>
+    </task>
+    <task id="LOCAL-00040" summary="replaced usage aiohttp with usage curl_cffi">
+      <option name="closed" value="true" />
+      <created>1731448641117</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1731448641117</updated>
+    </task>
+    <task id="LOCAL-00041" summary="deleted unnecessary comments">
+      <option name="closed" value="true" />
+      <created>1731449073242</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1731449073242</updated>
+    </task>
+    <task id="LOCAL-00042" summary="fix RBT parser, it's working)">
+      <option name="closed" value="true" />
+      <created>1731453198700</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1731453198700</updated>
+    </task>
+    <task id="LOCAL-00043" summary="add eldorado parser">
+      <option name="closed" value="true" />
+      <created>1731791432691</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1731791432691</updated>
+    </task>
+    <task id="LOCAL-00044" summary="add megamarket parser">
+      <option name="closed" value="true" />
+      <created>1731795030998</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1731795030998</updated>
+    </task>
+    <task id="LOCAL-00045" summary="add megamarket parser">
+      <option name="closed" value="true" />
+      <created>1731795203059</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1731795203060</updated>
+    </task>
+    <task id="LOCAL-00046" summary="fix incorrect display of out-of-stock items">
+      <option name="closed" value="true" />
+      <created>1731840931714</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1731840931714</updated>
+    </task>
+    <task id="LOCAL-00047" summary="fix incorrect megamarket display of out-of-stock items">
+      <option name="closed" value="true" />
+      <created>1731840967872</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1731840967872</updated>
+    </task>
+    <task id="LOCAL-00048" summary="add aliexpress parser">
+      <option name="closed" value="true" />
+      <created>1731860952136</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1731860952136</updated>
+    </task>
+    <task id="LOCAL-00049" summary="add onlinetrade parser">
+      <option name="closed" value="true" />
+      <created>1731878552060</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1731878552060</updated>
+    </task>
+    <task id="LOCAL-00050" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1731879779448</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1731879779448</updated>
+    </task>
+    <task id="LOCAL-00051" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1731879878136</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1731879878136</updated>
+    </task>
+    <task id="LOCAL-00052" summary="add selection filter parameters">
+      <option name="closed" value="true" />
+      <created>1731921803931</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1731921803931</updated>
+    </task>
+    <task id="LOCAL-00053" summary="add filter parameters navigation">
+      <option name="closed" value="true" />
+      <created>1731923365690</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1731923365690</updated>
+    </task>
+    <task id="LOCAL-00054" summary="add shops filter">
+      <option name="closed" value="true" />
+      <created>1731935207847</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1731935207847</updated>
+    </task>
+    <task id="LOCAL-00055" summary="fix cashing search results and getting info about whether there is a filter by shops">
+      <option name="closed" value="true" />
+      <created>1731936009894</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1731936009894</updated>
+    </task>
+    <task id="LOCAL-00056" summary="add full title for each product">
+      <option name="closed" value="true" />
+      <created>1731937188012</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1731937188012</updated>
+    </task>
+    <task id="LOCAL-00057" summary="remove keyboard in the absence of search res + add message about this">
+      <option name="closed" value="true" />
+      <created>1732164604731</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1732164604734</updated>
+    </task>
+    <task id="LOCAL-00058" summary="fix filters navigation">
+      <option name="closed" value="true" />
+      <created>1732168511913</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1732168511913</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add files + start command handler" />
-    <MESSAGE value="add utils.messages for all message texts, set default parse_mode, add start message" />
-    <MESSAGE value="replace the register with a decorator + add help handler" />
-    <MESSAGE value="add empty handlers" />
-    <MESSAGE value="rename messages.py to messages_parts.py, add inline nav keyboard" />
-    <MESSAGE value="add other messages handler + transfer router to __init__.py" />
-    <MESSAGE value="add inline navigation + add help message text" />
-    <MESSAGE value="separation messages and keyboards" />
-    <MESSAGE value="add search history test + format text" />
-    <MESSAGE value="format search history message" />
-    <MESSAGE value="format saved products message" />
+    <MESSAGE value="fix an error occurred when receiving the price of an item that is not in stock" />
+    <MESSAGE value="deleted print" />
+    <MESSAGE value="fix incomplete loading of all products" />
+    <MESSAGE value="add loading of products in 50 pieces with data loading if necessary" />
+    <MESSAGE value="create shops parsers files" />
+    <MESSAGE value="add and integrate mvideo parser" />
+    <MESSAGE value="add citilink parser" />
+    <MESSAGE value="change mvideo search with v2" />
+    <MESSAGE value="replaced usage aiohttp with usage curl_cffi" />
+    <MESSAGE value="deleted unnecessary comments" />
+    <MESSAGE value="fix RBT parser, it's working)" />
+    <MESSAGE value="add eldorado parser" />
+    <MESSAGE value="add megamarket parser" />
+    <MESSAGE value="fix incorrect display of out-of-stock items" />
+    <MESSAGE value="fix incorrect megamarket display of out-of-stock items" />
+    <MESSAGE value="add aliexpress parser" />
+    <MESSAGE value="add onlinetrade parser" />
     <MESSAGE value="refactor" />
-    <MESSAGE value="many changes: add search logic, add reviews logic" />
-    <MESSAGE value="add reviews page" />
-    <MESSAGE value="add many functions + add filters + add link" />
-    <option name="LAST_COMMIT_MESSAGE" value="add many functions + add filters + add link" />
+    <MESSAGE value="add selection filter parameters" />
+    <MESSAGE value="add filter parameters navigation" />
+    <MESSAGE value="add shops filter" />
+    <MESSAGE value="fix cashing search results and getting info about whether there is a filter by shops" />
+    <MESSAGE value="add full title for each product" />
+    <MESSAGE value="remove keyboard in the absence of search res + add message about this" />
+    <MESSAGE value="fix filters navigation" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix filters navigation" />
   </component>
 </project>
