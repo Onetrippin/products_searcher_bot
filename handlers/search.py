@@ -18,7 +18,7 @@ from shops import (ozon_search, wb_search, mvideo_search, rbt_search, citilink_s
 
 
 @router.inline_query(lambda query: True)
-async def inline_search(query: types.InlineQuery) -> None:
+async def inline_search(query: types.InlineQuery, data: dict) -> None:
     if len(query.query) < 3:
         await query.answer([types.InlineQueryResultArticle(
             id='few_characters',
@@ -139,7 +139,7 @@ class LinkStates(StatesGroup):
     waiting_for_link = State()
 
 @router.callback_query(lambda call: call.data == 'link')
-async def input_link(callback_query: types.CallbackQuery, state: FSMContext) -> None:
+async def input_link(callback_query: types.CallbackQuery, state: FSMContext, data: dict) -> None:
     await callback_query.message.answer(
         link_message(),
         reply_markup=link_keyboard()
@@ -147,7 +147,7 @@ async def input_link(callback_query: types.CallbackQuery, state: FSMContext) -> 
     await state.set_state(LinkStates.waiting_for_link)
 
 @router.message(StateFilter(LinkStates.waiting_for_link))
-async def handle_link(message: types.Message, state: FSMContext) -> None:
+async def handle_link(message: types.Message, state: FSMContext, data: dict) -> None:
     if message.text.lower() == "отменить ввод":
         await message.answer(
             'Ввод ссылки отменён',

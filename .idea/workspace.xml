@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="changed bot initialization, add search result nav">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add creating tables">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/db.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/buttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/buttons.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/filters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/inline_navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/inline_navigation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,14 +92,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00010" summary="add other messages handler + transfer router to __init__.py">
-      <option name="closed" value="true" />
-      <created>1728738694187</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1728738694187</updated>
     </task>
     <task id="LOCAL-00011" summary="add inline navigation + add help message text">
       <option name="closed" value="true" />
@@ -483,7 +477,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732168511913</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="add creating tables">
+      <option name="closed" value="true" />
+      <created>1736034912817</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1736034912817</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -510,7 +512,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix an error occurred when receiving the price of an item that is not in stock" />
     <MESSAGE value="deleted print" />
     <MESSAGE value="fix incomplete loading of all products" />
     <MESSAGE value="add loading of products in 50 pieces with data loading if necessary" />
@@ -535,6 +536,7 @@
     <MESSAGE value="add full title for each product" />
     <MESSAGE value="remove keyboard in the absence of search res + add message about this" />
     <MESSAGE value="fix filters navigation" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix filters navigation" />
+    <MESSAGE value="add creating tables" />
+    <option name="LAST_COMMIT_MESSAGE" value="add creating tables" />
   </component>
 </project>
