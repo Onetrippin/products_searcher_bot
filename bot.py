@@ -55,6 +55,7 @@ async def main() -> None:
     print('Бот запущен')
     db_instance = DatabaseConnection.get_instance('database.db')
     await db_instance.connect()
+    await db_instance.create_tables()
     dp.update.middleware(DatabaseMiddleware(db_instance))
     print('Бот готов пахать')
     try:

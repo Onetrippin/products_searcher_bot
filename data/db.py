@@ -28,6 +28,56 @@ class DatabaseConnection:
             except Exception as e:
                 print(f'Ошибка при подключении к базе данных: {e}')
 
+    async def create_tables(self) -> None:
+        queries = [
+            '''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                chat_id INTEGER NOT NULL UNIQUE,
+                notifications_enabled BOOLEAN DEFAULT TRUE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                last_search_time TIMESTAMP
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                chat_id INTEGER NOT NULL UNIQUE,
+                type TEXT NOT NULL,
+                search_query TEXT NOT NULL,
+                search_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                filters TEXT,
+                last_data TEXT,
+                FOREIGN KEY (chat_id) REFERENCES users(chat_id)
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS saved (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                chat_id INTEGER NOT NULL UNIQUE,
+                product_id INTEGER NOT NULL,
+                added_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (chat_id) REFERENCES users(chat_id),
+                FOREIGN KEY (product_id) REFERENCES products(id)
+            )
+            '''
+            ,
+            '''
+            CREATE TABLE IF NOT EXISTS products (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                description TEXT NOT NULL,
+                urls TEXT NOT NULL,
+                prices TEXT NOT NULL,
+                image_url TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                last_check_time TIMESTAMP
+            )
+            '''
+        ]
+        for query in queries:
+            await self.execute(query)
+
     async def execute(self, sql: str, params: Tuple = None) -> Tuple | None:
         if self.connection is None:
             await self.connect()
