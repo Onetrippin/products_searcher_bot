@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 from aiogram import types
 from aiogram.fsm.context import FSMContext
@@ -12,15 +13,15 @@ from utils import (product_page, product_page_keyboard, link_message, link_keybo
                    products_search_result_page, page_navigation_keyboard)
 from utils.constants import DELAY_BETWEEN_API_REQUESTS, SEARCH_LINES_PER_PAGE
 from utils.translator import SHOPS_NORMAL_TO_SHORT
-from utils.other import get_data_info
 from bot import user_queries
 from shops import (ozon_search, wb_search, mvideo_search, rbt_search, citilink_search, eldorado_search,
                    megamarket_search, aliexpress_search, onlinetrade_search)
+from data import DatabaseConnection, add_to_db
 
 
 @router.inline_query(lambda query: True)
-async def inline_search(query: types.InlineQuery, data: dict) -> None:
-    logger, data = get_data_info(data)
+@add_to_db
+async def inline_search(query: types.InlineQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     if len(query.query) < 3:
         await query.answer([types.InlineQueryResultArticle(
             id='few_characters',
@@ -141,8 +142,8 @@ class LinkStates(StatesGroup):
     waiting_for_link = State()
 
 @router.callback_query(lambda call: call.data == 'link')
-async def input_link(callback_query: types.CallbackQuery, state: FSMContext, data: dict) -> None:
-    logger, data = get_data_info(data)
+@add_to_db
+async def input_link(callback_query: types.CallbackQuery, state: FSMContext, logger: logging.Logger, db: DatabaseConnection) -> None:
     await callback_query.message.answer(
         link_message(),
         reply_markup=link_keyboard()
@@ -150,8 +151,8 @@ async def input_link(callback_query: types.CallbackQuery, state: FSMContext, dat
     await state.set_state(LinkStates.waiting_for_link)
 
 @router.message(StateFilter(LinkStates.waiting_for_link))
-async def handle_link(message: types.Message, state: FSMContext, data: dict) -> None:
-    logger, data = get_data_info(data)
+@add_to_db
+async def handle_link(message: types.Message, state: FSMContext, logger: logging.Logger, db: DatabaseConnection) -> None:
     if message.text.lower() == "отменить ввод":
         await message.answer(
             'Ввод ссылки отменён',

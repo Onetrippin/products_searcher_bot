@@ -1,6 +1,8 @@
 from typing import Tuple
+import functools
 
 import aiosqlite
+from aiogram.types import Message
 
 
 class DatabaseConnection:
@@ -36,7 +38,8 @@ class DatabaseConnection:
                 chat_id INTEGER NOT NULL UNIQUE,
                 notifications_enabled BOOLEAN DEFAULT TRUE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                last_search_time TIMESTAMP
+                last_search_time TIMESTAMP,
+                last_time_action TIMESTAMP
             )
             ''',
             '''
@@ -98,3 +101,15 @@ class DatabaseConnection:
         if self.connection:
             await self.connection.close()
             print('Соединение с базой данных закрыто')
+
+def add_to_db(func) -> None:
+    @functools.wraps(func)
+    async def wrapper(message: Message, *args, **kwargs):
+        db, logger = kwargs.get('db'), kwargs.get('logger')
+        chat_id = message.from_user.id
+        query = 'INSERT OR IGNORE INTO users (chat_id) VALUES (?)'
+        await db.execute(query, (chat_id,))
+        query = 'UPDATE users SET last_time_action = CURRENT_TIMESTAMP WHERE chat_id = ?'
+        await db.execute(query, (chat_id,))
+        return await func(message, *args, **kwargs)
+    return wrapper
