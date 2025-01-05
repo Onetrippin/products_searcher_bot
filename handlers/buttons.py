@@ -6,11 +6,13 @@ from utils import (start_message, help_message, format_saved_message, format_his
                    search_message, other_message,
                    main_menu_keyboard, page_navigation_keyboard, search_default_keyboard,
                    product_reviews_page, reviews_keyboard)
+from utils.other import get_data_info
 from . import router
 
 
 @router.message(Command('start'))
 async def start_command_handler(message: types.Message, data: dict) -> None:
+    logger, data = get_data_info(data)
     args = message.text.split(maxsplit=1)
     if len(args) > 1:
         if args[1].startswith("reviews"):
@@ -28,12 +30,14 @@ async def start_command_handler(message: types.Message, data: dict) -> None:
 @router.message(Command('help'))
 @router.message(F.text.lower() == '❓ помощь')
 async def help_command_handler(message: types.Message, data: dict) -> None:
+    logger, data = get_data_info(data)
     await message.answer(
         help_message()
     )
 
 @router.message(F.text.lower() == '⭐ избранное')
 async def saved_command_handler(message: types.Message, data: dict) -> None:
+    logger, data = get_data_info(data)
     saved_products = await get_saved_products(message.chat.id)
     await message.answer(
         format_saved_message(saved_products),
@@ -43,6 +47,7 @@ async def saved_command_handler(message: types.Message, data: dict) -> None:
 
 @router.message(F.text.lower() == '🕒 история поиска')
 async def history_command_handler(message: types.Message, data: dict) -> None:
+    logger, data = get_data_info(data)
     search_history = await get_search_history(message.chat.id)
     await message.answer(
         format_history_message(search_history),
@@ -52,6 +57,7 @@ async def history_command_handler(message: types.Message, data: dict) -> None:
 
 @router.message(F.text.lower() == '🔎 искать товары')
 async def search_command_handler(message: types.Message, data: dict) -> None:
+    logger, data = get_data_info(data)
     await message.answer(
         search_message(),
         reply_markup=search_default_keyboard()
@@ -59,6 +65,7 @@ async def search_command_handler(message: types.Message, data: dict) -> None:
 
 @router.message(F.text)
 async def other_message_handler(message: types.Message, data: dict) -> None:
+    logger, data = get_data_info(data)
     if not message.via_bot:
         await message.answer(
             other_message(),

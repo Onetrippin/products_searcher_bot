@@ -1,2 +1,2 @@
 from .db import DatabaseConnection
-from .middleware import DatabaseMiddleware
+from .middleware import LoggerAndDatabaseMiddleware

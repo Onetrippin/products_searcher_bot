@@ -6,10 +6,12 @@ from utils.constants import SEARCH_LINES_PER_PAGE
 from . import router
 from bot import user_queries
 from utils.bot_singleton import BotSingleton
+from utils.other import get_data_info
 
 
 @router.callback_query(lambda call: call.data.startswith('page_saved'))
 async def saved_page_changer(callback_query: types.CallbackQuery, data: dict) -> None:
+    logger, data = get_data_info(data)
     saved_products = await get_saved_products(callback_query.message.chat.id)
     _, page_type, current_page, _ = callback_query.data.split('_')
     await callback_query.message.edit_text(
@@ -20,6 +22,7 @@ async def saved_page_changer(callback_query: types.CallbackQuery, data: dict) ->
 
 @router.callback_query(lambda call: call.data.startswith('page_history'))
 async def history_page_changer(callback_query: types.CallbackQuery, data: dict) -> None:
+    logger, data = get_data_info(data)
     search_history = await get_search_history(callback_query.message.chat.id)
     _, page_type, current_page, _ = callback_query.data.split('_')
     await callback_query.message.edit_text(
@@ -30,6 +33,7 @@ async def history_page_changer(callback_query: types.CallbackQuery, data: dict) 
 
 @router.callback_query(lambda call: call.data.startswith('page_search'))
 async def search_page_changer(callback_query: types.CallbackQuery, data: dict) -> None:
+    logger, data = get_data_info(data)
     _, _, current_page, query = callback_query.data.split('_', 3)
     current_page = int(current_page)
     user_id = callback_query.from_user.id
@@ -67,6 +71,7 @@ async def search_page_changer(callback_query: types.CallbackQuery, data: dict) -
 
 @router.callback_query(lambda call: call.data.startswith('counter_'))
 async def page_counter(callback_query: types.CallbackQuery, data: dict) -> None:
+    logger, data = get_data_info(data)
     current_page, total_page = callback_query.data.split('_')[1].split('/')
     await callback_query.answer(
         f'Ты смотришь {current_page} страницу из {total_page}',
@@ -75,6 +80,7 @@ async def page_counter(callback_query: types.CallbackQuery, data: dict) -> None:
 
 @router.callback_query(lambda call: call.data.startswith('saved_'))
 async def change_saved_status(callback_query: types.CallbackQuery, data: dict) -> None:
+    logger, data = get_data_info(data)
     await callback_query.answer(
         f'Товар {callback_query.data.split("_")[1]} добавлен в избранное'
     )
