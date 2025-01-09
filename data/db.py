@@ -47,10 +47,13 @@ class DatabaseConnection:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 chat_id INTEGER NOT NULL UNIQUE,
                 type TEXT NOT NULL,
-                search_query TEXT NOT NULL,
-                search_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                search_query TEXT,
                 filters TEXT,
-                last_data TEXT,
+                product_id INTEGER,
+                product_name TEXT,
+                product_price REAL,
+                product_shop TEXT,
                 FOREIGN KEY (chat_id) REFERENCES users(chat_id)
             )
             ''',
@@ -64,22 +67,65 @@ class DatabaseConnection:
                 FOREIGN KEY (product_id) REFERENCES products(id)
             )
             '''
-            ,
+        ]
+        for query in queries:
+            await self.execute(query)
+        await self.create_categories_tables()
+
+    async def create_categories_tables(self) -> None:
+        queries = [
+            '''
+            CREATE TABLE IF NOT EXISTS categories (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                max_price REAL NOT NULL
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS categories_brands (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                category_id INTEGER,
+                name TEXT NOT NULL,
+                FOREIGN KEY (category_id) REFERENCES categories(id)
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS categories_params (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS params_values (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                param_id INTEGER,
+                name TEXT NOT NULL,
+                FOREIGN KEY (param_id) REFERENCES categories_params(id)
+            )
+            ''',
             '''
             CREATE TABLE IF NOT EXISTS products (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 description TEXT NOT NULL,
+                category_id INTEGER,
                 urls TEXT NOT NULL,
                 prices TEXT NOT NULL,
                 image_url TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                last_check_time TIMESTAMP
+                last_check_time TIMESTAMP,
+                need_check BOOLEAN DEFAULT FALSE,
+                FOREIGN KEY (category_id) REFERENCES categories(id)
             )
             '''
         ]
         for query in queries:
             await self.execute(query)
+
+        if not self.execute('SELECT COUNT(*) FROM categories'):
+            async def fill_categories_info() -> None:
+                ...
+            await fill_categories_info()
 
     async def execute(self, sql: str, params: Tuple = None) -> Tuple | None:
         if self.connection is None:

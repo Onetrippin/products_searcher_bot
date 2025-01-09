@@ -1,37 +1,45 @@
-async def get_saved_products(chat_id: int) -> list:
-    saved_products = [
-        {'product_name': 'Телевизор LG OLED CX 65', 'price': 130000, 'shop': 'Эльдорадо'},
-        {'product_name': 'Смартфон Samsung Galaxy S21', 'price': 70000, 'shop': 'ДНС'},
-        {'product_name': 'Ноутбук Apple MacBook Air M1', 'price': 95000, 'shop': 'Ситилинк'},
-        {'product_name': 'Планшет iPad Pro 11 2021', 'price': 86000, 'shop': 'Яндекс Маркет'},
-        {'product_name': 'Клавиатура Razer BlackWidow V3', 'price': 15000, 'shop': 'Озон'},
-        {'product_name': 'Мышь Logitech G502 HERO', 'price': 4500, 'shop': 'Вайлдберриз'},
-        {'product_name': 'Телевизор Sony Bravia 55', 'price': 80000, 'shop': 'Эльдорадо'},
-        {'product_name': 'Смартфон Xiaomi Redmi Note 10', 'price': 18000, 'shop': 'Ситилинк'},
-        {'product_name': 'Наушники AirPods Pro', 'price': 22000, 'shop': 'Яндекс Маркет'},
-        {'product_name': 'Монитор LG UltraGear 27', 'price': 25000, 'shop': 'ДНС'},
-        {'product_name': 'Игровая приставка PlayStation 5', 'price': 70000, 'shop': 'Озон'},
-        {'product_name': 'Клавиатура SteelSeries Apex Pro', 'price': 19000, 'shop': 'Эльдорадо'},
-        {'product_name': 'Мышь SteelSeries Rival 600', 'price': 6000, 'shop': 'Вайлдберриз'},
-        {'product_name': 'Телевизор Philips 58PUS8505', 'price': 65000, 'shop': 'Яндекс Маркет'},
-        {'product_name': 'Смартфон OnePlus 9 Pro', 'price': 72000, 'shop': 'ДНС'},
-        {'product_name': 'Наушники Sony WH-1000XM4', 'price': 25000, 'shop': 'Ситилинк'},
-        {'product_name': 'Ноутбук HP Spectre x360', 'price': 130000, 'shop': 'Озон'},
-        {'product_name': 'Планшет Samsung Galaxy Tab S7', 'price': 62000, 'shop': 'Вайлдберриз'},
-        {'product_name': 'Клавиатура Corsair K95 RGB', 'price': 17000, 'shop': 'Эльдорадо'},
-        {'product_name': 'Мышь ASUS ROG Gladius II', 'price': 6500, 'shop': 'Ситилинк'},
-        {'product_name': 'Телевизор Hisense 55A7100F', 'price': 43000, 'shop': 'Яндекс Маркет'},
-        {'product_name': 'Смартфон Realme GT', 'price': 30000, 'shop': 'Озон'},
-        {'product_name': 'Наушники Bose QuietComfort 35 II', 'price': 28000, 'shop': 'ДНС'},
-        {'product_name': 'Монитор Acer Predator XB273', 'price': 36000, 'shop': 'Вайлдберриз'},
-        {'product_name': 'Игровая приставка Xbox Series X', 'price': 65000, 'shop': 'Ситилинк'},
-        {'product_name': 'Клавиатура HyperX Alloy FPS', 'price': 10000, 'shop': 'Эльдорадо'},
-        {'product_name': 'Мышь Logitech MX Master 3', 'price': 8000, 'shop': 'Озон'},
-        {'product_name': 'Телевизор Panasonic TX-55HZ2000', 'price': 140000, 'shop': 'Яндекс Маркет'},
-        {'product_name': 'Смартфон Google Pixel 5', 'price': 55000, 'shop': 'Вайлдберриз'},
-        {'product_name': 'Наушники JBL Live 660NC', 'price': 12000, 'shop': 'ДНС'},
-        {'product_name': 'Ноутбук Lenovo Legion 5', 'price': 100000, 'shop': 'Ситилинк'},
-        {'product_name': 'Планшет Huawei MatePad Pro', 'price': 43000, 'shop': 'Эльдорадо'},
-        {'product_name': 'Мышь Logitech G Pro X', 'price': 7500, 'shop': 'Яндекс Маркет'}
-    ]
-    return saved_products
+from data import DatabaseConnection
+
+
+# async def get_saved_products(chat_id: int) -> list:
+#     saved_products = [
+#         {'product_name': 'Телевизор LG OLED CX 65', 'price': 130000, 'shop': 'Эльдорадо'},
+#         {'product_name': 'Смартфон Samsung Galaxy S21', 'price': 70000, 'shop': 'ДНС'},
+#         {'product_name': 'Ноутбук Apple MacBook Air M1', 'price': 95000, 'shop': 'Ситилинк'},
+#         {'product_name': 'Планшет iPad Pro 11 2021', 'price': 86000, 'shop': 'Яндекс Маркет'},
+#         {'product_name': 'Клавиатура Razer BlackWidow V3', 'price': 15000, 'shop': 'Озон'},
+#         {'product_name': 'Мышь Logitech G502 HERO', 'price': 4500, 'shop': 'Вайлдберриз'},
+#         {'product_name': 'Телевизор Sony Bravia 55', 'price': 80000, 'shop': 'Эльдорадо'},
+#         {'product_name': 'Смартфон Xiaomi Redmi Note 10', 'price': 18000, 'shop': 'Ситилинк'},
+#         {'product_name': 'Наушники AirPods Pro', 'price': 22000, 'shop': 'Яндекс Маркет'},
+#         {'product_name': 'Монитор LG UltraGear 27', 'price': 25000, 'shop': 'ДНС'},
+#         {'product_name': 'Игровая приставка PlayStation 5', 'price': 70000, 'shop': 'Озон'},
+#         {'product_name': 'Клавиатура SteelSeries Apex Pro', 'price': 19000, 'shop': 'Эльдорадо'},
+#         {'product_name': 'Мышь SteelSeries Rival 600', 'price': 6000, 'shop': 'Вайлдберриз'},
+#         {'product_name': 'Телевизор Philips 58PUS8505', 'price': 65000, 'shop': 'Яндекс Маркет'},
+#         {'product_name': 'Смартфон OnePlus 9 Pro', 'price': 72000, 'shop': 'ДНС'},
+#         {'product_name': 'Наушники Sony WH-1000XM4', 'price': 25000, 'shop': 'Ситилинк'},
+#         {'product_name': 'Ноутбук HP Spectre x360', 'price': 130000, 'shop': 'Озон'},
+#         {'product_name': 'Планшет Samsung Galaxy Tab S7', 'price': 62000, 'shop': 'Вайлдберриз'},
+#         {'product_name': 'Клавиатура Corsair K95 RGB', 'price': 17000, 'shop': 'Эльдорадо'},
+#         {'product_name': 'Мышь ASUS ROG Gladius II', 'price': 6500, 'shop': 'Ситилинк'},
+#         {'product_name': 'Телевизор Hisense 55A7100F', 'price': 43000, 'shop': 'Яндекс Маркет'},
+#         {'product_name': 'Смартфон Realme GT', 'price': 30000, 'shop': 'Озон'},
+#         {'product_name': 'Наушники Bose QuietComfort 35 II', 'price': 28000, 'shop': 'ДНС'},
+#         {'product_name': 'Монитор Acer Predator XB273', 'price': 36000, 'shop': 'Вайлдберриз'},
+#         {'product_name': 'Игровая приставка Xbox Series X', 'price': 65000, 'shop': 'Ситилинк'},
+#         {'product_name': 'Клавиатура HyperX Alloy FPS', 'price': 10000, 'shop': 'Эльдорадо'},
+#         {'product_name': 'Мышь Logitech MX Master 3', 'price': 8000, 'shop': 'Озон'},
+#         {'product_name': 'Телевизор Panasonic TX-55HZ2000', 'price': 140000, 'shop': 'Яндекс Маркет'},
+#         {'product_name': 'Смартфон Google Pixel 5', 'price': 55000, 'shop': 'Вайлдберриз'},
+#         {'product_name': 'Наушники JBL Live 660NC', 'price': 12000, 'shop': 'ДНС'},
+#         {'product_name': 'Ноутбук Lenovo Legion 5', 'price': 100000, 'shop': 'Ситилинк'},
+#         {'product_name': 'Планшет Huawei MatePad Pro', 'price': 43000, 'shop': 'Эльдорадо'},
+#         {'product_name': 'Мышь Logitech G Pro X', 'price': 7500, 'shop': 'Яндекс Маркет'}
+#     ]
+#     return saved_products
+
+async def get_saved_products(db: DatabaseConnection, chat_id: int) -> list:
+    query = 'SELECT product_id FROM saved WHERE chat_id = ?'
+    product_ids = await db.execute(query, (chat_id,))
+    return []

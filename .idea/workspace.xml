@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add data unpacking and logger">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add inserting to db and logging time for last action">
+      <change afterPath="$PROJECT_DIR$/data/categories.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/buttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/buttons.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/filters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/inline_navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/inline_navigation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/other.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/saved_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/saved_products_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/search_history_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_history_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,14 +93,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00013" summary="add search history test + format text">
-      <option name="closed" value="true" />
-      <created>1728770397173</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1728770397173</updated>
     </task>
     <task id="LOCAL-00014" summary="format search history message">
       <option name="closed" value="true" />
@@ -488,7 +478,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736038481150</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="add inserting to db and logging time for last action">
+      <option name="closed" value="true" />
+      <created>1736114267389</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1736114267389</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -515,7 +513,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add loading of products in 50 pieces with data loading if necessary" />
     <MESSAGE value="create shops parsers files" />
     <MESSAGE value="add and integrate mvideo parser" />
     <MESSAGE value="add citilink parser" />
@@ -540,6 +537,17 @@
     <MESSAGE value="add creating tables" />
     <MESSAGE value="add data for each handler" />
     <MESSAGE value="add data unpacking and logger" />
-    <option name="LAST_COMMIT_MESSAGE" value="add data unpacking and logger" />
+    <MESSAGE value="add inserting to db and logging time for last action" />
+    <option name="LAST_COMMIT_MESSAGE" value="add inserting to db and logging time for last action" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/keyboards.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
