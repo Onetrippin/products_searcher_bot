@@ -4,6 +4,8 @@ import functools
 import aiosqlite
 from aiogram.types import Message
 
+from .categories import data
+
 
 class DatabaseConnection:
     __instance = None
@@ -78,7 +80,8 @@ class DatabaseConnection:
             CREATE TABLE IF NOT EXISTS categories (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
-                max_price REAL NOT NULL
+                max_price REAL NOT NULL,
+                min_price REAL NOT NULL
             )
             ''',
             '''
@@ -92,7 +95,9 @@ class DatabaseConnection:
             '''
             CREATE TABLE IF NOT EXISTS categories_params (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL
+                category_id INTEGER,
+                name TEXT NOT NULL,
+                FOREIGN KEY (category_id) REFERENCES categories(id)
             )
             ''',
             '''
@@ -122,9 +127,20 @@ class DatabaseConnection:
         for query in queries:
             await self.execute(query)
 
-        if not self.execute('SELECT COUNT(*) FROM categories'):
+        if not (await self.execute('SELECT COUNT(*) FROM categories'))[0][0]:
             async def fill_categories_info() -> None:
-                ...
+                for category, info in data.items():
+                    category_id = await self.execute('INSERT INTO categories (name, max_price, min_price) VALUES (?, ?, ?)',
+                                       (category, info.get('Максимальная цена'), info.get('Минимальная цена')))
+                    for brand in info.get('Бренды'):
+                        await self.execute('INSERT INTO categories_brands (category_id, name) VALUES (?, ?)',
+                                           (category_id, brand))
+                    for param, values in info.get('Параметры').items():
+                        param_id = await self.execute('INSERT INTO categories_params (category_id, name) VALUES (?, ?)',
+                                           (category_id, param))
+                        for value in values:
+                            await self.execute('INSERT INTO params_values (param_id, name) VALUES (?, ?)',
+                                               (param_id, value))
             await fill_categories_info()
 
     async def execute(self, sql: str, params: Tuple = None) -> Tuple | None:
@@ -136,12 +152,15 @@ class DatabaseConnection:
         async with self.connection.cursor() as cursor:
             try:
                 await cursor.execute(sql, params or ())
-                await self.connection.commit()
-                return await cursor.fetchall()
             except Exception as e:
                 print(f'Ошибка выполнения запроса к базе данных: {e}')
                 await self.connection.rollback()
                 return None
+            result = await cursor.fetchall()
+            if not result or not result[0]:
+                await self.connection.commit()
+                return cursor.lastrowid
+            return result
 
     async def close(self):
         if self.connection:
