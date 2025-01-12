@@ -75,6 +75,7 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
         if not price.get('club'):
             continue
         product_dict = {
+            'link': f'{url}product/{product.get("id")}/',
             'full_title': title,
             'title': title_32[:title_32.rfind(' ')] + '...',
             # 'image': product.get('images', {}).get('citilink', [{}])[0].get('sources', [{}, {}, {}])[2].get('url'),

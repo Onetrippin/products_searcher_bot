@@ -131,6 +131,7 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
         if item.get('favoriteOffer', {}).get('price') == 0:
             continue
         products_list.append({
+            'link': f'{url}catalog/details/{item.get("goods").get("slug")}/',
             'full_title': title,
             'title': title_32[:title_32.rfind(' ')] + '...',
             'rating': item.get('rating'),

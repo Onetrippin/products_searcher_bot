@@ -8,7 +8,7 @@ from utils.constants import SEARCH_LINES_PER_PAGE
 from . import router
 from bot import user_queries
 from utils.bot_singleton import BotSingleton
-from data import DatabaseConnection, add_to_db
+from data import DatabaseConnection, add_to_db, load_products_to_db
 
 
 @router.callback_query(lambda call: call.data.startswith('page_saved'))
@@ -45,6 +45,8 @@ async def search_page_changer(callback_query: types.CallbackQuery, logger: loggi
         if not new_products:
             current_page = 1
         else:
+            print(new_products)
+            await load_products_to_db(db, new_products)
             all_products = []
             for product in new_products:
                 all_products.append({

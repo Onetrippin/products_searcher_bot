@@ -7,6 +7,7 @@ from curl_cffi.requests import AsyncSession
 
 from shops import ozon_search, wb_search, mvideo_search
 from utils.constants import OFFSET_COEFFICIENTS
+from data import DatabaseConnection
 
 
 # async def get_search_result(query: str) -> list:
@@ -273,7 +274,6 @@ class SourceManager:
             self.index += 1
             return result
         return {}
-
 
 class UserData:
     def __init__(self, sources: List[SourceManager]) -> None:

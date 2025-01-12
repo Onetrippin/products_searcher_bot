@@ -116,6 +116,7 @@ async def parse_products_info(result_str: str) -> list:
         title_32 = title[:29]
         product_id = product.get('productId')
         products.append({
+            'link': f'{url}products/{product_id}',
             'full_title': title,
             'title': title_32[:title_32.rfind(' ')] + '...',
             'rating': product.get('rating').get('star'),

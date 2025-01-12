@@ -112,7 +112,7 @@ class DatabaseConnection:
             CREATE TABLE IF NOT EXISTS products (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
-                description TEXT NOT NULL,
+                description TEXT,
                 category_id INTEGER,
                 urls TEXT NOT NULL,
                 prices TEXT NOT NULL,
@@ -178,3 +178,14 @@ def add_to_db(func) -> None:
         await db.execute(query, (chat_id,))
         return await func(message, *args, **kwargs)
     return wrapper
+
+async def load_products_to_db(db: DatabaseConnection, products: list) -> None:
+    for product in products:
+        prices = {
+            'orig': product.get('orig_price'),
+            'actual': product.get('price'),
+            'discount': product.get('discount')
+        }
+        await db.execute('INSERT INTO products (name, urls, prices, image_url) VALUES (?, ?, ?, ?)',
+                         (product.get('full_title'),
+                          product.get('')))

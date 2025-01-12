@@ -16,7 +16,7 @@ from utils.translator import SHOPS_NORMAL_TO_SHORT
 from bot import user_queries
 from shops import (ozon_search, wb_search, mvideo_search, rbt_search, citilink_search, eldorado_search,
                    megamarket_search, aliexpress_search, onlinetrade_search)
-from data import DatabaseConnection, add_to_db
+from data import DatabaseConnection, add_to_db, load_products_to_db
 
 
 @router.inline_query(lambda query: True)
@@ -54,9 +54,13 @@ async def inline_search(query: types.InlineQuery, logger: logging.Logger, db: Da
         else user_queries[user_id]['session']
     if user_queries[user_id]['query'][1] is not None:
         user_queries[user_id]['query'][1].cancel()
-    user_queries[user_id]['query'][1] = asyncio.create_task(send_query_with_delay(query, user_queries[user_id]['session']))
+    user_queries[user_id]['query'][1] = asyncio.create_task(send_query_with_delay(query,
+                                                                                  user_queries[user_id]['session'],
+                                                                                  logger,
+                                                                                  db))
 
-async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession) -> None:
+async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
+                                logger: logging.Logger, db: DatabaseConnection) -> None:
     await asyncio.sleep(DELAY_BETWEEN_API_REQUESTS if not query.offset else 0)
     # next_links, products = await get_search_result(query.query,
     #                                                session,
@@ -86,6 +90,8 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession)
         user_queries[query.from_user.id]['data'] = UserData(sources=sources)
         await user_queries[query.from_user.id]['data'].fill_heap()
     products = await user_queries[query.from_user.id]['data'].get_next_batch(results_per_page)
+    print(products)
+    await load_products_to_db(db, products)
     all_products = []
     for product in products:
         all_products.append({

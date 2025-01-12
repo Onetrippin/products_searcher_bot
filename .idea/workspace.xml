@@ -4,10 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add categories tables and smartphone categories data">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add categories loader to DB">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/categories.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/categories.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/inline_navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/inline_navigation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/aliexpress.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/aliexpress.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/citilink.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/citilink.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/eldorado.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/eldorado.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/megamarket.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/megamarket.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/mvideo.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/mvideo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/onlinetrade.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/onlinetrade.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/ozon.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/ozon.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/wildberries.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/wildberries.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -91,14 +102,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00015" summary="format search history message">
-      <option name="closed" value="true" />
-      <created>1728845102543</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1728845102543</updated>
     </task>
     <task id="LOCAL-00016" summary="format saved products message">
       <option name="closed" value="true" />
@@ -484,7 +487,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736386137338</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="add categories loader to DB">
+      <option name="closed" value="true" />
+      <created>1736636050750</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1736636050750</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -511,7 +522,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add and integrate mvideo parser" />
     <MESSAGE value="add citilink parser" />
     <MESSAGE value="change mvideo search with v2" />
     <MESSAGE value="replaced usage aiohttp with usage curl_cffi" />
@@ -536,7 +546,8 @@
     <MESSAGE value="add data unpacking and logger" />
     <MESSAGE value="add inserting to db and logging time for last action" />
     <MESSAGE value="add categories tables and smartphone categories data" />
-    <option name="LAST_COMMIT_MESSAGE" value="add categories tables and smartphone categories data" />
+    <MESSAGE value="add categories loader to DB" />
+    <option name="LAST_COMMIT_MESSAGE" value="add categories loader to DB" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
