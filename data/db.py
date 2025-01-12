@@ -1,6 +1,11 @@
 from typing import Tuple
+import json
+import functools
 
 import aiosqlite
+from aiogram.types import Message
+
+from .categories import data
 
 
 class DatabaseConnection:
@@ -28,6 +33,118 @@ class DatabaseConnection:
             except Exception as e:
                 print(f'Ошибка при подключении к базе данных: {e}')
 
+    async def create_tables(self) -> None:
+        queries = [
+            '''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                chat_id INTEGER NOT NULL UNIQUE,
+                notifications_enabled BOOLEAN DEFAULT TRUE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                last_search_time TIMESTAMP,
+                last_time_action TIMESTAMP
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                chat_id INTEGER NOT NULL UNIQUE,
+                type TEXT NOT NULL,
+                time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                search_query TEXT,
+                filters TEXT,
+                product_id INTEGER,
+                product_name TEXT,
+                product_price REAL,
+                product_shop TEXT,
+                FOREIGN KEY (chat_id) REFERENCES users(chat_id)
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS saved (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                chat_id INTEGER NOT NULL UNIQUE,
+                product_id INTEGER NOT NULL,
+                change_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                is_saved BOOLEAN NOT NULL,
+                FOREIGN KEY (chat_id) REFERENCES users(chat_id),
+                FOREIGN KEY (product_id) REFERENCES products(id)
+            )
+            '''
+        ]
+        for query in queries:
+            await self.execute(query)
+        await self.create_categories_tables()
+
+    async def create_categories_tables(self) -> None:
+        queries = [
+            '''
+            CREATE TABLE IF NOT EXISTS categories (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                max_price REAL NOT NULL,
+                min_price REAL NOT NULL
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS categories_brands (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                category_id INTEGER,
+                name TEXT NOT NULL,
+                FOREIGN KEY (category_id) REFERENCES categories(id)
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS categories_params (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                category_id INTEGER,
+                name TEXT NOT NULL,
+                FOREIGN KEY (category_id) REFERENCES categories(id)
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS params_values (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                param_id INTEGER,
+                name TEXT NOT NULL,
+                FOREIGN KEY (param_id) REFERENCES categories_params(id)
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS products (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                description TEXT,
+                category_id INTEGER,
+                urls TEXT NOT NULL,
+                prices TEXT NOT NULL,
+                image_url TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                last_check_time TIMESTAMP,
+                need_check BOOLEAN DEFAULT FALSE,
+                FOREIGN KEY (category_id) REFERENCES categories(id)
+            )
+            '''
+        ]
+        for query in queries:
+            await self.execute(query)
+
+        if not (await self.execute('SELECT COUNT(*) FROM categories'))[0][0]:
+            async def fill_categories_info() -> None:
+                for category, info in data.items():
+                    category_id = await self.execute('INSERT INTO categories (name, max_price, min_price) VALUES (?, ?, ?)',
+                                       (category, info.get('Максимальная цена'), info.get('Минимальная цена')))
+                    for brand in info.get('Бренды'):
+                        await self.execute('INSERT INTO categories_brands (category_id, name) VALUES (?, ?)',
+                                           (category_id, brand))
+                    for param, values in info.get('Параметры').items():
+                        param_id = await self.execute('INSERT INTO categories_params (category_id, name) VALUES (?, ?)',
+                                           (category_id, param))
+                        for value in values:
+                            await self.execute('INSERT INTO params_values (param_id, name) VALUES (?, ?)',
+                                               (param_id, value))
+            await fill_categories_info()
+
     async def execute(self, sql: str, params: Tuple = None) -> Tuple | None:
         if self.connection is None:
             await self.connect()
@@ -37,14 +154,46 @@ class DatabaseConnection:
         async with self.connection.cursor() as cursor:
             try:
                 await cursor.execute(sql, params or ())
-                await self.connection.commit()
-                return await cursor.fetchall()
             except Exception as e:
                 print(f'Ошибка выполнения запроса к базе данных: {e}')
                 await self.connection.rollback()
                 return None
+            result = await cursor.fetchall()
+            if not result or not result[0]:
+                await self.connection.commit()
+                return cursor.lastrowid
+            return result
 
     async def close(self):
         if self.connection:
             await self.connection.close()
             print('Соединение с базой данных закрыто')
+
+def add_to_db(func) -> None:
+    @functools.wraps(func)
+    async def wrapper(message: Message, *args, **kwargs):
+        db, logger = kwargs.get('db'), kwargs.get('logger')
+        chat_id = message.from_user.id
+        query = 'INSERT OR IGNORE INTO users (chat_id) VALUES (?)'
+        await db.execute(query, (chat_id,))
+        query = 'UPDATE users SET last_time_action = CURRENT_TIMESTAMP WHERE chat_id = ?'
+        await db.execute(query, (chat_id,))
+        return await func(message, *args, **kwargs)
+    return wrapper
+
+async def load_products_to_db(db: DatabaseConnection, products: list) -> list:
+    ids = []
+    for product in products:
+        prices = json.dumps({
+            'orig': product.get('orig_price'),
+            'actual': product.get('price'),
+            'discount': product.get('discount')
+        })
+        ids.append(await db.execute('INSERT INTO products (name, urls, prices, image_url) VALUES (?, ?, ?, ?)',
+                                    (
+                                        product.get('full_title'),
+                                        product.get('link'),
+                                        prices,
+                                        product.get('image')
+                                    )))
+    return ids

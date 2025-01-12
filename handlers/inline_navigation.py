@@ -1,3 +1,5 @@
+import logging
+
 from aiogram import types
 
 from utils import (format_saved_message, page_navigation_keyboard, format_history_message, products_search_result_page)
@@ -6,10 +8,12 @@ from utils.constants import SEARCH_LINES_PER_PAGE
 from . import router
 from bot import user_queries
 from utils.bot_singleton import BotSingleton
+from data import DatabaseConnection, add_to_db, load_products_to_db
 
 
 @router.callback_query(lambda call: call.data.startswith('page_saved'))
-async def saved_page_changer(callback_query: types.CallbackQuery) -> None:
+@add_to_db
+async def saved_page_changer(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     saved_products = await get_saved_products(callback_query.message.chat.id)
     _, page_type, current_page, _ = callback_query.data.split('_')
     await callback_query.message.edit_text(
@@ -19,7 +23,8 @@ async def saved_page_changer(callback_query: types.CallbackQuery) -> None:
     )
 
 @router.callback_query(lambda call: call.data.startswith('page_history'))
-async def history_page_changer(callback_query: types.CallbackQuery) -> None:
+@add_to_db
+async def history_page_changer(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     search_history = await get_search_history(callback_query.message.chat.id)
     _, page_type, current_page, _ = callback_query.data.split('_')
     await callback_query.message.edit_text(
@@ -29,7 +34,8 @@ async def history_page_changer(callback_query: types.CallbackQuery) -> None:
     )
 
 @router.callback_query(lambda call: call.data.startswith('page_search'))
-async def search_page_changer(callback_query: types.CallbackQuery) -> None:
+@add_to_db
+async def search_page_changer(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     _, _, current_page, query = callback_query.data.split('_', 3)
     current_page = int(current_page)
     user_id = callback_query.from_user.id
@@ -39,6 +45,7 @@ async def search_page_changer(callback_query: types.CallbackQuery) -> None:
         if not new_products:
             current_page = 1
         else:
+            await load_products_to_db(db, new_products)
             all_products = []
             for product in new_products:
                 all_products.append({
@@ -66,7 +73,8 @@ async def search_page_changer(callback_query: types.CallbackQuery) -> None:
     )
 
 @router.callback_query(lambda call: call.data.startswith('counter_'))
-async def page_counter(callback_query: types.CallbackQuery) -> None:
+@add_to_db
+async def page_counter(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     current_page, total_page = callback_query.data.split('_')[1].split('/')
     await callback_query.answer(
         f'Ты смотришь {current_page} страницу из {total_page}',
@@ -74,7 +82,27 @@ async def page_counter(callback_query: types.CallbackQuery) -> None:
     )
 
 @router.callback_query(lambda call: call.data.startswith('saved_'))
-async def change_saved_status(callback_query: types.CallbackQuery) -> None:
-    await callback_query.answer(
-        f'Товар {callback_query.data.split("_")[1]} добавлен в избранное'
-    )
+@add_to_db
+async def change_saved_status(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
+    product_id = callback_query.data.split('_')[1]
+    product_name = (await db.execute('SELECT name FROM products WHERE id = (?)', (product_id,)))[0][0]
+    chat_id = callback_query.from_user.id
+    is_saved = True
+    if isinstance(await db.execute('SELECT 1 FROM saved WHERE product_id = (?) AND chat_id = (?)',
+                     (product_id, chat_id)), int):
+        await db.execute('INSERT INTO saved (chat_id, product_id, is_saved) VALUES (?, ?, ?)',
+                         (chat_id, product_id, is_saved))
+    else:
+        is_saved = (await db.execute('''UPDATE saved 
+                            SET is_saved = NOT is_saved, change_time = CURRENT_TIMESTAMP 
+                            WHERE product_id = ? AND chat_id = ?
+                            RETURNING is_saved''',
+                         (product_id, chat_id)))[0][0]
+    if not is_saved:
+        await callback_query.answer(
+            f'Товар {product_name} добавлен в избранное'
+        )
+    else:
+        await callback_query.answer(
+            f'Товар {product_name} удалён из избранного'
+        )

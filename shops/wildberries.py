@@ -50,7 +50,7 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
     products = data.get('products')
     products_list = []
     for product in products:
-        product_info = {}
+        product_info = {'link': f'https://www.wildberries.ru/catalog/{product.get("id")}/detail.aspx'}
         brand = f'{product.get("brand")} ' if product.get('brand') else ''
         title = brand + product.get('name')
         title_32 = title[:29]

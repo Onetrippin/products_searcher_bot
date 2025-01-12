@@ -77,6 +77,7 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
         title = product.get('productTitle')
         title_32 = title[:29]
         products_list.append({
+            'link': product.get('productUrl'),
             'full_title': title,
             'title': title_32[:title_32.rfind(' ')] + '...',
             'rating': product.get('rating'),

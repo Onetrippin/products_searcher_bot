@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 from aiogram import types
 from aiogram.fsm.context import FSMContext
@@ -15,10 +16,12 @@ from utils.translator import SHOPS_NORMAL_TO_SHORT
 from bot import user_queries
 from shops import (ozon_search, wb_search, mvideo_search, rbt_search, citilink_search, eldorado_search,
                    megamarket_search, aliexpress_search, onlinetrade_search)
+from data import DatabaseConnection, add_to_db, load_products_to_db
 
 
 @router.inline_query(lambda query: True)
-async def inline_search(query: types.InlineQuery) -> None:
+@add_to_db
+async def inline_search(query: types.InlineQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     if len(query.query) < 3:
         await query.answer([types.InlineQueryResultArticle(
             id='few_characters',
@@ -51,9 +54,13 @@ async def inline_search(query: types.InlineQuery) -> None:
         else user_queries[user_id]['session']
     if user_queries[user_id]['query'][1] is not None:
         user_queries[user_id]['query'][1].cancel()
-    user_queries[user_id]['query'][1] = asyncio.create_task(send_query_with_delay(query, user_queries[user_id]['session']))
+    user_queries[user_id]['query'][1] = asyncio.create_task(send_query_with_delay(query,
+                                                                                  user_queries[user_id]['session'],
+                                                                                  logger,
+                                                                                  db))
 
-async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession) -> None:
+async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
+                                logger: logging.Logger, db: DatabaseConnection) -> None:
     await asyncio.sleep(DELAY_BETWEEN_API_REQUESTS if not query.offset else 0)
     # next_links, products = await get_search_result(query.query,
     #                                                session,
@@ -83,9 +90,12 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession)
         user_queries[query.from_user.id]['data'] = UserData(sources=sources)
         await user_queries[query.from_user.id]['data'].fill_heap()
     products = await user_queries[query.from_user.id]['data'].get_next_batch(results_per_page)
+    product_ids = await load_products_to_db(db, products)
     all_products = []
-    for product in products:
+    for i, product in enumerate(products):
         all_products.append({
+            'id': str(product_ids[i]),
+            'link': product.get('link'),
             'product_name': product.get('title'),
             'product_full_name': product.get('full_title'),
             'best_price': product.get('price'),
@@ -121,13 +131,13 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession)
     end_index = min(results_per_page, len(products))
     for i in range(start_index, end_index):
         results.append(types.InlineQueryResultArticle(
-            id=str(i),
+            id=all_products[i]['id'],
             title=all_products[i]['product_name'],
             input_message_content=types.InputTextMessageContent(
                 message_text=product_page(all_products[i]),
                 disable_web_page_preview=True
             ),
-            reply_markup=product_page_keyboard(query.from_user.id, all_products[i]['product_name']),
+            reply_markup=product_page_keyboard(query.from_user.id, all_products[i]['id']),
             description=f'Лучшая цена {all_products[i]["best_price"]} в магазине {all_products[i]["best_price_shop"]}',
             thumbnail_url=all_products[i]['product_image'],
         ))
@@ -139,7 +149,8 @@ class LinkStates(StatesGroup):
     waiting_for_link = State()
 
 @router.callback_query(lambda call: call.data == 'link')
-async def input_link(callback_query: types.CallbackQuery, state: FSMContext) -> None:
+@add_to_db
+async def input_link(callback_query: types.CallbackQuery, state: FSMContext, logger: logging.Logger, db: DatabaseConnection) -> None:
     await callback_query.message.answer(
         link_message(),
         reply_markup=link_keyboard()
@@ -147,7 +158,8 @@ async def input_link(callback_query: types.CallbackQuery, state: FSMContext) -> 
     await state.set_state(LinkStates.waiting_for_link)
 
 @router.message(StateFilter(LinkStates.waiting_for_link))
-async def handle_link(message: types.Message, state: FSMContext) -> None:
+@add_to_db
+async def handle_link(message: types.Message, state: FSMContext, logger: logging.Logger, db: DatabaseConnection) -> None:
     if message.text.lower() == "отменить ввод":
         await message.answer(
             'Ввод ссылки отменён',

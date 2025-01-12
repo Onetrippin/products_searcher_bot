@@ -1,6 +1,7 @@
 import os
 import asyncio
 from asyncio import WindowsSelectorEventLoopPolicy
+import logging
 import http.server
 import socketserver
 
@@ -11,7 +12,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums.parse_mode import ParseMode
 
 from data import DatabaseConnection
-from data import DatabaseMiddleware
+from data import LoggerAndDatabaseMiddleware
 from handlers import router
 from utils.bot_singleton import BotSingleton
 
@@ -55,20 +56,28 @@ async def main() -> None:
     print('Бот запущен')
     db_instance = DatabaseConnection.get_instance('database.db')
     await db_instance.connect()
-    dp.update.middleware(DatabaseMiddleware(db_instance))
+    await db_instance.create_tables()
+    logger = await create_logger()
+    dp.update.middleware(LoggerAndDatabaseMiddleware(logger, db_instance))
     print('Бот готов пахать')
     try:
         await dp.start_polling(bot)
     finally:
         await db_instance.close()
 
+async def create_logger():
+    logger = logging.getLogger('bot')
+    logger.setLevel(logging.INFO)
+    ch = logging.StreamHandler()
+    ch.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    logger.addHandler(ch)
+    return logger
+
 def start_server() -> None:
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", PORT), handler) as httpd:
         print(f"Сервер запущен на http://localhost:{PORT}")
         httpd.serve_forever()
-
-
 
 async def start() -> None:
     bot_task = asyncio.create_task(main())

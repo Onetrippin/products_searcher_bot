@@ -65,6 +65,7 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
         return [], 0
     products_list = []
     for i in range(len(products_info)):
+        link = f'{url[:-1]}{products_info[i].css_first("a").attributes.get("href")}'
         title = products_info[i].css('div.indexGoods__item__descriptionCover')[1].css_first('a').text(deep=True).strip()
         title_32 = title[:29]
         rating = products_info[i].css_first('div.starsSVG').attrs['title'].split()[0]
@@ -77,6 +78,7 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
         except AttributeError:
             continue
         products_list.append({
+            'link': link,
             'full_title': title,
             'title': title_32[:title_32.rfind(' ')] + '...',
             'rating': rating,
