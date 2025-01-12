@@ -45,7 +45,6 @@ async def search_page_changer(callback_query: types.CallbackQuery, logger: loggi
         if not new_products:
             current_page = 1
         else:
-            print(new_products)
             await load_products_to_db(db, new_products)
             all_products = []
             for product in new_products:
@@ -85,6 +84,25 @@ async def page_counter(callback_query: types.CallbackQuery, logger: logging.Logg
 @router.callback_query(lambda call: call.data.startswith('saved_'))
 @add_to_db
 async def change_saved_status(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
-    await callback_query.answer(
-        f'Товар {callback_query.data.split("_")[1]} добавлен в избранное'
-    )
+    product_id = callback_query.data.split('_')[1]
+    product_name = (await db.execute('SELECT name FROM products WHERE id = (?)', (product_id,)))[0][0]
+    chat_id = callback_query.from_user.id
+    is_saved = True
+    if isinstance(await db.execute('SELECT 1 FROM saved WHERE product_id = (?) AND chat_id = (?)',
+                     (product_id, chat_id)), int):
+        await db.execute('INSERT INTO saved (chat_id, product_id, is_saved) VALUES (?, ?, ?)',
+                         (chat_id, product_id, is_saved))
+    else:
+        is_saved = (await db.execute('''UPDATE saved 
+                            SET is_saved = NOT is_saved, change_time = CURRENT_TIMESTAMP 
+                            WHERE product_id = ? AND chat_id = ?
+                            RETURNING is_saved''',
+                         (product_id, chat_id)))[0][0]
+    if not is_saved:
+        await callback_query.answer(
+            f'Товар {product_name} добавлен в избранное'
+        )
+    else:
+        await callback_query.answer(
+            f'Товар {product_name} удалён из избранного'
+        )

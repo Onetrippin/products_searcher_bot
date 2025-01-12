@@ -90,10 +90,12 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
         user_queries[query.from_user.id]['data'] = UserData(sources=sources)
         await user_queries[query.from_user.id]['data'].fill_heap()
     products = await user_queries[query.from_user.id]['data'].get_next_batch(results_per_page)
-    await load_products_to_db(db, products)
+    product_ids = await load_products_to_db(db, products)
     all_products = []
-    for product in products:
+    for i, product in enumerate(products):
         all_products.append({
+            'id': str(product_ids[i]),
+            'link': product.get('link'),
             'product_name': product.get('title'),
             'product_full_name': product.get('full_title'),
             'best_price': product.get('price'),
@@ -129,13 +131,13 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
     end_index = min(results_per_page, len(products))
     for i in range(start_index, end_index):
         results.append(types.InlineQueryResultArticle(
-            id=str(i),
+            id=all_products[i]['id'],
             title=all_products[i]['product_name'],
             input_message_content=types.InputTextMessageContent(
                 message_text=product_page(all_products[i]),
                 disable_web_page_preview=True
             ),
-            reply_markup=product_page_keyboard(query.from_user.id, all_products[i]['product_name']),
+            reply_markup=product_page_keyboard(query.from_user.id, all_products[i]['id']),
             description=f'Лучшая цена {all_products[i]["best_price"]} в магазине {all_products[i]["best_price_shop"]}',
             thumbnail_url=all_products[i]['product_image'],
         ))

@@ -138,7 +138,7 @@ def product_page(product: dict) -> str:
         '\n'
         f'<b>└</b> Цена: <code>{product["best_price"]}</code> | '
         f'Магазин: <code>{product["best_price_shop"]}</code> | '
-        f'(<a href="t.me/pavel">ссылка</a>)'
+        f'(<a href="{product['link']}">ссылка</a>)'
         '\n\n'
         '📦 <b>Другие предложения</b>'
         '\n' +
@@ -156,7 +156,7 @@ def products_search_result_page(query: str, products: list) -> str:
             '\n\n'.join([f'<b><u>{products[i]["product_full_name"]}</u></b> - '
                        f'лучшая цена: <code>{products[i]["best_price"]}</code> | '
                        f'магазин: <code>{products[i]["best_price_shop"]}</code> | '
-                       f'(<a href="t.me/pavel">страница товара</a>)'for i in range(len(products))])
+                       f'(<a href="{products[i]['link']}">страница товара</a>)'for i in range(len(products))])
         )
     return (
         f'<b>Ничего не найдено по запросу: <code>{query}</code></b>'

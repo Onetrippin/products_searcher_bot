@@ -65,7 +65,8 @@ class DatabaseConnection:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 chat_id INTEGER NOT NULL UNIQUE,
                 product_id INTEGER NOT NULL,
-                added_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                change_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                is_saved BOOLEAN NOT NULL,
                 FOREIGN KEY (chat_id) REFERENCES users(chat_id),
                 FOREIGN KEY (product_id) REFERENCES products(id)
             )
@@ -180,17 +181,19 @@ def add_to_db(func) -> None:
         return await func(message, *args, **kwargs)
     return wrapper
 
-async def load_products_to_db(db: DatabaseConnection, products: list) -> None:
+async def load_products_to_db(db: DatabaseConnection, products: list) -> list:
+    ids = []
     for product in products:
         prices = json.dumps({
             'orig': product.get('orig_price'),
             'actual': product.get('price'),
             'discount': product.get('discount')
         })
-        await db.execute('INSERT INTO products (name, urls, prices, image_url) VALUES (?, ?, ?, ?)',
-                         (
-                             product.get('full_title'),
-                             product.get('link'),
-                             prices,
-                             product.get('image')
-                         ))
+        ids.append(await db.execute('INSERT INTO products (name, urls, prices, image_url) VALUES (?, ?, ?, ?)',
+                                    (
+                                        product.get('full_title'),
+                                        product.get('link'),
+                                        prices,
+                                        product.get('image')
+                                    )))
+    return ids

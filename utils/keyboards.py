@@ -57,15 +57,15 @@ def search_default_keyboard() -> InlineKeyboardMarkup:
         ]
     )
 
-def product_page_keyboard(chat_id: int, product_name: str) -> InlineKeyboardMarkup:
+def product_page_keyboard(chat_id: int, product_id: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text='Добавить в избранное', callback_data=f'saved_{product_name}')
+                InlineKeyboardButton(text='Добавить в избранное', callback_data=f'saved_{product_id}')
             ],
             [
                 InlineKeyboardButton(text='Посмотреть отзывы',
-                                     url=f'https://t.me/products_searcher_bot?start=reviews=None')
+                                     url=f'https://t.me/products_searcher_bot?start=reviews={product_id}')
             ]
         ]
     )
