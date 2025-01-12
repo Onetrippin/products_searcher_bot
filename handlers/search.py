@@ -90,7 +90,6 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
         user_queries[query.from_user.id]['data'] = UserData(sources=sources)
         await user_queries[query.from_user.id]['data'].fill_heap()
     products = await user_queries[query.from_user.id]['data'].get_next_batch(results_per_page)
-    print(products)
     await load_products_to_db(db, products)
     all_products = []
     for product in products:

@@ -1,4 +1,5 @@
 from typing import Tuple
+import json
 import functools
 
 import aiosqlite
@@ -181,11 +182,15 @@ def add_to_db(func) -> None:
 
 async def load_products_to_db(db: DatabaseConnection, products: list) -> None:
     for product in products:
-        prices = {
+        prices = json.dumps({
             'orig': product.get('orig_price'),
             'actual': product.get('price'),
             'discount': product.get('discount')
-        }
+        })
         await db.execute('INSERT INTO products (name, urls, prices, image_url) VALUES (?, ?, ?, ?)',
-                         (product.get('full_title'),
-                          product.get('')))
+                         (
+                             product.get('full_title'),
+                             product.get('link'),
+                             prices,
+                             product.get('image')
+                         ))

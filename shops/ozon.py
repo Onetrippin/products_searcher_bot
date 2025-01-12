@@ -1,6 +1,7 @@
 import json
 from typing import Tuple
 import re
+import html
 
 from curl_cffi.requests.exceptions import HTTPError
 from curl_cffi.requests import AsyncSession
@@ -95,9 +96,9 @@ async def get_products_info(products: dict) -> list:
                 product_info['price'] = int(price[0].get('text').replace(' ', '').replace('\u2009', '')[:-1].strip())
                 if len(price) > 1:
                     product_info['orig_price'] = int(price[1].get('text').replace(' ', '').replace('\u2009', '')[:-1].strip())
-                    product_info['discount'] = atom_object.get('priceV2', {}).get('discount')
+                    product_info['discount'] = atom_object.get('priceV2', {}).get('discount').replace('\u2212', '')
             elif atom_type == 'textAtom':
-                title = atom_object.get('textAtom', {}).get('text')
+                title = html.unescape(atom_object.get('textAtom', {}).get('text'))
                 title_32 = re.sub(r'&#[xX]?[0-9a-fA-F]+;', '', title)[:29]
                 product_info['full_title'] = title
                 product_info['title'] = title_32[:title_32.rfind(' ')] + '...'
