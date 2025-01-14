@@ -3,10 +3,11 @@ from itertools import zip_longest
 from math import ceil
 
 from aiogram.types import (ReplyKeyboardMarkup, KeyboardButton,
-                           InlineKeyboardMarkup, InlineKeyboardButton)
+                           InlineKeyboardMarkup, InlineKeyboardButton, SwitchInlineQueryChosenChat)
 from aiogram.types.web_app_info import WebAppInfo
 
 from .constants import LINES_PER_PAGE, SEARCH_LINES_PER_PAGE, FILTERS
+from bot import user_queries
 
 
 def main_menu_keyboard() -> ReplyKeyboardMarkup:
@@ -44,29 +45,18 @@ def page_navigation_keyboard(page_type: str, row_count: int, current_page: int =
         ]
     )
 
-def search_default_keyboard(in_current_chat: bool = True) -> InlineKeyboardMarkup:
-    if in_current_chat:
-        return InlineKeyboardMarkup(
-            inline_keyboard=[
-                [
-                    InlineKeyboardButton(text='Поиск', switch_inline_query_current_chat=''),
-                    InlineKeyboardButton(text='Фильтры', callback_data='filters_add')
-                ],
-                [
-                    InlineKeyboardButton(text='Отправить ссылку', callback_data='link')
-                ]
-            ]
-        )
+def search_default_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
-            inline_keyboard=[
-                [
-                    InlineKeyboardButton(text='Настроить фильтры', callback_data='filters_add')
-                ],
-                [
-                    InlineKeyboardButton(text='Вернуться к поиску', switch_inline_query=''),
-                ]
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text='Поиск', switch_inline_query_current_chat=''),
+                InlineKeyboardButton(text='Фильтры', callback_data='filters_add')
+            ],
+            [
+                InlineKeyboardButton(text='Отправить ссылку', callback_data='link')
             ]
-        )
+        ]
+    )
 
 def product_page_keyboard(chat_id: int, product_id: str, product_uuid: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
@@ -103,7 +93,11 @@ def link_keyboard() -> ReplyKeyboardMarkup:
 def group_by_two(array: list) -> list:
     return [list(filter(None, group)) for group in zip_longest(*[iter(array)]*2)]
 
-def filter_keyboard(list_number: int = 1, product_filters: dict = None, any_selected: dict = False) -> InlineKeyboardMarkup:
+def filter_keyboard(list_number: int = 1,
+                    product_filters: dict = None,
+                    any_selected: dict = False,
+                    switch_chat: bool | str = None,
+                    chat_id: int = None) -> InlineKeyboardMarkup:
     inline_keyboard = []
     starting_place = (list_number - 1) * 10
     last_place = list_number * 10
@@ -125,9 +119,22 @@ def filter_keyboard(list_number: int = 1, product_filters: dict = None, any_sele
                 InlineKeyboardButton(text='➡️',
                                      callback_data=f'filters_{list_number + 1 if list_number < pages_number else 1}')
             ])
-    inline_keyboard.append([
-        InlineKeyboardButton(text='Назад', callback_data='back_to_menu')
-    ])
+    if switch_chat is None:
+        inline_keyboard.append([
+            InlineKeyboardButton(text='Назад', callback_data='back_to_menu')
+        ])
+    else:
+        query = user_queries.get(chat_id, {}).get('query', [''])[0]
+        if switch_chat == 'later':
+            pass
+        elif switch_chat:
+            inline_keyboard.append([
+                InlineKeyboardButton(text='Вернуться к поиску', switch_inline_query=query)
+            ])
+        else:
+            inline_keyboard.append([
+                InlineKeyboardButton(text='Вернуться к поиску', switch_inline_query_current_chat=query)
+            ])
     return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
 
 def filter_params_keyboard(filter_name: str, filter_params: dict, list_number: int = 1) -> InlineKeyboardMarkup:

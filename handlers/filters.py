@@ -33,6 +33,7 @@ async def params_counter(callback_query: types.CallbackQuery, logger: logging.Lo
 async def filters_command_handler(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     filters = user_queries.setdefault(callback_query.from_user.id, {}).setdefault('filters', get_formatted_filter(FILTERS))
     any_selected = get_formatted_any_selected(filters)
+    user_queries.setdefault(callback_query.from_user.id, {})['need_switch'] = None
     await callback_query.message.edit_text(
         filter_message(filters, any_selected),
         reply_markup=filter_keyboard(product_filters=filters, any_selected=any_selected)
@@ -105,10 +106,11 @@ async def back_to(callback_query: types.CallbackQuery, logger: logging.Logger, d
         filters = user_queries.setdefault(callback_query.from_user.id, {}).setdefault('filters',
                                                                                       get_formatted_filter(FILTERS))
         any_selected = get_formatted_any_selected(filters)
+        need_switch = user_queries.get(callback_query.from_user.id).get('need_switch', None)
         list_number = int(path.split('_')[1])
         await callback_query.message.edit_text(
             filter_message(filters, any_selected),
-            reply_markup=filter_keyboard(list_number, filters, any_selected)
+            reply_markup=filter_keyboard(list_number, filters, any_selected, need_switch, callback_query.from_user.id)
         )
 
 def get_formatted_filter(filter_: dict) -> dict:

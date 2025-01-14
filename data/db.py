@@ -159,7 +159,6 @@ class DatabaseConnection:
                 await self.connection.rollback()
                 return None
             result = await cursor.fetchall()
-            print(result)
             if not result or not result[0]:
                 await self.connection.commit()
                 return cursor.lastrowid

@@ -22,12 +22,13 @@ from data import DatabaseConnection, add_to_db, load_products_to_db, log_search_
 @router.inline_query(lambda query: True)
 @add_to_db
 async def inline_search(query: types.InlineQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
-    print(user_queries)
+    chat_type = query.chat_type
     if (not user_queries.get(query.from_user.id, {}).get('filters') or
             not any([data.get('any_selected') for category, data in user_queries.get(query.from_user.id, {}).get('filters', {}).items()])):
-        switch_button = types.InlineQueryResultsButton(text='Настроить фильтры', start_parameter='filters')
+        switch_button = types.InlineQueryResultsButton(text='Настроить фильтры', start_parameter=f'filters-{chat_type}')
     else:
-        switch_button = types.InlineQueryResultsButton(text='Изменить настроенные фильтры', start_parameter='filters')
+        switch_button = types.InlineQueryResultsButton(text='Изменить настроенные фильтры', start_parameter=f'filters-{chat_type}')
+    user_queries.setdefault(query.from_user.id, {})['need_switch'] = None
     if len(query.query) < 3:
         await query.answer(
             results=[
