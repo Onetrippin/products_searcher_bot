@@ -16,35 +16,54 @@ from utils.translator import SHOPS_NORMAL_TO_SHORT
 from bot import user_queries
 from shops import (ozon_search, wb_search, mvideo_search, rbt_search, citilink_search, eldorado_search,
                    megamarket_search, aliexpress_search, onlinetrade_search)
-from data import DatabaseConnection, add_to_db, load_products_to_db
+from data import DatabaseConnection, add_to_db, load_products_to_db, log_search_and_product_view
 
 
 @router.inline_query(lambda query: True)
 @add_to_db
 async def inline_search(query: types.InlineQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
+    print(user_queries)
+    if (not user_queries.get(query.from_user.id, {}).get('filters') or
+            not any([data.get('any_selected') for category, data in user_queries.get(query.from_user.id, {}).get('filters', {}).items()])):
+        switch_button = types.InlineQueryResultsButton(text='Настроить фильтры', start_parameter='filters')
+    else:
+        switch_button = types.InlineQueryResultsButton(text='Изменить настроенные фильтры', start_parameter='filters')
     if len(query.query) < 3:
-        await query.answer([types.InlineQueryResultArticle(
-            id='few_characters',
-            title='Подсказка',
-            input_message_content=types.InputTextMessageContent(
-                message_text='Для начала поиска введи <b>хотя бы 3</b> символа',
-                disable_web_page_preview=True
-            ),
-            description='Для начала поиска введи хотя бы 3 символа',
-            thumbnail_url='https://img.icons8.com/?size=100&id=63684&format=png&color=000000',
-        )])
+        await query.answer(
+            results=[
+                types.InlineQueryResultArticle(
+                    id='few_characters',
+                    title='Подсказка',
+                    input_message_content=types.InputTextMessageContent(
+                        message_text='Для начала поиска введи <b>хотя бы 3</b> символа',
+                        disable_web_page_preview=True
+                    ),
+                    description='Для начала поиска введи хотя бы 3 символа',
+                    thumbnail_url='https://img.icons8.com/?size=100&id=63684&format=png&color=000000',
+                    button=switch_button
+                )
+            ],
+            cache_time=15,
+            button=switch_button
+        )
         return
     elif len(query.query) > 70:
-        await query.answer([types.InlineQueryResultArticle(
-            id='many_characters',
-            title='Подсказка',
-            input_message_content=types.InputTextMessageContent(
-                message_text='<b>Слишком длинный</b> запрос, ищи более конкретно',
-                disable_web_page_preview=True
-            ),
-            description='Слишком длинный запрос, ищи более конкретно',
-            thumbnail_url='https://img.icons8.com/?size=100&id=63684&format=png&color=000000',
-        )])
+        await query.answer(
+            results=[
+                types.InlineQueryResultArticle(
+                    id='many_characters',
+                    title='Подсказка',
+                    input_message_content=types.InputTextMessageContent(
+                        message_text='<b>Слишком длинный</b> запрос, ищи более конкретно',
+                        disable_web_page_preview=True
+                    ),
+                    description='Слишком длинный запрос, ищи более конкретно',
+                    thumbnail_url='https://img.icons8.com/?size=100&id=63684&format=png&color=000000'
+                )
+            ],
+            cache_time=15,
+            button=switch_button
+        )
         return
     user_id = query.from_user.id
     new_query = query.query
@@ -56,10 +75,11 @@ async def inline_search(query: types.InlineQuery, logger: logging.Logger, db: Da
         user_queries[user_id]['query'][1].cancel()
     user_queries[user_id]['query'][1] = asyncio.create_task(send_query_with_delay(query,
                                                                                   user_queries[user_id]['session'],
+                                                                                  switch_button,
                                                                                   logger,
                                                                                   db))
 
-async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
+async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession, switch_button: types.InlineQueryResultsButton,
                                 logger: logging.Logger, db: DatabaseConnection) -> None:
     await asyncio.sleep(DELAY_BETWEEN_API_REQUESTS if not query.offset else 0)
     # next_links, products = await get_search_result(query.query,
@@ -90,20 +110,21 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
         user_queries[query.from_user.id]['data'] = UserData(sources=sources)
         await user_queries[query.from_user.id]['data'].fill_heap()
     products = await user_queries[query.from_user.id]['data'].get_next_batch(results_per_page)
-    product_ids = await load_products_to_db(db, products)
+    product_ids, product_uuids = await load_products_to_db(db, products)
     all_products = []
     for i, product in enumerate(products):
         all_products.append({
             'id': str(product_ids[i]),
+            'uuid': product_uuids[i],
             'link': product.get('link'),
             'product_name': product.get('title'),
             'product_full_name': product.get('full_title'),
             'best_price': product.get('price'),
             'best_price_shop': product.get('shop'),
             'product_image': product.get('image'),
-            'all_offers': [{'price': 0, 'shop': None},
-                           {'price': 0, 'shop': None},
-                           {'price': 0, 'shop': None}]
+            'all_offers': [{'price': 39682, 'shop': 'Wildberries'},
+                           {'price': 40002, 'shop': 'Wildberries'},
+                           {'price': 40142, 'shop': 'Wildberries'}]
         })
     user_queries[query.from_user.id]['now_products'] = user_queries[query.from_user.id].setdefault('now_products', [])
     if user_queries[query.from_user.id]['now_products'] and current_page == 0:
@@ -137,12 +158,27 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
                 message_text=product_page(all_products[i]),
                 disable_web_page_preview=True
             ),
-            reply_markup=product_page_keyboard(query.from_user.id, all_products[i]['id']),
+            reply_markup=product_page_keyboard(query.from_user.id, all_products[i]['id'], all_products[i]['uuid']),
             description=f'Лучшая цена {all_products[i]["best_price"]} в магазине {all_products[i]["best_price_shop"]}',
             thumbnail_url=all_products[i]['product_image'],
         ))
     next_offset = current_page + 1
-    await query.answer(results, next_offset=str(next_offset), cache_time=0)
+    await query.answer(results,
+                       next_offset=str(next_offset),
+                       cache_time=15,
+                       is_personal=True,
+                       button=switch_button
+                       )
+
+@router.chosen_inline_result(lambda result: result.result_id not in ['few_characters', 'many_characters'])
+async def chosen_result_handler(chosen_result: types.ChosenInlineResult, logger: logging.Logger, db: DatabaseConnection):
+    chat_id = chosen_result.from_user.id
+    result_id = chosen_result.result_id
+    logger.debug(f'я задетектил {result_id}')
+    if result_id == 'search':
+        await log_search_and_product_view(db, chat_id, 'search', chosen_result.query)
+    else:
+        await log_search_and_product_view(db, chat_id, 'product', result_id)
 
 
 class LinkStates(StatesGroup):

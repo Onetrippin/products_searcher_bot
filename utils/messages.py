@@ -96,7 +96,7 @@ def format_saved_message(saved_products: list, page_number: str = '1') -> str:
             f'🌟 <code>{saved_products[i]["product_name"]}</code> | '
             f'<b>Последняя цена</b>: <code>{saved_products[i]["price"]}</code> | '
             f'<b>Магазин</b>: <code>{saved_products[i]["shop"]}</code> '
-            f'<b>(<a href="t.me/pavel">страница товара</a>)</b>'
+            f'<b>(<a href="{saved_products[i]['link']}">страница товара</a>)</b>'
             for i in range(((int(page_number) - 1) * LINES_PER_PAGE),
                            min(int(page_number) * LINES_PER_PAGE, len(saved_products)))
         ])
@@ -109,14 +109,14 @@ def format_history_message(search_history: list, page_number: str = '1') -> str:
         '\n\n'.join([
             f'🔎 <i><b><u>Поиск</u></b> ➜ '
             f'<code>{search_history[i]["input_string"]}</code> '
-            f'<b>(<a href="t.me/pavel">искать снова</a>)</b></i>'
+            f'<b>(<a href="{search_history[i]['link']}">искать снова</a>)</b></i>'
             if search_history[i].get("input_string")
             else
             f'🛒 <b><u>Товар</u></b> ➜ '
             f'<code>{search_history[i]["product_name"]}</code> | '
             f'<b>Цена</b>: <code>{search_history[i]["price"]}</code> | '
             f'<b>Магазин</b>: <code>{search_history[i]["shop"]}</code> '
-            f'<b>(<a href="t.me/pavel">страница товара</a>)</b>'
+            f'<b>(<a href="{search_history[i]['link']}">страница товара</a>)</b>'
             for i in range(((int(page_number) - 1) * LINES_PER_PAGE),
                            min(int(page_number) * LINES_PER_PAGE, len(search_history)))
         ])

@@ -67,7 +67,7 @@ async def main() -> None:
 
 async def create_logger():
     logger = logging.getLogger('bot')
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
     ch = logging.StreamHandler()
     ch.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
     logger.addHandler(ch)

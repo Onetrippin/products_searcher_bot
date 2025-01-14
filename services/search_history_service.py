@@ -1,4 +1,7 @@
+import json
+
 from data import DatabaseConnection
+from utils.constants import LINES_PER_PAGE
 
 
 # async def get_search_history(chat_id: int) -> list:
@@ -66,23 +69,29 @@ from data import DatabaseConnection
 #     return search_history
 
 async def get_search_history(db: DatabaseConnection, chat_id: int) -> list:
-    query = '''SELECT type, search_query, filters, product_id, product_name, product_price, product_shop FROM history 
-               WHERE chat_id = ?'''
+    query = '''SELECT type, search_query FROM history
+               WHERE chat_id = ?
+               ORDER BY id DESC'''
     results = await db.execute(query, (chat_id,))
+    if not results:
+        return []
     history_results = []
     for result in results:
         if result[0] == 'product':
+            product_uuid, product_name, product_shop, actual_price = (
+                await db.execute('SELECT uuid, name, shop, actual_price FROM products WHERE id = ?',
+                                 (result[1],)))[0]
             history_results.append(
                 {
-                    'product_name': results[4],
-                    'price': results[5],
-                    'shop': results[6],
-                    'product_id': results[3]
+                    'product_name': product_name,
+                    'price': actual_price,
+                    'shop': product_shop,
+                    'link': f'https://t.me/products_searcher_bot?start=product_page={product_uuid}'
                 })
         else:
             history_results.append(
                 {
-                    'input_string': results[1],
-                    'filters': results[2]
+                    'input_string': result[1],
+                    'link': f'https://t.me/products_searcher_bot?start=search=1'
                 })
     return history_results

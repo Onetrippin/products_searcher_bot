@@ -14,7 +14,7 @@ from data import DatabaseConnection, add_to_db, load_products_to_db
 @router.callback_query(lambda call: call.data.startswith('page_saved'))
 @add_to_db
 async def saved_page_changer(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
-    saved_products = await get_saved_products(callback_query.message.chat.id)
+    saved_products = await get_saved_products(db, callback_query.message.chat.id)
     _, page_type, current_page, _ = callback_query.data.split('_')
     await callback_query.message.edit_text(
         format_saved_message(saved_products, current_page),
@@ -25,8 +25,8 @@ async def saved_page_changer(callback_query: types.CallbackQuery, logger: loggin
 @router.callback_query(lambda call: call.data.startswith('page_history'))
 @add_to_db
 async def history_page_changer(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
-    search_history = await get_search_history(callback_query.message.chat.id)
     _, page_type, current_page, _ = callback_query.data.split('_')
+    search_history = await get_search_history(db, callback_query.message.chat.id)
     await callback_query.message.edit_text(
         format_history_message(search_history, current_page),
         reply_markup=page_navigation_keyboard(page_type, len(search_history), int(current_page)),
@@ -45,10 +45,11 @@ async def search_page_changer(callback_query: types.CallbackQuery, logger: loggi
         if not new_products:
             current_page = 1
         else:
-            await load_products_to_db(db, new_products)
+            _, product_uuids = await load_products_to_db(db, new_products)
             all_products = []
-            for product in new_products:
+            for i, product in enumerate(new_products):
                 all_products.append({
+                    'product_uuid': product_uuids[i],
                     'product_name': product.get('title'),
                     'product_full_name': product.get('full_title'),
                     'best_price': product.get('price'),
@@ -98,11 +99,11 @@ async def change_saved_status(callback_query: types.CallbackQuery, logger: loggi
                             WHERE product_id = ? AND chat_id = ?
                             RETURNING is_saved''',
                          (product_id, chat_id)))[0][0]
-    if not is_saved:
+    if is_saved:
         await callback_query.answer(
-            f'Товар {product_name} добавлен в избранное'
+            f'Товар {product_name[:173]} добавлен в избранное'
         )
     else:
         await callback_query.answer(
-            f'Товар {product_name} удалён из избранного'
+            f'Товар {product_name[:173]} удалён из избранного'
         )

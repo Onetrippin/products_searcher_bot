@@ -1,6 +1,7 @@
 from typing import Tuple
 import json
 import functools
+import uuid
 
 import aiosqlite
 from aiogram.types import Message
@@ -48,22 +49,18 @@ class DatabaseConnection:
             '''
             CREATE TABLE IF NOT EXISTS history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                chat_id INTEGER NOT NULL UNIQUE,
+                chat_id INTEGER NOT NULL,
                 type TEXT NOT NULL,
                 time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 search_query TEXT,
                 filters TEXT,
-                product_id INTEGER,
-                product_name TEXT,
-                product_price REAL,
-                product_shop TEXT,
                 FOREIGN KEY (chat_id) REFERENCES users(chat_id)
             )
             ''',
             '''
             CREATE TABLE IF NOT EXISTS saved (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                chat_id INTEGER NOT NULL UNIQUE,
+                chat_id INTEGER NOT NULL,
                 product_id INTEGER NOT NULL,
                 change_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 is_saved BOOLEAN NOT NULL,
@@ -113,11 +110,14 @@ class DatabaseConnection:
             '''
             CREATE TABLE IF NOT EXISTS products (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                uuid TEXT UNIQUE NOT NULL,
                 name TEXT NOT NULL,
                 description TEXT,
                 category_id INTEGER,
-                urls TEXT NOT NULL,
-                prices TEXT NOT NULL,
+                shop TEXT NOT NULL,
+                url TEXT NOT NULL,
+                old_price REAL,
+                actual_price REAL NOT NULL,
                 image_url TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 last_check_time TIMESTAMP,
@@ -159,6 +159,7 @@ class DatabaseConnection:
                 await self.connection.rollback()
                 return None
             result = await cursor.fetchall()
+            print(result)
             if not result or not result[0]:
                 await self.connection.commit()
                 return cursor.lastrowid
@@ -181,19 +182,24 @@ def add_to_db(func) -> None:
         return await func(message, *args, **kwargs)
     return wrapper
 
-async def load_products_to_db(db: DatabaseConnection, products: list) -> list:
+async def load_products_to_db(db: DatabaseConnection, products: list) -> Tuple[list, list]:
     ids = []
+    uuids = []
     for product in products:
-        prices = json.dumps({
-            'orig': product.get('orig_price'),
-            'actual': product.get('price'),
-            'discount': product.get('discount')
-        })
-        ids.append(await db.execute('INSERT INTO products (name, urls, prices, image_url) VALUES (?, ?, ?, ?)',
+        product_uuid = str(uuid.uuid4())
+        uuids.append(product_uuid)
+        ids.append(await db.execute('INSERT INTO products (uuid, name, shop, url, old_price, actual_price, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)',
                                     (
+                                        product_uuid,
                                         product.get('full_title'),
+                                        product.get('shop'),
                                         product.get('link'),
-                                        prices,
+                                        product.get('orig_price'),
+                                        product.get('price'),
                                         product.get('image')
                                     )))
-    return ids
+    return ids, uuids
+
+async def log_search_and_product_view(db: DatabaseConnection, chat_id: int,  type_: str, data_: str) -> None:
+    await db.execute('INSERT INTO history (chat_id, type, search_query) VALUES (?, ?, ?)',
+                         (chat_id, type_, data_))

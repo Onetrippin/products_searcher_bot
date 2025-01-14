@@ -44,20 +44,31 @@ def page_navigation_keyboard(page_type: str, row_count: int, current_page: int =
         ]
     )
 
-def search_default_keyboard() -> InlineKeyboardMarkup:
-    return InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(text='Поиск', switch_inline_query_current_chat=''),
-                InlineKeyboardButton(text='Фильтры', callback_data='filters_add')
-            ],
-            [
-                InlineKeyboardButton(text='Отправить ссылку', callback_data='link')
+def search_default_keyboard(in_current_chat: bool = True) -> InlineKeyboardMarkup:
+    if in_current_chat:
+        return InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(text='Поиск', switch_inline_query_current_chat=''),
+                    InlineKeyboardButton(text='Фильтры', callback_data='filters_add')
+                ],
+                [
+                    InlineKeyboardButton(text='Отправить ссылку', callback_data='link')
+                ]
             ]
-        ]
-    )
+        )
+    return InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(text='Настроить фильтры', callback_data='filters_add')
+                ],
+                [
+                    InlineKeyboardButton(text='Вернуться к поиску', switch_inline_query=''),
+                ]
+            ]
+        )
 
-def product_page_keyboard(chat_id: int, product_id: str) -> InlineKeyboardMarkup:
+def product_page_keyboard(chat_id: int, product_id: str, product_uuid: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
@@ -65,7 +76,7 @@ def product_page_keyboard(chat_id: int, product_id: str) -> InlineKeyboardMarkup
             ],
             [
                 InlineKeyboardButton(text='Посмотреть отзывы',
-                                     url=f'https://t.me/products_searcher_bot?start=reviews={product_id}')
+                                     url=f'https://t.me/products_searcher_bot?start=reviews={product_uuid}')
             ]
         ]
     )
