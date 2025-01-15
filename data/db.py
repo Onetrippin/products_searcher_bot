@@ -49,6 +49,7 @@ class DatabaseConnection:
             '''
             CREATE TABLE IF NOT EXISTS history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                uuid TEXT NOT NULL,
                 chat_id INTEGER NOT NULL,
                 type TEXT NOT NULL,
                 time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -79,8 +80,8 @@ class DatabaseConnection:
             CREATE TABLE IF NOT EXISTS categories (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
-                max_price REAL NOT NULL,
-                min_price REAL NOT NULL
+                max_price INTEGER NOT NULL,
+                min_price INTEGER NOT NULL
             )
             ''',
             '''
@@ -116,8 +117,8 @@ class DatabaseConnection:
                 category_id INTEGER,
                 shop TEXT NOT NULL,
                 url TEXT NOT NULL,
-                old_price REAL,
-                actual_price REAL NOT NULL,
+                old_price INTEGER,
+                actual_price INTEGER NOT NULL,
                 image_url TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 last_check_time TIMESTAMP,
@@ -200,5 +201,6 @@ async def load_products_to_db(db: DatabaseConnection, products: list) -> Tuple[l
     return ids, uuids
 
 async def log_search_and_product_view(db: DatabaseConnection, chat_id: int,  type_: str, data_: str) -> None:
-    await db.execute('INSERT INTO history (chat_id, type, search_query) VALUES (?, ?, ?)',
-                         (chat_id, type_, data_))
+    result_uuid = str(uuid.uuid4())
+    await db.execute('INSERT INTO history (uuid, chat_id, type, search_query) VALUES (?, ?, ?, ?)',
+                         (result_uuid, chat_id, type_, data_))

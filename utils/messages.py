@@ -99,7 +99,7 @@ def format_saved_message(saved_products: list, page_number: str = '1') -> str:
             f'<b>(<a href="{saved_products[i]['link']}">страница товара</a>)</b>'
             for i in range(((int(page_number) - 1) * LINES_PER_PAGE),
                            min(int(page_number) * LINES_PER_PAGE, len(saved_products)))
-        ])
+        ]) if saved_products else '<b><i>Ты ещё ничего не добавил в избранное</i></b>'
     )
 
 def format_history_message(search_history: list, page_number: str = '1') -> str:
@@ -119,7 +119,7 @@ def format_history_message(search_history: list, page_number: str = '1') -> str:
             f'<b>(<a href="{search_history[i]['link']}">страница товара</a>)</b>'
             for i in range(((int(page_number) - 1) * LINES_PER_PAGE),
                            min(int(page_number) * LINES_PER_PAGE, len(search_history)))
-        ])
+        ]) if search_history else f'<b><i>Ты ещё ничего не искал</i></b>'
     )
 
 def search_message() -> str:
@@ -156,7 +156,7 @@ def products_search_result_page(query: str, products: list) -> str:
             '\n\n'.join([f'<b><u>{products[i]["product_full_name"]}</u></b> - '
                        f'лучшая цена: <code>{products[i]["best_price"]}</code> | '
                        f'магазин: <code>{products[i]["best_price_shop"]}</code> | '
-                       f'(<a href="{products[i]['link']}">страница товара</a>)'for i in range(len(products))])
+                       f'(<a href="{products[i]['page_link']}">страница товара</a>)'for i in range(len(products))])
         )
     return (
         f'<b>Ничего не найдено по запросу: <code>{query}</code></b>'

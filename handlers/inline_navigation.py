@@ -49,7 +49,10 @@ async def search_page_changer(callback_query: types.CallbackQuery, logger: loggi
             all_products = []
             for i, product in enumerate(new_products):
                 all_products.append({
-                    'product_uuid': product_uuids[i],
+                    'id': product_uuids[i],
+                    'uuid': product_uuids[i],
+                    'link': product.get('link'),
+                    'page_link': f'https://t.me/product_searcher_bot?start=product_page={product_uuids[i]}',
                     'product_name': product.get('title'),
                     'product_full_name': product.get('full_title'),
                     'best_price': product.get('price'),

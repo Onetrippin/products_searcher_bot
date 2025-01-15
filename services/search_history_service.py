@@ -69,18 +69,18 @@ from utils.constants import LINES_PER_PAGE
 #     return search_history
 
 async def get_search_history(db: DatabaseConnection, chat_id: int) -> list:
-    query = '''SELECT type, search_query FROM history
+    query = '''SELECT uuid, type, search_query FROM history
                WHERE chat_id = ?
                ORDER BY id DESC'''
     results = await db.execute(query, (chat_id,))
-    if not results:
+    if not results or isinstance(results, int):
         return []
     history_results = []
     for result in results:
-        if result[0] == 'product':
+        if result[1] == 'product':
             product_uuid, product_name, product_shop, actual_price = (
                 await db.execute('SELECT uuid, name, shop, actual_price FROM products WHERE id = ?',
-                                 (result[1],)))[0]
+                                 (result[2],)))[0]
             history_results.append(
                 {
                     'product_name': product_name,
@@ -91,7 +91,7 @@ async def get_search_history(db: DatabaseConnection, chat_id: int) -> list:
         else:
             history_results.append(
                 {
-                    'input_string': result[1],
-                    'link': f'https://t.me/products_searcher_bot?start=search=1'
+                    'input_string': result[2],
+                    'link': f'https://t.me/products_searcher_bot?start=search={result[0]}'
                 })
     return history_results

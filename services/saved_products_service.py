@@ -44,7 +44,7 @@ from data import DatabaseConnection
 async def get_saved_products(db: DatabaseConnection, chat_id: int) -> list:
     query = 'SELECT product_id FROM saved WHERE chat_id = ? AND is_saved = ?'
     product_ids = (await db.execute(query, (chat_id, True)))
-    if not product_ids:
+    if not product_ids or isinstance(product_ids, int):
         return []
     placeholders = ', '.join('?' for _ in product_ids)
     product_ids = tuple(product_id[0] for product_id in product_ids)
