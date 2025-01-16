@@ -18,9 +18,11 @@ async def form_filters(db: DatabaseConnection, chat_id: int) -> dict:
     last_filters = await db.execute('SELECT filters FROM filters WHERE chat_id = ? ORDER BY id DESC LIMIT 1',
                                      (chat_id,))
     if isinstance(last_filters, int) or not last_filters[0]:
-        all_filters = FILTERS.copy()
-        return get_formatted_filters(all_filters)
+        return await get_default_filters()
     return json.loads(last_filters[0][0])
+
+async def get_default_filters() -> dict:
+    return get_formatted_filters(FILTERS.copy())
 
 async def get_filters_by_product_type(db: DatabaseConnection, product_type: str) -> dict:
     all_filters = ADDITIONAL_FILTERS.copy()

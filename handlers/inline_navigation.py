@@ -1,15 +1,16 @@
+import json
 import logging
 
 from aiogram import types
 
 from utils import (format_saved_message, page_navigation_keyboard, format_history_message, products_search_result_page,
                    product_page_keyboard)
-from services import get_search_history, get_saved_products
+from services import get_search_history, get_saved_products, get_default_filters
 from utils.constants import SEARCH_LINES_PER_PAGE
 from . import router
 from bot import user_queries
 from utils.bot_singleton import BotSingleton
-from data import DatabaseConnection, add_to_db, load_products_to_db
+from data import DatabaseConnection, add_to_db, load_products_to_db, log_filters
 
 
 @router.callback_query(lambda call: call.data.startswith('page_saved'))
@@ -116,3 +117,21 @@ async def change_saved_status(callback_query: types.CallbackQuery, logger: loggi
         inline_message_id=callback_query.inline_message_id,
         reply_markup=product_page_keyboard(chat_id, product_id, product_uuid, is_saved)
     )
+
+@router.callback_query(lambda call: call.data.startswith('reset_filters'))
+@add_to_db
+async def reset_filters(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
+    data = callback_query.data.split('_')
+    chat_id = callback_query.from_user.id
+    if len(data) <= 2:
+        user_queries[chat_id]['filters'] = await get_default_filters()
+    else:
+        filters_uuid = data[2]
+        prev_filters_str = (await db.execute('SELECT filters FROM filters WHERE uuid = ?', (filters_uuid,)))[0][0]
+        prev_filters = json.loads(prev_filters_str)
+        user_queries[chat_id]['filters'] = prev_filters
+    await log_filters(db, chat_id, user_queries.get(chat_id).get('filters'))
+    await callback_query.answer(
+        'Фильтры были заменены на предыдущие'
+    )
+    await callback_query.message.delete()

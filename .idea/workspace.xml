@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="connect filters from db + fix some bugs">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add change saved button condition + add saving filters during search">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/buttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/buttons.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/inline_navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/inline_navigation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/filters_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/filters_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/keyboards.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/messages.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,14 +95,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00023" summary="changed filters logic, but it's not working now + add files for API requests">
-      <option name="closed" value="true" />
-      <created>1729434067514</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1729434067514</updated>
     </task>
     <task id="LOCAL-00024" summary="add style">
       <option name="closed" value="true" />
@@ -485,7 +480,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736991832534</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="add change saved button condition + add saving filters during search">
+      <option name="closed" value="true" />
+      <created>1736993698281</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1736993698282</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -512,7 +515,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add megamarket parser" />
     <MESSAGE value="fix incorrect display of out-of-stock items" />
     <MESSAGE value="fix incorrect megamarket display of out-of-stock items" />
     <MESSAGE value="add aliexpress parser" />
@@ -537,7 +539,8 @@
     <MESSAGE value="many changes" />
     <MESSAGE value="add uuid for search" />
     <MESSAGE value="connect filters from db + fix some bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="connect filters from db + fix some bugs" />
+    <MESSAGE value="add change saved button condition + add saving filters during search" />
+    <option name="LAST_COMMIT_MESSAGE" value="add change saved button condition + add saving filters during search" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

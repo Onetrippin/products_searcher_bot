@@ -72,6 +72,18 @@ def product_page_keyboard(chat_id: int, product_id: str, product_uuid: str, is_s
         ]
     )
 
+def search_page_keyboard(search_query, filter_uuid: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text='Поиск', switch_inline_query_current_chat=f'{search_query}')
+            ],
+            [
+                InlineKeyboardButton(text='Вернуть фильтры', callback_data=f'reset_filters_{filter_uuid}')
+            ]
+        ]
+    )
+
 def reviews_keyboard(chat_id: int, product_name: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[

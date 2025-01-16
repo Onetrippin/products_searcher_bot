@@ -148,6 +148,15 @@ def product_page(product: dict) -> str:
                                                                                           key=lambda x: x['price']))])
     )
 
+def search_page() -> str:
+    return (
+        f'Твои текущие фильтры были <b>заменены</b> на те, которые были при указанном поиске.'
+        f'\n'
+        f'Нажми <b><i>Поиск</i></b>, чтобы выполнить поиск с этими фильтрами.'
+        f'\n\n'
+        f'<i>Для возврата предыдущих фильтров нажми на кнопку <b>Вернуть фильтры</b></i>'
+    )
+
 def products_search_result_page(query: str, products: list) -> str:
     if products:
         return (
