@@ -160,7 +160,7 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
                 message_text=product_page(all_products[i]),
                 disable_web_page_preview=True
             ),
-            reply_markup=product_page_keyboard(query.from_user.id, all_products[i]['id'], all_products[i]['uuid']),
+            reply_markup=product_page_keyboard(query.from_user.id, all_products[i]['id'], all_products[i]['uuid'], False),
             description=f'Лучшая цена {all_products[i]["best_price"]} в магазине {all_products[i]["best_price_shop"]}',
             thumbnail_url=all_products[i]['product_image'],
         ))

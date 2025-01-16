@@ -2,7 +2,8 @@ import logging
 
 from aiogram import types
 
-from utils import (format_saved_message, page_navigation_keyboard, format_history_message, products_search_result_page)
+from utils import (format_saved_message, page_navigation_keyboard, format_history_message, products_search_result_page,
+                   product_page_keyboard)
 from services import get_search_history, get_saved_products
 from utils.constants import SEARCH_LINES_PER_PAGE
 from . import router
@@ -89,7 +90,7 @@ async def page_counter(callback_query: types.CallbackQuery, logger: logging.Logg
 @add_to_db
 async def change_saved_status(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     product_id = callback_query.data.split('_')[1]
-    product_name = (await db.execute('SELECT name FROM products WHERE id = (?)', (product_id,)))[0][0]
+    product_uuid, product_name = (await db.execute('SELECT uuid, name FROM products WHERE id = (?)', (product_id,)))[0]
     chat_id = callback_query.from_user.id
     is_saved = True
     if isinstance(await db.execute('SELECT 1 FROM saved WHERE product_id = (?) AND chat_id = (?)',
@@ -110,3 +111,8 @@ async def change_saved_status(callback_query: types.CallbackQuery, logger: loggi
         await callback_query.answer(
             f'Товар {product_name[:173]} удалён из избранного'
         )
+    bot = await BotSingleton.instance()
+    await bot.edit_message_reply_markup(
+        inline_message_id=callback_query.inline_message_id,
+        reply_markup=product_page_keyboard(chat_id, product_id, product_uuid, is_saved)
+    )

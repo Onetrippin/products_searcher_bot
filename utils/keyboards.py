@@ -58,11 +58,12 @@ def search_default_keyboard() -> InlineKeyboardMarkup:
         ]
     )
 
-def product_page_keyboard(chat_id: int, product_id: str, product_uuid: str) -> InlineKeyboardMarkup:
+def product_page_keyboard(chat_id: int, product_id: str, product_uuid: str, is_saved: bool) -> InlineKeyboardMarkup:
+    saved_button_text = 'Добавить в избранное' if not is_saved else 'Удалить из избранного'
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text='Добавить в избранное', callback_data=f'saved_{product_id}')
+                InlineKeyboardButton(text=saved_button_text, callback_data=f'saved_{product_id}')
             ],
             [
                 InlineKeyboardButton(text='Посмотреть отзывы',

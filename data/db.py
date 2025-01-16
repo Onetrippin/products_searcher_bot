@@ -211,8 +211,10 @@ async def load_products_to_db(db: DatabaseConnection, products: list) -> Tuple[l
 
 async def log_search_and_product_view(db: DatabaseConnection, chat_id: int,  type_: str, data_: str) -> None:
     result_uuid = str(uuid.uuid4())
-    await db.execute('INSERT INTO history (uuid, chat_id, type, search_query) VALUES (?, ?, ?, ?)',
-                         (result_uuid, chat_id, type_, data_))
+    user_filters_uuid = (await db.execute('SELECT uuid FROM filters WHERE chat_id = ? ORDER BY id DESC LIMIT 1',
+                                    (chat_id,)))[0][0]
+    await db.execute('INSERT INTO history (uuid, chat_id, type, search_query, filters) VALUES (?, ?, ?, ?, ?)',
+                         (result_uuid, chat_id, type_, data_, user_filters_uuid))
 
 async def log_filters(db: DatabaseConnection, chat_id: int, filters: dict) -> None:
     filters_uuid = str(uuid.uuid4())
