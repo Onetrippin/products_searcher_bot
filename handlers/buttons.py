@@ -5,22 +5,23 @@ from aiogram import types, F
 from aiogram.filters import Command
 from aiogram.filters import CommandStart
 
-from data import DatabaseConnection, add_to_db, log_filters
-from services import get_search_history, get_saved_products, form_filters, get_default_filters
+from data import DatabaseConnection, add_to_db
+from services import get_search_history, get_saved_products, form_filters, load_or_set_filters
 from utils import (start_message, help_message, format_saved_message, format_history_message,
                    search_message, other_message, filter_message, search_page,
                    main_menu_keyboard, page_navigation_keyboard, search_default_keyboard,
                    product_reviews_page, reviews_keyboard, filter_keyboard)
 from utils.keyboards import search_page_keyboard
 from . import router
-from bot import user_queries
+from data.user_queries import user_queries
 from utils.bot_singleton import BotSingleton
-from .filters import get_formatted_any_selected
+from .filters import get_formatted_any_selected, is_filters_set
 
 
 @router.message(Command('help'))
 @router.message(F.text.lower() == '❓ помощь')
 @add_to_db
+@load_or_set_filters
 async def help_command_handler(message: types.Message, logger: logging.Logger, db: DatabaseConnection) -> None:
     await message.answer(
         help_message()
@@ -28,6 +29,7 @@ async def help_command_handler(message: types.Message, logger: logging.Logger, d
 
 @router.message(F.text.lower() == '⭐ избранное')
 @add_to_db
+@load_or_set_filters
 async def saved_command_handler(message: types.Message, logger: logging.Logger, db: DatabaseConnection) -> None:
     saved_products = await get_saved_products(db, message.chat.id)
     await message.answer(
@@ -38,6 +40,7 @@ async def saved_command_handler(message: types.Message, logger: logging.Logger, 
 
 @router.message(F.text.lower() == '🕒 история поиска')
 @add_to_db
+@load_or_set_filters
 async def history_command_handler(message: types.Message, logger: logging.Logger, db: DatabaseConnection) -> None:
     search_history = await get_search_history(db, message.chat.id)
     await message.answer(
@@ -48,19 +51,19 @@ async def history_command_handler(message: types.Message, logger: logging.Logger
 
 @router.message(F.text.lower() == '🔎 искать товары')
 @add_to_db
+@load_or_set_filters
 async def search_command_handler(message: types.Message, logger: logging.Logger, db: DatabaseConnection) -> None:
     await message.answer(
         search_message(),
-        reply_markup=search_default_keyboard()
+        reply_markup=search_default_keyboard(is_filters_set(message.from_user.id))
     )
 
 @router.message(CommandStart(deep_link=True))
 @add_to_db
+@load_or_set_filters
 async def deep_link_handler(message: types.Message, logger: logging.Logger, db: DatabaseConnection) -> None:
     args = message.text.split(maxsplit=1)[1]
     chat_id = message.from_user.id
-    user_queries.setdefault(chat_id, {}).setdefault('filters', await get_default_filters())
-    await log_filters(db, chat_id, user_queries.get(chat_id).get('filters'))
     if args.startswith('filters'):
         filters = user_queries.setdefault(chat_id, {}).setdefault('filters',
                                                                   await form_filters(
@@ -113,10 +116,8 @@ async def deep_link_handler(message: types.Message, logger: logging.Logger, db: 
 
 @router.message(Command('start'))
 @add_to_db
+@load_or_set_filters
 async def start_command_handler(message: types.Message, logger: logging.Logger, db: DatabaseConnection) -> None:
-    chat_id = message.from_user.id
-    user_queries.setdefault(chat_id, {}).setdefault('filters', await get_default_filters())
-    await log_filters(db, chat_id, user_queries.get(chat_id).get('filters'))
     await message.answer(
         start_message(message),
         reply_markup=main_menu_keyboard()
@@ -124,6 +125,7 @@ async def start_command_handler(message: types.Message, logger: logging.Logger, 
 
 @router.message(F.text)
 @add_to_db
+@load_or_set_filters
 async def other_message_handler(message: types.Message, logger: logging.Logger, db: DatabaseConnection) -> None:
     if not message.via_bot:
         await message.answer(

@@ -1,8 +1,11 @@
+import functools
 import json
 
+from aiogram.types import Message
+
 from utils.constants import FILTERS, ADDITIONAL_FILTERS
-from data import DatabaseConnection
-from bot import user_queries
+from data import DatabaseConnection, log_filters
+from data.user_queries import user_queries
 
 
 def get_formatted_filters(filters: dict) -> dict:
@@ -18,10 +21,10 @@ async def form_filters(db: DatabaseConnection, chat_id: int) -> dict:
     last_filters = await db.execute('SELECT filters FROM filters WHERE chat_id = ? ORDER BY id DESC LIMIT 1',
                                      (chat_id,))
     if isinstance(last_filters, int) or not last_filters[0]:
-        return await get_default_filters()
+        return get_default_filters()
     return json.loads(last_filters[0][0])
 
-async def get_default_filters() -> dict:
+def get_default_filters() -> dict:
     return get_formatted_filters(FILTERS.copy())
 
 async def get_filters_by_product_type(db: DatabaseConnection, product_type: str) -> dict:
@@ -97,3 +100,20 @@ async def actualize_filters(db: DatabaseConnection, chat_id: int, is_type_filter
             if not is_type_filter else {**{'Магазин': filters.get('Магазин'), 'Тип': filters.get('Тип')},
                                         **get_formatted_filters(all_filters)}
     user_queries[chat_id]['filters'] = filters
+
+def load_or_set_filters(func):
+    @functools.wraps(func)
+    async def wrapper(message: Message, *args, **kwargs):
+        chat_id = message.from_user.id
+        if not user_queries.get(chat_id, {}).get('filters'):
+            db, logger = kwargs.get('db'), kwargs.get('logger')
+            query = 'SELECT filters FROM filters WHERE chat_id = ? ORDER BY id DESC LIMIT 1'
+            filters_str = (await db.execute(query, (chat_id,)))[0]
+            if filters_str and not isinstance(filters_str, int):
+                filters = json.loads(filters_str[0])
+            else:
+                filters = get_default_filters()
+                await log_filters(db, chat_id, filters)
+            user_queries[chat_id]['filters'] = filters
+        return await func(message, *args, **kwargs)
+    return wrapper

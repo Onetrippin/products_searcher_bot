@@ -8,12 +8,12 @@ from aiogram.filters.state import StateFilter
 from curl_cffi.requests import AsyncSession
 
 from . import router
-from services import get_search_result, UserData, SourceManager
+from services import UserData, SourceManager, load_or_set_filters
 from utils import (product_page, product_page_keyboard, link_message, link_keyboard, main_menu_keyboard,
                    products_search_result_page, page_navigation_keyboard)
 from utils.constants import DELAY_BETWEEN_API_REQUESTS, SEARCH_LINES_PER_PAGE
 from utils.translator import SHOPS_NORMAL_TO_SHORT
-from bot import user_queries
+from data.user_queries import user_queries
 from shops import (ozon_search, wb_search, mvideo_search, rbt_search, citilink_search, eldorado_search,
                    megamarket_search, aliexpress_search, onlinetrade_search)
 from data import DatabaseConnection, add_to_db, load_products_to_db, log_search_and_product_view
@@ -21,6 +21,7 @@ from data import DatabaseConnection, add_to_db, load_products_to_db, log_search_
 
 @router.inline_query(lambda query: True)
 @add_to_db
+@load_or_set_filters
 async def inline_search(query: types.InlineQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     chat_type = query.chat_type
     if (not user_queries.get(query.from_user.id, {}).get('filters') or
@@ -188,6 +189,7 @@ class LinkStates(StatesGroup):
 
 @router.callback_query(lambda call: call.data == 'link')
 @add_to_db
+@load_or_set_filters
 async def input_link(callback_query: types.CallbackQuery, state: FSMContext, logger: logging.Logger, db: DatabaseConnection) -> None:
     await callback_query.message.answer(
         link_message(),
@@ -197,6 +199,7 @@ async def input_link(callback_query: types.CallbackQuery, state: FSMContext, log
 
 @router.message(StateFilter(LinkStates.waiting_for_link))
 @add_to_db
+@load_or_set_filters
 async def handle_link(message: types.Message, state: FSMContext, logger: logging.Logger, db: DatabaseConnection) -> None:
     if message.text.lower() == "отменить ввод":
         await message.answer(

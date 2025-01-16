@@ -7,6 +7,7 @@ import aiosqlite
 from aiogram.types import Message
 
 from .categories import data
+from .user_queries import user_queries
 
 
 class DatabaseConnection:
@@ -188,6 +189,7 @@ def add_to_db(func) -> None:
         await db.execute(query, (chat_id,))
         query = 'UPDATE users SET last_time_action = CURRENT_TIMESTAMP WHERE chat_id = ?'
         await db.execute(query, (chat_id,))
+        user_queries.setdefault(chat_id, {}).setdefault('filters', {})
         return await func(message, *args, **kwargs)
     return wrapper
 

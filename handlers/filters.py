@@ -1,20 +1,21 @@
+import json
 import logging
 
 from aiogram import types
 from aiogram.exceptions import TelegramBadRequest
 
-from services import form_filters, actualize_filters
-from utils.constants import FILTERS
+from services import form_filters, actualize_filters, get_default_filters, load_or_set_filters
 from . import router
 from utils import (filter_message, filter_keyboard,
                    search_message, search_default_keyboard,
                    filter_set_message, filter_params_keyboard)
-from bot import user_queries
+from data.user_queries import user_queries
 from data import DatabaseConnection, add_to_db, log_filters
 
 
 @router.callback_query(lambda call: call.data.startswith('filters_counter_'))
 @add_to_db
+@load_or_set_filters
 async def filter_counter(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     await callback_query.answer(
         f'Это {callback_query.data.split("_")[2]} страница фильтров',
@@ -23,6 +24,7 @@ async def filter_counter(callback_query: types.CallbackQuery, logger: logging.Lo
 
 @router.callback_query(lambda call: call.data.startswith('params_counter_'))
 @add_to_db
+@load_or_set_filters
 async def params_counter(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     await callback_query.answer(
         f'Это {callback_query.data.split("_")[2]} страница параметров фильтра',
@@ -31,6 +33,7 @@ async def params_counter(callback_query: types.CallbackQuery, logger: logging.Lo
 
 @router.callback_query(lambda call: call.data == 'filters_add')
 @add_to_db
+@load_or_set_filters
 async def filters_command_handler(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     filters = user_queries.setdefault(callback_query.from_user.id, {}).setdefault('filters',
                                                                                   await form_filters(
@@ -44,6 +47,7 @@ async def filters_command_handler(callback_query: types.CallbackQuery, logger: l
 
 @router.callback_query(lambda call: call.data.startswith('filters_set_'))
 @add_to_db
+@load_or_set_filters
 async def set_filter_page(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     params = callback_query.data.split('_')
     filter_name = params[2]
@@ -107,6 +111,7 @@ async def set_filter_page(callback_query: types.CallbackQuery, logger: logging.L
 
 @router.callback_query(lambda call: call.data.startswith('filters_'))
 @add_to_db
+@load_or_set_filters
 async def filter_navigation(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     _, list_number = callback_query.data.split('_')
     list_number = int(list_number)
@@ -119,6 +124,7 @@ async def filter_navigation(callback_query: types.CallbackQuery, logger: logging
 
 @router.callback_query(lambda call: call.data.startswith('params_'))
 @add_to_db
+@load_or_set_filters
 async def params_navigation(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     _, filter_name, list_number = callback_query.data.split('_')
     list_number = int(list_number)
@@ -131,12 +137,13 @@ async def params_navigation(callback_query: types.CallbackQuery, logger: logging
 
 @router.callback_query(lambda call: call.data.startswith('back_to_'))
 @add_to_db
+@load_or_set_filters
 async def back_to(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     path = callback_query.data.split('_', maxsplit=2)[2]
     if path == 'menu':
         await callback_query.message.edit_text(
             search_message(),
-            reply_markup=search_default_keyboard()
+            reply_markup=search_default_keyboard(is_filters_set(callback_query.from_user.id))
         )
     else: #elif path == 'filters':
         filters = user_queries.setdefault(callback_query.from_user.id, {}).setdefault('filters',
@@ -151,5 +158,45 @@ async def back_to(callback_query: types.CallbackQuery, logger: logging.Logger, d
             reply_markup=filter_keyboard(list_number, filters, any_selected, need_switch, callback_query.from_user.id)
         )
 
+@router.callback_query(lambda call: call.data.startswith('reset_filters_'))
+@add_to_db
+@load_or_set_filters
+async def reset_filters(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
+    data = callback_query.data.split('_')
+    chat_id = callback_query.from_user.id
+    if data[2].isdigit():
+        user_queries[chat_id]['filters'] = get_default_filters()
+        alert_message = 'Фильтры были сброшены'
+        filters = user_queries.get(chat_id, {}).get('filters')
+        any_selected = get_formatted_any_selected(filters)
+        try:
+            await callback_query.message.edit_text(
+                filter_message(filters, any_selected),
+                reply_markup=filter_keyboard(int(data[2]), filters, any_selected)
+            )
+        except TelegramBadRequest:
+            await callback_query.answer(
+                'Фильтры уже сброшены',
+                show_alert=True
+            )
+            return
+    else:
+        filters_uuid = data[2]
+        prev_filters_str = (await db.execute('SELECT filters FROM filters WHERE uuid = ?', (filters_uuid,)))[0][0]
+        prev_filters = json.loads(prev_filters_str)
+        user_queries[chat_id]['filters'] = prev_filters
+        await callback_query.message.delete()
+        alert_message = 'Фильтры были заменены на предыдущие'
+    await callback_query.answer(
+        text=alert_message
+    )
+    await log_filters(db, chat_id, user_queries.get(chat_id).get('filters'))
+
 def get_formatted_any_selected(filters: dict) -> dict:
     return {filter_name: info.get('any_selected') for filter_name, info in filters.items()}
+
+def is_filters_set(chat_id: int) -> bool:
+    if (user_queries.get(chat_id, {}).get('filters') and
+            user_queries.get(chat_id, {}).get('filters') != get_default_filters()):
+        return True
+    return False

@@ -7,7 +7,7 @@ from aiogram.types import (ReplyKeyboardMarkup, KeyboardButton,
 from aiogram.types.web_app_info import WebAppInfo
 
 from .constants import LINES_PER_PAGE, SEARCH_LINES_PER_PAGE, FILTERS
-from bot import user_queries
+from data.user_queries import user_queries
 
 
 def main_menu_keyboard() -> ReplyKeyboardMarkup:
@@ -45,12 +45,12 @@ def page_navigation_keyboard(page_type: str, row_count: int, current_page: int =
         ]
     )
 
-def search_default_keyboard() -> InlineKeyboardMarkup:
+def search_default_keyboard(is_filters_set: bool) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
                 InlineKeyboardButton(text='Поиск', switch_inline_query_current_chat=''),
-                InlineKeyboardButton(text='Фильтры', callback_data='filters_add')
+                InlineKeyboardButton(text=f'Фильтры{" ✅" if is_filters_set else ""}', callback_data='filters_add')
             ],
             [
                 InlineKeyboardButton(text='Отправить ссылку', callback_data='link')
@@ -132,6 +132,10 @@ def filter_keyboard(list_number: int = 1,
                 InlineKeyboardButton(text='➡️',
                                      callback_data=f'filters_{list_number + 1 if list_number < pages_number else 1}')
             ])
+    inline_keyboard.append([
+        InlineKeyboardButton(text='Сбросить фильтры',
+                             callback_data=f'reset_filters_{list_number}')
+    ])
     if switch_chat is None:
         inline_keyboard.append([
             InlineKeyboardButton(text='Назад', callback_data='back_to_menu')

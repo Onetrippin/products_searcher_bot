@@ -1,20 +1,20 @@
-import json
 import logging
 
 from aiogram import types
 
 from utils import (format_saved_message, page_navigation_keyboard, format_history_message, products_search_result_page,
                    product_page_keyboard)
-from services import get_search_history, get_saved_products, get_default_filters
+from services import get_search_history, get_saved_products, load_or_set_filters
 from utils.constants import SEARCH_LINES_PER_PAGE
 from . import router
-from bot import user_queries
+from data.user_queries import user_queries
 from utils.bot_singleton import BotSingleton
-from data import DatabaseConnection, add_to_db, load_products_to_db, log_filters
+from data import DatabaseConnection, add_to_db, load_products_to_db
 
 
 @router.callback_query(lambda call: call.data.startswith('page_saved'))
 @add_to_db
+@load_or_set_filters
 async def saved_page_changer(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     saved_products = await get_saved_products(db, callback_query.message.chat.id)
     _, page_type, current_page, _ = callback_query.data.split('_')
@@ -26,6 +26,7 @@ async def saved_page_changer(callback_query: types.CallbackQuery, logger: loggin
 
 @router.callback_query(lambda call: call.data.startswith('page_history'))
 @add_to_db
+@load_or_set_filters
 async def history_page_changer(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     _, page_type, current_page, _ = callback_query.data.split('_')
     search_history = await get_search_history(db, callback_query.message.chat.id)
@@ -37,6 +38,7 @@ async def history_page_changer(callback_query: types.CallbackQuery, logger: logg
 
 @router.callback_query(lambda call: call.data.startswith('page_search'))
 @add_to_db
+@load_or_set_filters
 async def search_page_changer(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     _, _, current_page, query = callback_query.data.split('_', 3)
     current_page = int(current_page)
@@ -80,6 +82,7 @@ async def search_page_changer(callback_query: types.CallbackQuery, logger: loggi
 
 @router.callback_query(lambda call: call.data.startswith('counter_'))
 @add_to_db
+@load_or_set_filters
 async def page_counter(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     current_page, total_page = callback_query.data.split('_')[1].split('/')
     await callback_query.answer(
@@ -89,6 +92,7 @@ async def page_counter(callback_query: types.CallbackQuery, logger: logging.Logg
 
 @router.callback_query(lambda call: call.data.startswith('saved_'))
 @add_to_db
+@load_or_set_filters
 async def change_saved_status(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
     product_id = callback_query.data.split('_')[1]
     product_uuid, product_name = (await db.execute('SELECT uuid, name FROM products WHERE id = (?)', (product_id,)))[0]
@@ -117,21 +121,3 @@ async def change_saved_status(callback_query: types.CallbackQuery, logger: loggi
         inline_message_id=callback_query.inline_message_id,
         reply_markup=product_page_keyboard(chat_id, product_id, product_uuid, is_saved)
     )
-
-@router.callback_query(lambda call: call.data.startswith('reset_filters'))
-@add_to_db
-async def reset_filters(callback_query: types.CallbackQuery, logger: logging.Logger, db: DatabaseConnection) -> None:
-    data = callback_query.data.split('_')
-    chat_id = callback_query.from_user.id
-    if len(data) <= 2:
-        user_queries[chat_id]['filters'] = await get_default_filters()
-    else:
-        filters_uuid = data[2]
-        prev_filters_str = (await db.execute('SELECT filters FROM filters WHERE uuid = ?', (filters_uuid,)))[0][0]
-        prev_filters = json.loads(prev_filters_str)
-        user_queries[chat_id]['filters'] = prev_filters
-    await log_filters(db, chat_id, user_queries.get(chat_id).get('filters'))
-    await callback_query.answer(
-        'Фильтры были заменены на предыдущие'
-    )
-    await callback_query.message.delete()
