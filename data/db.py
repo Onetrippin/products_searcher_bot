@@ -125,6 +125,15 @@ class DatabaseConnection:
                 need_check BOOLEAN DEFAULT FALSE,
                 FOREIGN KEY (category_id) REFERENCES categories(id)
             )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS filters (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                uuid TEXT UNIQUE NOT NULL,
+                chat_id INTEGER NOT NULL,
+                filters TEXT NOT NULL,
+                set_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
             '''
         ]
         for query in queries:
@@ -204,3 +213,9 @@ async def log_search_and_product_view(db: DatabaseConnection, chat_id: int,  typ
     result_uuid = str(uuid.uuid4())
     await db.execute('INSERT INTO history (uuid, chat_id, type, search_query) VALUES (?, ?, ?, ?)',
                          (result_uuid, chat_id, type_, data_))
+
+async def log_filters(db: DatabaseConnection, chat_id: int, filters: dict) -> None:
+    filters_uuid = str(uuid.uuid4())
+    filters_str = json.dumps(filters)
+    await db.execute('INSERT INTO filters (uuid, chat_id, filters) VALUES (?, ?, ?)',
+                     (filters_uuid, chat_id, filters_str))

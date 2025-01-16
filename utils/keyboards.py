@@ -108,7 +108,7 @@ def filter_keyboard(list_number: int = 1,
                 icon = ''
                 if any_selected.get(filter_name):
                     icon = ' ✅'
-                row.append(InlineKeyboardButton(text=f'{filter_name}{icon}', callback_data=f'filters_set_{filter_name}'))
+                row.append(InlineKeyboardButton(text=f'{filter_name}{icon}', callback_data=f'filters_set_{filter_name}_{list_number}'))
             inline_keyboard.append(row)
         if len(product_filters) > 10:
             pages_number = ceil((len(product_filters) + 2) / 10)
@@ -137,7 +137,10 @@ def filter_keyboard(list_number: int = 1,
             ])
     return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
 
-def filter_params_keyboard(filter_name: str, filter_params: dict, list_number: int = 1) -> InlineKeyboardMarkup:
+def filter_params_keyboard(filter_name: str,
+                           filter_params: dict,
+                           list_number: int = 1,
+                           filters_list_number: int = 1) -> InlineKeyboardMarkup:
     inline_keyboard = []
     starting_place = (list_number - 1) * 10
     last_place = list_number * 10
@@ -163,6 +166,6 @@ def filter_params_keyboard(filter_name: str, filter_params: dict, list_number: i
         InlineKeyboardButton(text='Очистить выбор', callback_data=f'filters_set_{filter_name}_clear_{list_number}'),
     ])
     inline_keyboard.append([
-        InlineKeyboardButton(text='Назад', callback_data=f'back_to_filters_{list_number}')
+        InlineKeyboardButton(text='Назад', callback_data=f'back_to_filters_{filters_list_number}')
     ])
     return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)

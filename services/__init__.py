@@ -1,3 +1,4 @@
 from .search_history_service import get_search_history
 from .saved_products_service import get_saved_products
 from .search_products_service import get_search_result, UserData, SourceManager
+from .filters_service import form_filters, actualize_filters

@@ -5,16 +5,15 @@ from aiogram.filters import Command
 from aiogram.filters import CommandStart
 
 from data import DatabaseConnection, add_to_db
-from services import get_search_history, get_saved_products
+from services import get_search_history, get_saved_products, form_filters
 from utils import (start_message, help_message, format_saved_message, format_history_message,
                    search_message, other_message, filter_message,
                    main_menu_keyboard, page_navigation_keyboard, search_default_keyboard,
                    product_reviews_page, reviews_keyboard, filter_keyboard)
-from utils.constants import FILTERS
 from . import router
 from bot import user_queries
 from utils.bot_singleton import BotSingleton
-from .filters import get_formatted_filter, get_formatted_any_selected
+from .filters import get_formatted_any_selected
 
 
 @router.message(Command('help'))
@@ -59,7 +58,9 @@ async def deep_link_handler(message: types.Message, logger: logging.Logger, db: 
     args = message.text.split(maxsplit=1)[1]
     if args.startswith('filters'):
         filters = user_queries.setdefault(message.from_user.id, {}).setdefault('filters',
-                                                                               get_formatted_filter(FILTERS))
+                                                                               await form_filters(
+                                                                                   db,
+                                                                                   message.from_user.id))
         any_selected = get_formatted_any_selected(filters)
         need_switch = False if args[8:] == 'sender' else True
         user_queries[message.from_user.id]['need_switch'] = need_switch

@@ -4,14 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="many changes">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add uuid for search">
+      <change afterPath="$PROJECT_DIR$/services/filters_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/categories.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/categories.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/inline_navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/inline_navigation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/saved_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/saved_products_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/search_history_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_history_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/messages.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/buttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/buttons.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/filters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/keyboards.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,29 +54,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
-    &quot;Python.bot.executor&quot;: &quot;Run&quot;,
-    &quot;Python.buttons.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db.executor&quot;: &quot;Run&quot;,
-    &quot;Python.eldorado.executor&quot;: &quot;Run&quot;,
-    &quot;Python.filters.executor&quot;: &quot;Run&quot;,
-    &quot;Python.inline_navigation.executor&quot;: &quot;Run&quot;,
-    &quot;Python.keyboards.executor&quot;: &quot;Run&quot;,
-    &quot;Python.megamarket.executor&quot;: &quot;Run&quot;,
-    &quot;Python.mvideo.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ozon.executor&quot;: &quot;Run&quot;,
-    &quot;Python.rbt.executor&quot;: &quot;Run&quot;,
-    &quot;Python.search.executor&quot;: &quot;Run&quot;,
-    &quot;Python.search_products_service.executor&quot;: &quot;Run&quot;,
-    &quot;Python.wildberries.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;filters&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Desktop/program/django_sprint1&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.__init__.executor": "Run",
+    "Python.bot.executor": "Run",
+    "Python.buttons.executor": "Run",
+    "Python.db.executor": "Run",
+    "Python.eldorado.executor": "Run",
+    "Python.filters.executor": "Debug",
+    "Python.inline_navigation.executor": "Run",
+    "Python.keyboards.executor": "Run",
+    "Python.megamarket.executor": "Run",
+    "Python.mvideo.executor": "Run",
+    "Python.ozon.executor": "Run",
+    "Python.rbt.executor": "Run",
+    "Python.search.executor": "Run",
+    "Python.search_products_service.executor": "Run",
+    "Python.wildberries.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "filters",
+    "last_opened_file_path": "D:/Desktop/program/django_sprint1",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\I\PycharmProjects\products_searcher_bot\services" />
@@ -94,14 +97,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00021" summary="add many functions + add filters + add link">
-      <option name="closed" value="true" />
-      <created>1728951118202</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1728951118202</updated>
     </task>
     <task id="LOCAL-00022" summary="update help message, update filters keyboard">
       <option name="closed" value="true" />
@@ -487,7 +482,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736889643333</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="add uuid for search">
+      <option name="closed" value="true" />
+      <created>1736951779587</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1736951779588</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -514,7 +517,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix RBT parser, it's working)" />
     <MESSAGE value="add eldorado parser" />
     <MESSAGE value="add megamarket parser" />
     <MESSAGE value="fix incorrect display of out-of-stock items" />
@@ -539,7 +541,8 @@
     <MESSAGE value="add loading all the products that are being searched for" />
     <MESSAGE value="add saved" />
     <MESSAGE value="many changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="many changes" />
+    <MESSAGE value="add uuid for search" />
+    <option name="LAST_COMMIT_MESSAGE" value="add uuid for search" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
