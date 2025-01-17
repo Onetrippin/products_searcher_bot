@@ -8,7 +8,7 @@ from aiogram.filters.state import StateFilter
 from curl_cffi.requests import AsyncSession
 
 from . import router
-from services import UserData, SourceManager, load_or_set_filters
+from services import UserData, SourceManager, load_or_set_filters, extract_selected_filters
 from utils import (product_page, product_page_keyboard, link_message, link_keyboard, main_menu_keyboard,
                    products_search_result_page, page_navigation_keyboard)
 from utils.constants import DELAY_BETWEEN_API_REQUESTS, SEARCH_LINES_PER_PAGE
@@ -84,24 +84,21 @@ async def inline_search(query: types.InlineQuery, logger: logging.Logger, db: Da
 async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession, switch_button: types.InlineQueryResultsButton,
                                 logger: logging.Logger, db: DatabaseConnection) -> None:
     await asyncio.sleep(DELAY_BETWEEN_API_REQUESTS if not query.offset else 0)
-    # next_links, products = await get_search_result(query.query,
-    #                                                session,
-    #                                                int(query.offset) if query.offset else 0,
-    #                                                user_queries[query.from_user.id].get('links'))
     results = []
     results_per_page = 50
     current_page = int(query.offset) if query.offset else 0
     if not query.offset:
+        filters = extract_selected_filters(query.from_user.id)
         sources = [
-            SourceManager(ozon_search, session, query.query, 'ozon'),
-            SourceManager(wb_search, session, query.query, 'wb'),
-            SourceManager(mvideo_search, session, query.query, 'mvideo'),
-            SourceManager(citilink_search, session, query.query, 'citilink'),
-            SourceManager(rbt_search, session, query.query, 'rbt'),
-            SourceManager(eldorado_search, session, query.query, 'eldorado'),
-            SourceManager(megamarket_search, session, query.query, 'megamarket'),
-            SourceManager(aliexpress_search, session, query.query, 'aliexpress'),
-            SourceManager(onlinetrade_search, session, query.query, 'onlinetrade')
+            SourceManager(ozon_search, session, query.query, 'ozon', filters),
+            SourceManager(wb_search, session, query.query, 'wb', filters),
+            SourceManager(mvideo_search, session, query.query, 'mvideo', filters),
+            SourceManager(citilink_search, session, query.query, 'citilink', filters),
+            SourceManager(rbt_search, session, query.query, 'rbt', filters),
+            SourceManager(eldorado_search, session, query.query, 'eldorado', filters),
+            SourceManager(megamarket_search, session, query.query, 'megamarket', filters),
+            SourceManager(aliexpress_search, session, query.query, 'aliexpress', filters),
+            SourceManager(onlinetrade_search, session, query.query, 'onlinetrade', filters)
         ]
         if user_queries.get(query.from_user.id, {}).get('filters', {}).get('Магазин').get('any_selected'):
             shops_filter = list(map(lambda shop_name: SHOPS_NORMAL_TO_SHORT.get(shop_name, shop_name),
@@ -145,13 +142,11 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
             reply_markup=page_navigation_keyboard('search',
                                                   len(user_queries[query.from_user.id]['now_products']),
                                                   query=query.query),
-            description='Ты увидишь все товары найденные по вводу и сможешь добавить фильтры',
+            description='Ты увидишь все товары найденные по введённому запросу',
             thumbnail_url='https://img.icons8.com/color/search',
         ))
         results_per_page -= 1
-    # start_index = current_page * results_per_page
     start_index = 0
-    # end_index = min((current_page + 1) * results_per_page, len(products))
     end_index = min(results_per_page, len(products))
     for i in range(start_index, end_index):
         results.append(types.InlineQueryResultArticle(

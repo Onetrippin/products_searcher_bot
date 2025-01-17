@@ -108,9 +108,9 @@ def load_or_set_filters(func):
         if not user_queries.get(chat_id, {}).get('filters'):
             db, logger = kwargs.get('db'), kwargs.get('logger')
             query = 'SELECT filters FROM filters WHERE chat_id = ? ORDER BY id DESC LIMIT 1'
-            filters_str = (await db.execute(query, (chat_id,)))[0]
+            filters_str = (await db.execute(query, (chat_id,)))
             if filters_str and not isinstance(filters_str, int):
-                filters = json.loads(filters_str[0])
+                filters = json.loads(filters_str[0][0])
             else:
                 filters = get_default_filters()
                 await log_filters(db, chat_id, filters)

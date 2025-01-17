@@ -2,15 +2,13 @@ data = {
     'Смартфон': {
         'Бренды': ['Apple', 'HONOR', 'HUAWEI', 'POCO', 'Samsung', 'Tecno', 'Xiaomi', 'ASUS', 'Blackview',
                    'CMF By Nothing', 'Coolpad', 'F+', 'Google', 'IIIF150', 'Infinix', 'INOI', 'itel',
-                   'KENSHI', 'Motorola', 'Nothing', 'Nubia', 'OnePlus', 'OPPO', 'Oukitel', 'realme',
-                   'Unihertz', 'Vivo', 'Wiko', 'CLEVERCEL', 'Doogee', 'IQOO', 'MEIZU', 'ULEFONE', 'Umidigi',
-                   'Black Shark', 'Nokia', 'Redmi', 'Sony', 'TCL', 'Vertex', 'ZTE', 'Irbis', 'Jinga',
-                   'Lenovo', 'Prestigio', 'LG'],
+                   'KENSHI', 'Motorola', 'Nothing', 'Nubia (ZTE)', 'OnePlus', 'OPPO', 'Oukitel', 'realme',
+                   'Unihertz', 'Vivo', 'Wiko', 'BQ', 'Doogee', 'IQOO', 'MEIZU', 'ULEFONE', 'Umidigi',
+                   'Black Shark', 'Nokia', 'Sony', 'TCL', 'Lenovo', 'LG'],
         'Параметры': {
-            'Оперативная память': ['1 ГБ', '2 ГБ', '3 ГБ', '4 ГБ', '6 ГБ', '8 ГБ', '12 ГБ', '16 ГБ', '18 ГБ', '24 ГБ', '32 ГБ'],
-            'Встроенная память': ['16 ГБ', '32 ГБ', '64 ГБ', '128 ГБ', '256 ГБ', '512 ГБ', '1 ТБ'],
-            'Аккумулятор': ['от 1 до 3999 мАч', 'от 4000 до 4499 мАч', 'от 4500 до 4999 мАч',
-                                     'от 5000 до 5499 мАч', 'от 5500 до 5999 мАч', 'от 6000 мАч'],
+            'Оперативка': ['1 ГБ', '2 ГБ', '3 ГБ', '4 ГБ', '6 ГБ', '8 ГБ', '12 ГБ', '16 ГБ', '18 ГБ', '24 ГБ', '32 ГБ'],
+            'Память': ['16 ГБ', '32 ГБ', '64 ГБ', '128 ГБ', '256 ГБ', '512 ГБ', '1 ТБ'],
+            'Аккумулятор': ['1-3999 мАч', '4000-4499 мАч', '4500-4999 мАч', '5000-5499 мАч', '5500-5999 мАч', 'от 6000 мАч'],
             'Камера': ['8 Мп', '12 Мп', '13 Мп', '16 Мп', '20 Мп', '32 Мп', '48 Мп', '50 Мп',
                                            '64 Мп', '100 Мп', '108 Мп', '180 Мп', '200 Мп'],
             'Цвет': ['бежевый', 'белый', 'голубой', 'желтый', 'зеленый', 'золотистый', 'красный', 'оранжевый',
@@ -28,14 +26,11 @@ data = {
                    'MAUNFELD', 'MEGAMAX', 'Olto', 'Philips', 'Polar', 'Premier', 'Rombica', 'Sber', 'Scoole', 'Sharp',
                    'Shivaki', 'Skyline', 'Skyworth', 'Sony', 'Soundmax', 'Starwind', 'SUPRA', 'Topdevice', 'Vekta',
                    'Vesta', 'Яндекс', 'Digma', 'Digma Pro', 'SUNWIND', 'Yuno', 'Artel', 'AVEL', 'Carrera',
-                   'Candy', 'Fusion', 'Grundig', 'Garlyn', 'Hi', 'Horizont', 'H', 'HIPER', 'HEC', 'Maibenben',
+                   'Candy', 'Fusion', 'Grundig', 'Garlyn', 'Hi', 'Horizont', 'HIPER', 'HEC', 'Maibenben',
                    'National', 'Panasonic', 'Prestigio', 'RED solution', 'realme', 'Renova', 'Schaub Lorenz', 'Thomson',
-                   'Toshiba', 'Telefunken', 'Tesla', 'Viomi', 'V-HOME', 'Витязь', 'Триколор', 'Loewe', 'Novex', 'Leran',
-                   'Doffler'],
+                   'Toshiba', 'Telefunken', 'Viomi', 'V-HOME', 'Витязь', 'Триколор', 'Doffler'],
         'Параметры': {
-            'Диагональ': ['до 31.9\'\'', 'от 32\'\' до 38.9\'\'', 'от 39\'\' до 45.9\'\'', 'от 46\'\' до 64.9\'\'',
-                                 'от 65\'\' до 74.9\'\'', 'от 75\'\''],
-            'Разрешение': ['HD (1366x768)', 'FullHD (1920x1080)', '4K UltraHD (3840x2160)', '8K UltraHD (7680x4320)'],
+            'Разрешение': ['HD', 'FullHD', '4K UltraHD', '8K UltraHD'],
             'Smart TV': ['есть'],
             'Операционка': ['Android', 'Android TV', 'Google TV', 'WebOS', 'YaOS', 'Салют ТВ', 'Tizen', 'Vidaa',
                                      'другая'],
@@ -45,19 +40,17 @@ data = {
         'Минимальная цена': 9299
     },
     'Ноутбук': {
-        'Бренды': ['Acer', 'Apple', 'ARDOR GAMING', 'ASUS', 'HONOR', 'HUAWEI', 'MSI', 'ACD', 'Acer Gadget', 'AORUS',
+        'Бренды': ['Acer', 'Apple', 'ARDOR GAMING', 'ASUS', 'HONOR', 'HUAWEI', 'MSI', 'ACD', 'AORUS',
                    'Chuwi', 'ColorFul', 'Dell', 'DEXP', 'F+', 'Gateway', 'GIGABYTE', 'Hasee', 'HIPER', 'HP', 'Infinix',
-                   'Irbis', 'IRU', 'Lenovo', 'Machcreator', 'Machenike', 'MAIBENBEN', 'Microsoft', 'OSIO', 'Razer',
-                   'Samsung', 'Tecno', 'Unchartevice', 'Xiaomi', 'Digma', 'Digma Pro', 'ECHIPS', 'HORIZONT', 'RIKOR',
+                   'Irbis', 'IRU', 'Lenovo', 'Machcreator', 'Machenike', 'Maibenben', 'Microsoft', 'OSIO', 'Razer',
+                   'Samsung', 'Tecno', 'Unchartevice', 'Xiaomi', 'Digma', 'Digma Pro', 'ECHIPS', 'Horizont', 'RIKOR',
                    'AZERTY', 'ADATA', 'Blackview', 'DREAM-MACHINES', 'Haier', 'Itel', 'KWIK', 'LYAMBDA', 'Nerpa',
-                   'Rombica', 'realme', 'Redmi', 'Sledgehammer', 'Thunderobot'],
+                   'Rombica', 'realme', 'Sledgehammer', 'Thunderobot'],
         'Параметры': {
-            'Диагональ': ['до 12.9\'\'', 'от 13\'\' до 13.9\'\'', 'от 14\'\' до 14.9\'\'',
-                                 'от 15\'\' до 15.9\'\'', 'от 16\'\' до 16.9\'\'', 'от 17\'\''],
-            'Оперативная память': ['4 ГБ', '6 ГБ', '8 ГБ', '12 ГБ', '16 ГБ', '18 ГБ', '24 ГБ', '32 ГБ', '36 ГБ', '48 ГБ',
+            'Оперативка': ['4 ГБ', '6 ГБ', '8 ГБ', '12 ГБ', '16 ГБ', '18 ГБ', '24 ГБ', '32 ГБ', '36 ГБ', '48 ГБ',
                                    '64 ГБ', '96 ГБ', '128 ГБ'],
             'Процессор': ['Intel', 'AMD', 'Apple', 'Qualcomm', 'Zhaoxin'],
-            'Тип видеокарты': ['дискретная', 'интегрированная', 'дискретная и интегрированная'],
+            'Тип видеокарты': ['дискретная', 'интегрированная'],
             'Объем SSD': ['128 ГБ', '256 ГБ', '512 ГБ', '1 ТБ', '2 ТБ', '4 ТБ'],
             'Операционка': ['без ОС', 'Windows', 'Windows (пробная)', 'macOS', 'Linux', 'FreeDOS', 'Eshell'],
             'Игровой': ['да'],
@@ -69,139 +62,118 @@ data = {
         'Минимальная цена': 17499
     },
     'Планшет': {
-        'Бренды': [],
+        'Бренды': ['Apple', 'HONOR', 'HUAWEI', 'KENSHI', 'Lenovo', 'Samsung', 'Xiaomi', 'Alcatel', 'Blackview',
+                   'DEXP', 'Digma', 'EdPad', 'Google', 'Infinix', 'INOI', 'OPPO', 'Oukitel', 'POCO', 'realme', 'TCL',
+                   'Teclast', 'Tecno', 'Acer', 'Chuwi', 'Digma Pro', 'HTC', 'itel', 'KVADRA', 'OSKAL', 'SUNWIND',
+                   'Arian', 'HIPER', 'Nokia', 'Prestigio', 'Topdevice', 'Alldocube', 'BQ', 'Doogee', 'INOI', 'Irbis'],
         'Параметры': {
-
+            'Оперативка': ['1 ГБ', '2 ГБ', '3 ГБ', '4 ГБ', '6 ГБ', '8 ГБ', '12 ГБ', '16 ГБ'],
+            'Память': ['16 ГБ', '32 ГБ', '64 ГБ', '128 ГБ', '256 ГБ', '512 ГБ', '1 ТБ', '2 ТБ'],
+            'Операционка': ['Android', 'IOS', 'HarmonyOS'],
+            'Материал корпуса': ['металл', 'пластик'],
+            'Цвет': ['черный', 'белый', 'серебристый', 'серый', 'другой']
         },
         'Максимальная цена': 357_599,
         'Минимальная цена': 2099
     },
     'Клавиатура': {
-        'Бренды': [],
+        'Бренды': ['A4Tech', 'ARDOR GAMING', 'DEXP', 'Logitech', 'Razer', 'Red Square', 'Дарк Проджект', '8BitDo',
+                   'Aceline', 'Acer', 'AKKO', 'Apple', 'ASUS', 'AULA', 'BY', 'Cougar', 'Crown', 'Dareu', 'Defender',
+                   'Dialog', 'Durgod', 'Edifier', 'ExeGate', 'FUSION', 'Gembird', 'Genius', 'Glorious', 'Harper',
+                   'HIPER', 'HyperX', 'Jet.A', 'JETACCESS', 'Keychron', 'KEYRON', 'LAMZU', 'MCHOSE', 'Montech', 'MSI',
+                   'Nuphy', 'Oklick', 'PRO LEGEND', 'QUMO', 'RAPOO', 'Redragon', 'Ritmix', 'Royal Kludge', 'Satechi',
+                   'Shurikey Gear', 'Smartbuy', 'SteelSeries', 'SVEN', 'Ugreen', 'Varmilo', 'Xiaomi', 'Гарнизон',
+                   'GMNG', 'SUNWIND', 'Accesstyle', 'BlACKZID', 'Canyon', 'Hi', 'Intro', 'Lunacy', 'Perfeo', 'Red Line',
+                   'Sonnen', 'TFN', 'Thunderobot', 'Trust', 'Ducky', 'Deppa', 'Free Wolf', 'HP', 'Havit', 'Luazon',
+                   'Microsoft', 'Marvo', 'MAD-CATZ', 'Olmio', 'Sharkoon', 'Wisebot', 'XTRFY'],
         'Параметры': {
-
+            'Цвет': ['белый', 'черный', 'серый', 'другой'],
+            'Тип': ['механическая', 'мембранная']
         },
         'Максимальная цена': 32060,
         'Минимальная цена': 299
     },
     'Мышь': {
-        'Бренды': [],
+        'Бренды': ['A4Tech', 'Acer', 'ARDOR GAMING', 'DEXP', 'LAMZU', 'Logitech', 'Razer', 'Accesstyle', 'Aceline',
+                   'Apple', 'ASUS', 'AULA', 'Baseus', 'BY', 'Canyon', 'CBR', 'Cougar', 'Crown', 'Dareu', 'Defender',
+                   'Delux', 'Dialog', 'DLED', 'Edifier', 'Energy', 'ExeGate', 'FUSION', 'Gembird', 'Genius', 'Glorious',
+                   'Harper', 'HAVIT', 'HIPER', 'HUAWEI', 'HyperX', 'Jet.A', 'JETACCESS', 'Kensington', 'Keychron',
+                   'KEYRON', 'Marvo', 'MCHOSE', 'Microsoft', 'MSI', 'Nakatomi', 'Oklick', 'Olmio', 'Pulsar', 'QUMO',
+                   'RAPOO', 'Redragon', 'Ritmix', 'Smartbuy', 'SteelSeries', 'SVEN', 'Thermaltake', 'Ugreen', 'Xiaomi',
+                   'ZDK', 'Гарнизон', 'Дарк Проджект', 'GMNG', 'Hama', 'JARVISEN', 'Lenovo', 'MAD-CATZ', 'SPEEDLINK',
+                   'SUNWIND', 'XTRFY', 'BlACKZID', 'Carrera', 'Intro', 'Lorgar', 'Lunacy', 'Perfeo', 'Red Square',
+                   'Sonnen', 'TFN', 'Thunderobot', 'Trust', 'Bootleg', 'Deppa', 'DREAM-MACHINES', 'GIGABYTE',
+                   'Hoco', 'HP', 'Lofree', 'Luazon', 'Mijia', 'QUB', 'Sharkoon', 'Windigo', 'Xtrike me', 'XPG', 'Infinix'],
         'Параметры': {
-
+            'Игровая': ['да'],
+            'Подключение': ['беспроводное', 'проводное'],
+            'Сенсор': ['оптический', 'лазерный']
         },
         'Максимальная цена': 22999,
         'Минимальная цена': 159
     },
     'Монитор': {
-        'Бренды': [],
+        'Бренды': ['ARDOR GAMING', 'ASUS', 'DEXP', 'LG', 'MSI', 'Samsung', 'Titan Army', 'Acer', 'AIWA', 'Alienware',
+                   'AOC', 'AOpen', 'AORUS', 'Apple', 'BenQ', 'CBR', 'CoolerMaster', 'Dell', 'Delta Computers', 'Digma',
+                   'ELSA', 'ExeGate', 'GIGABYTE', 'HIPER', 'Hisense', 'HP', 'HUAWEI', 'IIYAMA', 'Irbis', 'KEYRON',
+                   'Lenovo', 'Lime', 'Machenike', 'MAIBENBEN', 'Philips', 'Raskat', 'Rombica', 'Sanc', 'SunWind',
+                   'ViewSonic', 'Xiaomi', 'Zowie', 'БЕШТАУ', 'BLOODY', 'DAHUA', 'Digma Pro', 'GMNG', 'LIGHTCOM', 'NPC',
+                   'PINEBRO', 'RDW COMPUTERS', 'Гравитон', 'ABR Technology', 'Carrera', 'H', 'Irbis', 'Konka',
+                   'Thunderobot', 'CARCAM', 'Compit', 'Hikvision', 'Machcreator', 'Tesla', 'Zeuslap', 'AMCV'],
         'Параметры': {
-
+            'Игровой': ['да'],
+            'Матрица': ['IPS', 'VA', 'другое'],
+            'Изогнутый': ['да'],
+            'Цвет': ['белый', 'черный', 'серебристый', 'другой']
         },
         'Максимальная цена': 869_999,
         'Минимальная цена': 4999
     },
     'Видеокарта': {
-        'Бренды': [],
+        'Бренды': ['Asrock', 'GIGABYTE', 'KFA2', 'MSI', 'Palit', 'PowerColor', 'Sapphire', 'Acer', 'ASUS', 'ColorFul',
+                   'Gainward', 'Inno3D', 'nVidia', 'PNY', 'Zotac', 'AFOX', 'BIOSTAR', 'NINJA', 'MAXSUN', 'Sinotex'],
         'Параметры': {
-
+            'Назначение': ['игровая', 'офисная', 'профессиональная'],
+            'Процессор': ['NVIDIA', 'AMD', 'Intel'],
+            'Память': ['512 МБ', '1 ГБ', '2 ГБ', '4 ГБ', '6 ГБ', '8 ГБ', '10 ГБ', '12 ГБ', '16 ГБ', '20 ГБ',
+                            '24 ГБ', '32 ГБ'],
+            'Тип памяти': ['DDR3', 'DDR4', 'GDDR3', 'GDDR4', 'GDDR5', 'GDDR6', 'GDDR6X']
         },
         'Максимальная цена': 620_999,
         'Минимальная цена': 3110
     },
     'Процессор': {
-        'Бренды': [],
+        'Бренды': ['Intel', 'AMD'],
         'Параметры': {
+            'Сокет': ['AM4', 'AM5', 'LGA 1200', 'LGA 1700', 'LGA 1851', 'LGA 1151', 'другой'],
+            'Семейство': ['AMD Athlon', 'AMD Ryzen 3', 'AMD Ryzen 5', 'AMD Ryzen 7', 'AMD Ryzen 9', 'Intel Celeron',
+                          'Intel Pentium', 'Intel Core i3', 'Intel Core i5', 'Intel Core i7', 'Intel Core i9', 'другое'],
+            'Поколение': ['AMD Ryzen 2000', 'AMD Ryzen 3000', 'AMD Ryzen 4000', 'AMD Ryzen 5000', 'AMD Ryzen 7000',
+                          'AMD Ryzen 8000', 'AMD Ryzen 9000', 'Intel 8-е', 'Intel 9-е', 'Intel 10-е', 'Intel 11-е',
+                          'Intel 12-е', 'Intel 13-е', 'Intel 14-е', 'другое'],
 
+            'Ядра': ['2', '4', '6', '8', '10', '12', '14', '16', '20', '24', '52', '64'],
         },
         'Максимальная цена': 559_999,
         'Минимальная цена': 790
     },
-    'Игровые наушники': {
-        'Бренды': [],
+    'Наушники': {
+        'Бренды': ['JBL', 'Logitech', 'Razer', 'A4Tech', 'Aceline', 'Acer', 'ARDOR GAMING', 'ASUS', 'Black Shark',
+                   'Blackzid', 'Corsair', 'Cougar', 'Creative', 'Defender', 'Deppa', 'DEXP', 'Edifier', 'EPOS Sennheiser',
+                   'Fifine', 'Gembird', 'Harper', 'HyperX', 'MAD-CATZ', 'Microsoft', 'MSI', 'Nacon', 'Oklick', 'Panteon',
+                   'QUMO', 'Redragon', 'Sades', 'Smartbuy', 'Somic', 'Sony', 'SteelSeries', 'SVEN', 'ZONE 51', 'Дарк Проджект',
+                   'GMNG', 'Hama', 'Jabra', 'JLAB', 'KOSS', 'Panasonic', 'PLANTRONICS', 'POLY', 'Sennheiser', 'SUNWIND',
+                   'TAKSTAR', 'XPG', 'YEALINK', 'Borofone', 'By', 'Canyon', 'Carrera', 'Dareu', 'HIPER', 'Hoco',
+                   'Lorgar', 'Lunacy', 'Onikuma', 'RAPOO', 'Red Square', 'TFN', 'Thunderobor', 'Trust', 'Accesstyle',
+                   'Anker', 'Atvel', 'Bigben', 'DASWERK', 'EKSA', 'ENKOR', 'EasySMX', 'Google', 'Genius', 'GAMEMAX',
+                   'Gravastar', 'Haylou', 'Havit', 'Honor', 'Marshall', 'Marvo', 'MPOW', 'Microlab', 'Nebula',
+                   'Otl', 'OneOdio', 'Perfeo', 'PDP', 'Red Line', 'realme', 'Ritmix', 'Ugreen', 'White Shark',
+                   'Xtrike me', 'Zebronics'],
         'Параметры': {
-
+            'Подключение': ['проводное', 'беспроводное'],
+            'Цвет': ['белый', 'черный']
         },
         'Максимальная цена': 98760,
         'Минимальная цена': 399
-    },
-    'Материнская плата': {
-        'Бренды': [],
-        'Параметры': {
-
-        },
-        'Максимальная цена': 179_999,
-        'Минимальная цена': 4437
-    },
-    'Игровая консоль': {
-        'Бренды': [],
-        'Параметры': {
-
-        },
-        'Максимальная цена': 135_990,
-        'Минимальная цена': 799
-    },
-    'Смарт-часы': {
-        'Бренды': [],
-        'Параметры': {
-
-        },
-        'Максимальная цена': 282_999,
-        'Минимальная цена': 399
-    },
-    'Bluetooth колонка': {
-        'Бренды': [],
-        'Параметры': {
-
-        },
-        'Максимальная цена': 188_790,
-        'Минимальная цена': 399
-    },
-    'Электрочайник': {
-        'Бренды': [],
-        'Параметры': {
-
-        },
-        'Максимальная цена': 44900,
-        'Минимальная цена': 400
-    },
-    'Пылесос': {
-        'Бренды': [],
-        'Параметры': {
-
-        },
-        'Максимальная цена': 157_500,
-        'Минимальная цена': 399
-    },
-    'Холодильник': {
-        'Бренды': [],
-        'Параметры': {
-
-        },
-        'Максимальная цена': 599_999,
-        'Минимальная цена': 7999
-    },
-    'Стиральная машина': {
-        'Бренды': [],
-        'Параметры': {
-
-        },
-        'Максимальная цена': 719_999,
-        'Минимальная цена': 5499
-    },
-    'Микроволновка': {
-        'Бренды': [],
-        'Параметры': {
-
-        },
-        'Максимальная цена': 107_990,
-        'Минимальная цена': 4499
-    },
-    'Электрическая плита': {
-        'Бренды': [],
-        'Параметры': {
-
-        },
-        'Максимальная цена': 174_170,
-        'Минимальная цена': 13799
-    },
+    }
 }
