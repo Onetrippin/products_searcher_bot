@@ -6,7 +6,8 @@ from aiogram.types import (ReplyKeyboardMarkup, KeyboardButton,
                            InlineKeyboardMarkup, InlineKeyboardButton, SwitchInlineQueryChosenChat)
 from aiogram.types.web_app_info import WebAppInfo
 
-from .constants import LINES_PER_PAGE, SEARCH_LINES_PER_PAGE, FILTERS
+from .constants import LINES_PER_PAGE, SEARCH_LINES_PER_PAGE
+from services import get_query_if_exists
 from data.user_queries import user_queries
 
 
@@ -45,11 +46,11 @@ def page_navigation_keyboard(page_type: str, row_count: int, current_page: int =
         ]
     )
 
-def search_default_keyboard(is_filters_set: bool) -> InlineKeyboardMarkup:
+def search_default_keyboard(is_filters_set: bool, chat_id: int) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text='Поиск', switch_inline_query_current_chat=''),
+                InlineKeyboardButton(text='Поиск', switch_inline_query_current_chat=f'{get_query_if_exists(chat_id)}'),
                 InlineKeyboardButton(text=f'Фильтры{" ✅" if is_filters_set else ""}', callback_data='filters_add')
             ],
             [

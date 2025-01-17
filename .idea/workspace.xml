@@ -4,24 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add set filters icon and add reset filters button">
-      <change afterPath="$PROJECT_DIR$/services/filter_search_service.py" afterDir="false" />
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="begin work on filters and save all info about filters">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/categories.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/categories.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/buttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/buttons.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/filters.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/filters_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/filters_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/search_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/search_products_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/aliexpress.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/aliexpress.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/citilink.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/citilink.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/eldorado.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/eldorado.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/megamarket.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/megamarket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/mvideo.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/mvideo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/onlinetrade.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/onlinetrade.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/ozon.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/ozon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shops/rbt.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/rbt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/filter_search_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/filter_search_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shops/wildberries.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/wildberries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/keyboards.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,29 +52,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.__init__.executor": "Run",
-    "Python.bot.executor": "Run",
-    "Python.buttons.executor": "Run",
-    "Python.db.executor": "Run",
-    "Python.eldorado.executor": "Run",
-    "Python.filters.executor": "Debug",
-    "Python.inline_navigation.executor": "Run",
-    "Python.keyboards.executor": "Run",
-    "Python.megamarket.executor": "Run",
-    "Python.mvideo.executor": "Run",
-    "Python.ozon.executor": "Run",
-    "Python.rbt.executor": "Run",
-    "Python.search.executor": "Run",
-    "Python.search_products_service.executor": "Run",
-    "Python.wildberries.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "filters",
-    "last_opened_file_path": "D:/Desktop/program/django_sprint1",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
+    &quot;Python.bot.executor&quot;: &quot;Run&quot;,
+    &quot;Python.buttons.executor&quot;: &quot;Run&quot;,
+    &quot;Python.db.executor&quot;: &quot;Run&quot;,
+    &quot;Python.eldorado.executor&quot;: &quot;Run&quot;,
+    &quot;Python.filters.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.inline_navigation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.keyboards.executor&quot;: &quot;Run&quot;,
+    &quot;Python.megamarket.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mvideo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ozon.executor&quot;: &quot;Run&quot;,
+    &quot;Python.rbt.executor&quot;: &quot;Run&quot;,
+    &quot;Python.search.executor&quot;: &quot;Run&quot;,
+    &quot;Python.search_products_service.executor&quot;: &quot;Run&quot;,
+    &quot;Python.wildberries.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;filters&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Desktop/program/django_sprint1&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\I\PycharmProjects\products_searcher_bot\services" />
@@ -104,14 +95,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00026" summary="add ozon parser">
-      <option name="closed" value="true" />
-      <created>1729726474667</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1729726474667</updated>
     </task>
     <task id="LOCAL-00027" summary="add lower limit on the number of characters entered">
       <option name="closed" value="true" />
@@ -497,7 +480,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737034277384</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="begin work on filters and save all info about filters">
+      <option name="closed" value="true" />
+      <created>1737072365576</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1737072365576</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -524,7 +515,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add aliexpress parser" />
     <MESSAGE value="add onlinetrade parser" />
     <MESSAGE value="refactor" />
     <MESSAGE value="add selection filter parameters" />
@@ -549,6 +539,7 @@
     <MESSAGE value="add change saved button condition + add saving filters during search" />
     <MESSAGE value="do search part of search history to make it work" />
     <MESSAGE value="add set filters icon and add reset filters button" />
-    <option name="LAST_COMMIT_MESSAGE" value="add set filters icon and add reset filters button" />
+    <MESSAGE value="begin work on filters and save all info about filters" />
+    <option name="LAST_COMMIT_MESSAGE" value="begin work on filters and save all info about filters" />
   </component>
 </project>

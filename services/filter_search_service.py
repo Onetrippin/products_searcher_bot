@@ -19,8 +19,7 @@ def extract_selected_filters(chat_id: int) -> dict:
         params = only_selected_params.get('Аккумулятор')
         lower_limit = params[0].split('-')[0] if (params[0].split('-')[0]).isdigit() else '6000'
         upper_limit = params[-1].split()[-2].split('-')[1] if not (params[-1].split()[-2]).isdigit() else 'max'
-        only_selected_params['Аккумулятор'] = [lower_limit,
-                                               upper_limit]
+        only_selected_params['Аккумулятор'] = [lower_limit, upper_limit]
     if only_selected_params.get('Камера'):
         for i, value in enumerate(only_selected_params['Камера']):
             only_selected_params['Камера'][i] = value[:-3]
@@ -30,5 +29,24 @@ def extract_selected_filters(chat_id: int) -> dict:
                 only_selected_params['Объем SSD'][i] = value[:-3] + '000'
                 continue
             only_selected_params['Объем SSD'][i] = value[:-3]
-    print(only_selected_params)
+    if only_selected_params.get('Видеопамять'):
+        for i, value in enumerate(only_selected_params['Видеопамять']):
+            only_selected_params['Видеопамять'][i] = value[:-3]
+    if only_selected_params.get('Цена'):
+        params = only_selected_params.get('Цена')
+        lower_limit = params[0].split('-')[0]
+        upper_limit = params[-1].split('-')[1] if params[-1].split('-')[1].isdigit() else 'max'
+        only_selected_params['Цена'] = [lower_limit, upper_limit]
     return only_selected_params
+
+def get_query_if_exists(chat_id: int) -> str:
+    if user_queries.get(chat_id, {}).get('filters', {}).get('Тип', {}).get('any_selected'):
+        query = (next((param for param, value in user_queries
+                     .get(chat_id, {})
+                     .get('filters', {})
+                     .get('Тип')
+                     .get('params')
+                     .items() if value), '')).lower()
+    else:
+        query = ''
+    return query

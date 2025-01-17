@@ -143,7 +143,7 @@ async def back_to(callback_query: types.CallbackQuery, logger: logging.Logger, d
     if path == 'menu':
         await callback_query.message.edit_text(
             search_message(),
-            reply_markup=search_default_keyboard(is_filters_set(callback_query.from_user.id))
+            reply_markup=search_default_keyboard(is_filters_set(callback_query.from_user.id), callback_query.from_user.id)
         )
     else: #elif path == 'filters':
         filters = user_queries.setdefault(callback_query.from_user.id, {}).setdefault('filters',

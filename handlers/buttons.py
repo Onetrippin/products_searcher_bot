@@ -55,7 +55,7 @@ async def history_command_handler(message: types.Message, logger: logging.Logger
 async def search_command_handler(message: types.Message, logger: logging.Logger, db: DatabaseConnection) -> None:
     await message.answer(
         search_message(),
-        reply_markup=search_default_keyboard(is_filters_set(message.from_user.id))
+        reply_markup=search_default_keyboard(is_filters_set(message.from_user.id), message.from_user.id)
     )
 
 @router.message(CommandStart(deep_link=True))
