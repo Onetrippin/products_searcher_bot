@@ -232,7 +232,7 @@ from data import DatabaseConnection
 
 
 class SourceManager:
-    def __init__(self, fetch_data_function, session: AsyncSession, query: str, name: str) -> None:
+    def __init__(self, fetch_data_function, session: AsyncSession, query: str, name: str, filters: dict) -> None:
         self.data = []
         self.index = 0
         self.fetch_data = fetch_data_function
@@ -242,15 +242,16 @@ class SourceManager:
         self.next_link = None
         self.name = name
         self.total_products = 0
+        self.filters = filters
 
     async def load_more_data(self) -> None:
         if self.name in ['ozon']:
             self.next_link, data, self.total_products = await self.fetch_data(
-                self.session, self.query, self.offset, self.next_link
+                self.session, self.query, self.offset, self.next_link, self.filters
             )
         elif self.name in ['wb', 'mvideo', 'citilink', 'rbt', 'eldorado', 'megamarket', 'aliexpress', 'onlinetrade']:
             data, self.total_products = await self.fetch_data(
-                self.session, self.query, self.offset, self.next_link
+                self.session, self.query, self.offset, self.next_link, self.filters
             )
             self.next_link = str(self.total_products - OFFSET_COEFFICIENTS[self.name] * (self.offset + 1))
         else:

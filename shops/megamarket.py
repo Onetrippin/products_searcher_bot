@@ -145,7 +145,7 @@ async def parse_search_request(result_str: str) -> Tuple[list, int]:
     total_products = int(result.get('total'))
     return products_list, total_products
 
-async def get_search_result(session: AsyncSession, query: str, offset: int, link: str) -> Tuple[list, int]:
+async def get_search_result(session: AsyncSession, query: str, offset: int, link: str, filters: dict) -> Tuple[list, int]:
     if not link or int(link) > 0:
         return await get_search_request(session, query, offset)
     return [], 0

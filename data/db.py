@@ -1,11 +1,13 @@
 from typing import Tuple
 import json
 import functools
+import uuid
 
 import aiosqlite
 from aiogram.types import Message
 
 from .categories import data
+from .user_queries import user_queries
 
 
 class DatabaseConnection:
@@ -48,22 +50,19 @@ class DatabaseConnection:
             '''
             CREATE TABLE IF NOT EXISTS history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                chat_id INTEGER NOT NULL UNIQUE,
+                uuid TEXT NOT NULL,
+                chat_id INTEGER NOT NULL,
                 type TEXT NOT NULL,
                 time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 search_query TEXT,
                 filters TEXT,
-                product_id INTEGER,
-                product_name TEXT,
-                product_price REAL,
-                product_shop TEXT,
                 FOREIGN KEY (chat_id) REFERENCES users(chat_id)
             )
             ''',
             '''
             CREATE TABLE IF NOT EXISTS saved (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                chat_id INTEGER NOT NULL UNIQUE,
+                chat_id INTEGER NOT NULL,
                 product_id INTEGER NOT NULL,
                 change_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 is_saved BOOLEAN NOT NULL,
@@ -82,8 +81,8 @@ class DatabaseConnection:
             CREATE TABLE IF NOT EXISTS categories (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
-                max_price REAL NOT NULL,
-                min_price REAL NOT NULL
+                max_price INTEGER NOT NULL,
+                min_price INTEGER NOT NULL
             )
             ''',
             '''
@@ -113,16 +112,35 @@ class DatabaseConnection:
             '''
             CREATE TABLE IF NOT EXISTS products (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                uuid TEXT UNIQUE NOT NULL,
                 name TEXT NOT NULL,
                 description TEXT,
                 category_id INTEGER,
-                urls TEXT NOT NULL,
-                prices TEXT NOT NULL,
+                shop TEXT NOT NULL,
+                url TEXT NOT NULL,
+                old_price INTEGER,
+                actual_price INTEGER NOT NULL,
                 image_url TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 last_check_time TIMESTAMP,
                 need_check BOOLEAN DEFAULT FALSE,
                 FOREIGN KEY (category_id) REFERENCES categories(id)
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS filters (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                uuid TEXT UNIQUE NOT NULL,
+                chat_id INTEGER NOT NULL,
+                filters TEXT NOT NULL,
+                set_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS groups (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                product_id INTEGER NOT NULL,
+                related_ids TEXT
             )
             '''
         ]
@@ -178,22 +196,41 @@ def add_to_db(func) -> None:
         await db.execute(query, (chat_id,))
         query = 'UPDATE users SET last_time_action = CURRENT_TIMESTAMP WHERE chat_id = ?'
         await db.execute(query, (chat_id,))
+        user_queries.setdefault(chat_id, {}).setdefault('filters', {})
         return await func(message, *args, **kwargs)
     return wrapper
 
-async def load_products_to_db(db: DatabaseConnection, products: list) -> list:
+async def load_products_to_db(db: DatabaseConnection, products: list) -> Tuple[list, list]:
     ids = []
+    uuids = []
     for product in products:
-        prices = json.dumps({
-            'orig': product.get('orig_price'),
-            'actual': product.get('price'),
-            'discount': product.get('discount')
-        })
-        ids.append(await db.execute('INSERT INTO products (name, urls, prices, image_url) VALUES (?, ?, ?, ?)',
+        product_uuid = str(uuid.uuid4())
+        uuids.append(product_uuid)
+        ids.append(await db.execute('INSERT INTO products (uuid, name, shop, url, old_price, actual_price, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)',
                                     (
+                                        product_uuid,
                                         product.get('full_title'),
+                                        product.get('shop'),
                                         product.get('link'),
-                                        prices,
+                                        product.get('orig_price'),
+                                        product.get('price'),
                                         product.get('image')
                                     )))
-    return ids
+    return ids, uuids
+
+async def load_products_group(db: DatabaseConnection, product_id: int, related_ids: str) -> None:
+    await db.execute('INSERT INTO groups (product_id, related_ids) VALUES (?, ?)',
+                     (product_id, related_ids))
+
+async def log_search_and_product_view(db: DatabaseConnection, chat_id: int,  type_: str, data_: str) -> None:
+    result_uuid = str(uuid.uuid4())
+    user_filters_uuid = (await db.execute('SELECT uuid FROM filters WHERE chat_id = ? ORDER BY id DESC LIMIT 1',
+                                    (chat_id,)))[0][0]
+    await db.execute('INSERT INTO history (uuid, chat_id, type, search_query, filters) VALUES (?, ?, ?, ?, ?)',
+                         (result_uuid, chat_id, type_, data_, user_filters_uuid))
+
+async def log_filters(db: DatabaseConnection, chat_id: int, filters: dict) -> None:
+    filters_uuid = str(uuid.uuid4())
+    filters_str = json.dumps(filters)
+    await db.execute('INSERT INTO filters (uuid, chat_id, filters) VALUES (?, ?, ?)',
+                     (filters_uuid, chat_id, filters_str))

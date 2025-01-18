@@ -157,7 +157,7 @@ async def parse_products_prices(result_str: str) -> dict:
         for price in prices
     }
 
-async def get_search_result(session: AsyncSession, query: str, offset: int, link: str) -> Tuple[list, int]:
+async def get_search_result(session: AsyncSession, query: str, offset: int, link: str, filters: dict) -> Tuple[list, int]:
     if not link or int(link) > 0:
         return await get_search_request(session, query, offset, link)
     return [], 0

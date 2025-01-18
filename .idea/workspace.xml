@@ -4,11 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="add loading all the products that are being searched for">
+    <list default="true" id="d6f50d1c-f542-475d-8a6e-d061b5a68992" name="Changes" comment="filters on wb is ready!">
+      <change afterPath="$PROJECT_DIR$/services/product_page_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/buttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/buttons.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/filters.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/inline_navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/inline_navigation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/filter_search_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/filter_search_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shops/ozon.py" beforeDir="false" afterPath="$PROJECT_DIR$/shops/ozon.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/keyboards.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/messages.py" afterDir="false" />
     </list>
@@ -57,7 +65,7 @@
     &quot;Python.buttons.executor&quot;: &quot;Run&quot;,
     &quot;Python.db.executor&quot;: &quot;Run&quot;,
     &quot;Python.eldorado.executor&quot;: &quot;Run&quot;,
-    &quot;Python.filters.executor&quot;: &quot;Run&quot;,
+    &quot;Python.filters.executor&quot;: &quot;Debug&quot;,
     &quot;Python.inline_navigation.executor&quot;: &quot;Run&quot;,
     &quot;Python.keyboards.executor&quot;: &quot;Run&quot;,
     &quot;Python.megamarket.executor&quot;: &quot;Run&quot;,
@@ -93,86 +101,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728505534919</updated>
-    </task>
-    <task id="LOCAL-00018" summary="refactor">
-      <option name="closed" value="true" />
-      <created>1728850748542</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1728850748542</updated>
-    </task>
-    <task id="LOCAL-00019" summary="many changes: add search logic, add reviews logic">
-      <option name="closed" value="true" />
-      <created>1728936242307</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1728936242308</updated>
-    </task>
-    <task id="LOCAL-00020" summary="add reviews page">
-      <option name="closed" value="true" />
-      <created>1728936284328</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1728936284328</updated>
-    </task>
-    <task id="LOCAL-00021" summary="add many functions + add filters + add link">
-      <option name="closed" value="true" />
-      <created>1728951118202</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1728951118202</updated>
-    </task>
-    <task id="LOCAL-00022" summary="update help message, update filters keyboard">
-      <option name="closed" value="true" />
-      <created>1729109187329</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1729109187329</updated>
-    </task>
-    <task id="LOCAL-00023" summary="changed filters logic, but it's not working now + add files for API requests">
-      <option name="closed" value="true" />
-      <created>1729434067514</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1729434067514</updated>
-    </task>
-    <task id="LOCAL-00024" summary="add style">
-      <option name="closed" value="true" />
-      <created>1729510826894</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1729510826895</updated>
-    </task>
-    <task id="LOCAL-00025" summary="add style">
-      <option name="closed" value="true" />
-      <created>1729713741922</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1729713741922</updated>
-    </task>
-    <task id="LOCAL-00026" summary="add ozon parser">
-      <option name="closed" value="true" />
-      <created>1729726474667</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1729726474667</updated>
-    </task>
-    <task id="LOCAL-00027" summary="add lower limit on the number of characters entered">
-      <option name="closed" value="true" />
-      <created>1730061418028</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1730061418028</updated>
     </task>
     <task id="LOCAL-00028" summary="add upper limit on the number of characters entered">
       <option name="closed" value="true" />
@@ -486,7 +414,87 @@
       <option name="project" value="LOCAL" />
       <updated>1736645664151</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="add saved">
+      <option name="closed" value="true" />
+      <created>1736649861790</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1736649861790</updated>
+    </task>
+    <task id="LOCAL-00068" summary="many changes">
+      <option name="closed" value="true" />
+      <created>1736880249464</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1736880249464</updated>
+    </task>
+    <task id="LOCAL-00069" summary="many changes">
+      <option name="closed" value="true" />
+      <created>1736889643333</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1736889643333</updated>
+    </task>
+    <task id="LOCAL-00070" summary="add uuid for search">
+      <option name="closed" value="true" />
+      <created>1736951779587</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1736951779588</updated>
+    </task>
+    <task id="LOCAL-00071" summary="connect filters from db + fix some bugs">
+      <option name="closed" value="true" />
+      <created>1736991832534</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1736991832534</updated>
+    </task>
+    <task id="LOCAL-00072" summary="add change saved button condition + add saving filters during search">
+      <option name="closed" value="true" />
+      <created>1736993698281</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1736993698282</updated>
+    </task>
+    <task id="LOCAL-00073" summary="do search part of search history to make it work">
+      <option name="closed" value="true" />
+      <created>1736999050197</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1736999050197</updated>
+    </task>
+    <task id="LOCAL-00074" summary="add set filters icon and add reset filters button">
+      <option name="closed" value="true" />
+      <created>1737034277384</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1737034277384</updated>
+    </task>
+    <task id="LOCAL-00075" summary="begin work on filters and save all info about filters">
+      <option name="closed" value="true" />
+      <created>1737072365576</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1737072365576</updated>
+    </task>
+    <task id="LOCAL-00076" summary="filters on wb is ready!">
+      <option name="closed" value="true" />
+      <created>1737152014863</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1737152014864</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -500,7 +508,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/main" />
+                        <option value="filters" />
                       </list>
                     </value>
                   </entry>
@@ -513,15 +521,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="replaced usage aiohttp with usage curl_cffi" />
-    <MESSAGE value="deleted unnecessary comments" />
-    <MESSAGE value="fix RBT parser, it's working)" />
-    <MESSAGE value="add eldorado parser" />
-    <MESSAGE value="add megamarket parser" />
-    <MESSAGE value="fix incorrect display of out-of-stock items" />
-    <MESSAGE value="fix incorrect megamarket display of out-of-stock items" />
-    <MESSAGE value="add aliexpress parser" />
-    <MESSAGE value="add onlinetrade parser" />
     <MESSAGE value="refactor" />
     <MESSAGE value="add selection filter parameters" />
     <MESSAGE value="add filter parameters navigation" />
@@ -538,16 +537,15 @@
     <MESSAGE value="add categories loader to DB" />
     <MESSAGE value="add getting product url for each shop" />
     <MESSAGE value="add loading all the products that are being searched for" />
-    <option name="LAST_COMMIT_MESSAGE" value="add loading all the products that are being searched for" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils/keyboards.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="add saved" />
+    <MESSAGE value="many changes" />
+    <MESSAGE value="add uuid for search" />
+    <MESSAGE value="connect filters from db + fix some bugs" />
+    <MESSAGE value="add change saved button condition + add saving filters during search" />
+    <MESSAGE value="do search part of search history to make it work" />
+    <MESSAGE value="add set filters icon and add reset filters button" />
+    <MESSAGE value="begin work on filters and save all info about filters" />
+    <MESSAGE value="filters on wb is ready!" />
+    <option name="LAST_COMMIT_MESSAGE" value="filters on wb is ready!" />
   </component>
 </project>

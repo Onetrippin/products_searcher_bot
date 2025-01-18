@@ -1,3 +1,5 @@
+import json
+
 from data import DatabaseConnection
 
 
@@ -40,6 +42,14 @@ from data import DatabaseConnection
 #     return saved_products
 
 async def get_saved_products(db: DatabaseConnection, chat_id: int) -> list:
-    query = 'SELECT product_id FROM saved WHERE chat_id = ?'
-    product_ids = await db.execute(query, (chat_id,))
-    return []
+    query = 'SELECT product_id FROM saved WHERE chat_id = ? AND is_saved = ?'
+    product_ids = (await db.execute(query, (chat_id, True)))
+    if not product_ids or isinstance(product_ids, int):
+        return []
+    placeholders = ', '.join('?' for _ in product_ids)
+    product_ids = tuple(product_id[0] for product_id in product_ids)
+    saved_products = await db.execute(f'SELECT uuid, name, shop, actual_price FROM products WHERE id IN ({placeholders})', product_ids)
+    return [{'product_name': product[1],
+             'price': product[3],
+             'shop': product[2],
+             'link': f'https://t.me/products_searcher_bot?start=product_page={product[0]}'} for product in saved_products]

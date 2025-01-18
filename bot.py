@@ -23,8 +23,6 @@ PORT = 8000
 
 asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
 
-user_queries = {}
-
 
 def check_and_save_token() -> str:
     token = os.getenv('API_TOKEN')
@@ -67,7 +65,7 @@ async def main() -> None:
 
 async def create_logger():
     logger = logging.getLogger('bot')
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
     ch = logging.StreamHandler()
     ch.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
     logger.addHandler(ch)
