@@ -6,7 +6,8 @@ from aiogram.filters import Command
 from aiogram.filters import CommandStart
 
 from data import DatabaseConnection, add_to_db
-from services import get_search_history, get_saved_products, form_filters, load_or_set_filters
+from services import (get_search_history, get_saved_products, form_filters, load_or_set_filters, get_query_if_exists,
+                      send_product_page)
 from utils import (start_message, help_message, format_saved_message, format_history_message,
                    search_message, other_message, filter_message, search_page,
                    main_menu_keyboard, page_navigation_keyboard, search_default_keyboard,
@@ -55,7 +56,8 @@ async def history_command_handler(message: types.Message, logger: logging.Logger
 async def search_command_handler(message: types.Message, logger: logging.Logger, db: DatabaseConnection) -> None:
     await message.answer(
         search_message(),
-        reply_markup=search_default_keyboard(is_filters_set(message.from_user.id), message.from_user.id)
+        reply_markup=search_default_keyboard(is_filters_set(message.from_user.id),
+                                             get_query_if_exists(message.from_user.id))
     )
 
 @router.message(CommandStart(deep_link=True))
@@ -95,9 +97,8 @@ async def deep_link_handler(message: types.Message, logger: logging.Logger, db: 
             reply_markup=reviews_keyboard(message.chat.id, product_uuid)
         )
     elif args.startswith('product_page'):
-        await message.answer(
-            'Тут должна быть отправка страницы товара по заданному uuid'
-        )
+        product_uuid = args[13:]
+        await send_product_page(db, chat_id, product_uuid)
     elif args.startswith('search'):
         history_uuid = args[7:]
         search_query, filters_uuid = (await db.execute('SELECT search_query, filters FROM history WHERE uuid = ?',

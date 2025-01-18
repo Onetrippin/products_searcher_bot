@@ -43,9 +43,18 @@ async def search_page_changer(callback_query: types.CallbackQuery, logger: loggi
     _, _, current_page, query = callback_query.data.split('_', 3)
     current_page = int(current_page)
     user_id = callback_query.from_user.id
+    bot = await BotSingleton.instance()
     products = user_queries.get(user_id, {}).get('now_products', [])
     if (len(products) - current_page * SEARCH_LINES_PER_PAGE) < SEARCH_LINES_PER_PAGE * 2 and len(products) % 50 == 0:
-        new_products = await user_queries[user_id]['data'].get_next_batch(50)
+        try:
+            new_products = await user_queries[user_id]['data'].get_next_batch(50)
+        except KeyError:
+            await bot.edit_message_text(
+                text='<b>Данное сообщение более неактуально. Воспользуйся поиском заново</b>',
+                reply_markup=None,
+                inline_message_id=callback_query.inline_message_id
+            )
+            return
         if not new_products:
             current_page = 1
         else:
@@ -56,20 +65,27 @@ async def search_page_changer(callback_query: types.CallbackQuery, logger: loggi
                     'id': product_uuids[i],
                     'uuid': product_uuids[i],
                     'link': product.get('link'),
-                    'page_link': f'https://t.me/product_searcher_bot?start=product_page={product_uuids[i]}',
+                    'page_link': f'https://t.me/products_searcher_bot?start=product_page={product_uuids[i]}',
                     'product_name': product.get('title'),
                     'product_full_name': product.get('full_title'),
-                    'best_price': product.get('price'),
-                    'best_price_shop': product.get('shop'),
+                    'price': product.get('price'),
+                    'shop': product.get('shop'),
                     'product_image': product.get('image'),
                     'all_offers': [{'price': 0, 'shop': None},
                                    {'price': 0, 'shop': None},
                                    {'price': 0, 'shop': None}]
                 })
-            user_queries[user_id]['now_products'].extend(all_products)
+            try:
+                user_queries[user_id]['now_products'].extend(all_products)
+            except KeyError:
+                await bot.edit_message_text(
+                    text='<b>Данное сообщение более неактуально. Воспользуйся поиском заново</b>',
+                    reply_markup=None,
+                    inline_message_id=callback_query.inline_message_id
+                )
+                return
     current_page_products = user_queries[user_id]['now_products'] \
         [(current_page - 1) * SEARCH_LINES_PER_PAGE:current_page * SEARCH_LINES_PER_PAGE]
-    bot = await BotSingleton.instance()
     await bot.edit_message_text(
         products_search_result_page(query, current_page_products),
         inline_message_id=callback_query.inline_message_id,

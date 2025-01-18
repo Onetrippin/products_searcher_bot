@@ -1,4 +1,10 @@
+from curl_cffi.requests import AsyncSession
+
 from data.user_queries import user_queries
+from .search_products_service import SourceManager
+from shops import (ozon_search, wb_search, mvideo_search, rbt_search, citilink_search, eldorado_search,
+                   megamarket_search, aliexpress_search, onlinetrade_search)
+from utils.translator import SHOPS_NORMAL_TO_SHORT
 
 
 def extract_selected_filters(chat_id: int) -> dict:
@@ -50,3 +56,26 @@ def get_query_if_exists(chat_id: int) -> str:
     else:
         query = ''
     return query
+
+def collect_request_data(session: AsyncSession, chat_id: int, query: str, filters: dict = None, is_group: bool = False) -> list:
+    sources = [
+        SourceManager(ozon_search, session, query, 'ozon', filters),
+        SourceManager(wb_search, session, query, 'wb', filters),
+        SourceManager(mvideo_search, session, query, 'mvideo', filters),
+        SourceManager(citilink_search, session, query, 'citilink', filters),
+        SourceManager(rbt_search, session, query, 'rbt', filters),
+        SourceManager(eldorado_search, session, query, 'eldorado', filters),
+        SourceManager(megamarket_search, session, query, 'megamarket', filters),
+        SourceManager(aliexpress_search, session, query, 'aliexpress', filters),
+        SourceManager(onlinetrade_search, session, query, 'onlinetrade', filters)
+    ]
+    if user_queries.get(chat_id, {}).get('filters', {}).get('Магазин').get('any_selected') and not is_group:
+        shops_filter = list(map(lambda shop_name: SHOPS_NORMAL_TO_SHORT.get(shop_name, shop_name),
+                                [param for param, value in user_queries.get(chat_id).get(
+                                    'filters').get('Магазин').get('params').items() if value]))
+        filtered_sources = [source for source in sources if source.name in shops_filter]
+        sources = filtered_sources
+    elif is_group:
+        filtered_sources = [source for source in sources if source.name not in ['citilink', 'onlinetrade']] # ужасный поиск и там, и там. по запросу "пылесос" выдаёт чехлы для телефона за 9 рублей))) так что проще уж без них
+        sources = filtered_sources
+    return sources

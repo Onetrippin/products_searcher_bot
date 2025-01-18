@@ -4,7 +4,7 @@ import logging
 from aiogram import types
 from aiogram.exceptions import TelegramBadRequest
 
-from services import form_filters, actualize_filters, get_default_filters, load_or_set_filters
+from services import form_filters, actualize_filters, get_default_filters, load_or_set_filters, get_query_if_exists
 from . import router
 from utils import (filter_message, filter_keyboard,
                    search_message, search_default_keyboard,
@@ -143,7 +143,8 @@ async def back_to(callback_query: types.CallbackQuery, logger: logging.Logger, d
     if path == 'menu':
         await callback_query.message.edit_text(
             search_message(),
-            reply_markup=search_default_keyboard(is_filters_set(callback_query.from_user.id), callback_query.from_user.id)
+            reply_markup=search_default_keyboard(is_filters_set(callback_query.from_user.id),
+                                                 get_query_if_exists(callback_query.from_user.id))
         )
     else: #elif path == 'filters':
         filters = user_queries.setdefault(callback_query.from_user.id, {}).setdefault('filters',

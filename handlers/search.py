@@ -8,14 +8,12 @@ from aiogram.filters.state import StateFilter
 from curl_cffi.requests import AsyncSession
 
 from . import router
-from services import UserData, SourceManager, load_or_set_filters, extract_selected_filters
+from services import UserData, load_or_set_filters, extract_selected_filters, edit_message_with_results, \
+    collect_request_data
 from utils import (product_page, product_page_keyboard, link_message, link_keyboard, main_menu_keyboard,
                    products_search_result_page, page_navigation_keyboard)
 from utils.constants import DELAY_BETWEEN_API_REQUESTS, SEARCH_LINES_PER_PAGE
-from utils.translator import SHOPS_NORMAL_TO_SHORT
 from data.user_queries import user_queries
-from shops import (ozon_search, wb_search, mvideo_search, rbt_search, citilink_search, eldorado_search,
-                   megamarket_search, aliexpress_search, onlinetrade_search)
 from data import DatabaseConnection, add_to_db, load_products_to_db, log_search_and_product_view
 
 
@@ -89,23 +87,7 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
     current_page = int(query.offset) if query.offset else 0
     if not query.offset:
         filters = extract_selected_filters(query.from_user.id)
-        sources = [
-            SourceManager(ozon_search, session, query.query, 'ozon', filters),
-            SourceManager(wb_search, session, query.query, 'wb', filters),
-            SourceManager(mvideo_search, session, query.query, 'mvideo', filters),
-            SourceManager(citilink_search, session, query.query, 'citilink', filters),
-            SourceManager(rbt_search, session, query.query, 'rbt', filters),
-            SourceManager(eldorado_search, session, query.query, 'eldorado', filters),
-            SourceManager(megamarket_search, session, query.query, 'megamarket', filters),
-            SourceManager(aliexpress_search, session, query.query, 'aliexpress', filters),
-            SourceManager(onlinetrade_search, session, query.query, 'onlinetrade', filters)
-        ]
-        if user_queries.get(query.from_user.id, {}).get('filters', {}).get('Магазин').get('any_selected'):
-            shops_filter = list(map(lambda shop_name: SHOPS_NORMAL_TO_SHORT.get(shop_name, shop_name),
-                                    [param for param, value in user_queries.get(query.from_user.id).get(
-                                        'filters').get('Магазин').get('params').items() if value]))
-            filtered_sources = [source for source in sources if source.name in shops_filter]
-            sources = filtered_sources
+        sources = collect_request_data(session, query.from_user.id, query.query, filters)
         user_queries[query.from_user.id]['data'] = UserData(sources=sources)
         await user_queries[query.from_user.id]['data'].fill_heap()
     products = await user_queries[query.from_user.id]['data'].get_next_batch(results_per_page)
@@ -116,11 +98,11 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
             'id': str(product_ids[i]),
             'uuid': product_uuids[i],
             'link': product.get('link'),
-            'page_link': f'https://t.me/product_searcher_bot?start=product_page={product_uuids[i]}',
+            'page_link': f'https://t.me/products_searcher_bot?start=product_page={product_uuids[i]}',
             'product_name': product.get('title'),
             'product_full_name': product.get('full_title'),
-            'best_price': product.get('price'),
-            'best_price_shop': product.get('shop'),
+            'price': product.get('price'),
+            'shop': product.get('shop'),
             'product_image': product.get('image'),
             'all_offers': [{'price': 39682, 'shop': 'Wildberries'},
                            {'price': 40002, 'shop': 'Wildberries'},
@@ -153,11 +135,11 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
             id=all_products[i]['id'],
             title=all_products[i]['product_name'],
             input_message_content=types.InputTextMessageContent(
-                message_text=product_page(all_products[i]),
+                message_text=product_page(all_products[i], not_ready=True),
                 disable_web_page_preview=True
             ),
             reply_markup=product_page_keyboard(query.from_user.id, all_products[i]['id'], all_products[i]['uuid'], False),
-            description=f'Лучшая цена {all_products[i]["best_price"]} в магазине {all_products[i]["best_price_shop"]}',
+            description=f'Цена {all_products[i]["price"]} рублей в магазине {all_products[i]["shop"]}',
             thumbnail_url=all_products[i]['product_image'],
         ))
     next_offset = current_page + 1
@@ -171,12 +153,14 @@ async def send_query_with_delay(query: types.InlineQuery, session: AsyncSession,
 @router.chosen_inline_result(lambda result: result.result_id not in ['few_characters', 'many_characters'])
 async def chosen_result_handler(chosen_result: types.ChosenInlineResult, logger: logging.Logger, db: DatabaseConnection):
     chat_id = chosen_result.from_user.id
+    message_id = chosen_result.inline_message_id
     result_id = chosen_result.result_id
     logger.debug(f'я задетектил {result_id}')
     if result_id == 'search':
         await log_search_and_product_view(db, chat_id, 'search', chosen_result.query)
     else:
         await log_search_and_product_view(db, chat_id, 'product', result_id)
+        await edit_message_with_results(db, chat_id, message_id, result_id)
 
 
 class LinkStates(StatesGroup):

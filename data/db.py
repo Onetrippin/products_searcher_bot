@@ -135,6 +135,13 @@ class DatabaseConnection:
                 filters TEXT NOT NULL,
                 set_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
+            ''',
+            '''
+            CREATE TABLE IF NOT EXISTS groups (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                product_id INTEGER NOT NULL,
+                related_ids TEXT
+            )
             '''
         ]
         for query in queries:
@@ -210,6 +217,10 @@ async def load_products_to_db(db: DatabaseConnection, products: list) -> Tuple[l
                                         product.get('image')
                                     )))
     return ids, uuids
+
+async def load_products_group(db: DatabaseConnection, product_id: int, related_ids: str) -> None:
+    await db.execute('INSERT INTO groups (product_id, related_ids) VALUES (?, ?)',
+                     (product_id, related_ids))
 
 async def log_search_and_product_view(db: DatabaseConnection, chat_id: int,  type_: str, data_: str) -> None:
     result_uuid = str(uuid.uuid4())

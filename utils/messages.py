@@ -130,22 +130,34 @@ def search_message() -> str:
         'ты можешь отправить мне ссылку на товар в каком-либо магазине и я найду аналоги в других'
     )
 
-def product_page(product: dict) -> str:
+def product_page(product: dict, not_ready: bool) -> str:
     return (
-        f'🛒 <b>{product["product_name"]}</b>'
+        f'🛒 <b>{product["product_full_name"]}</b>'
         '\n\n'
+        f'🏷️ <b>Выбранный товар</b>'
+        f'\n'
+        f'<b>└</b> Цена: <code>{product["price"]}</code> | '
+        f'Магазин: <code>{product["shop"]}</code> | '
+        f'(<a href="{product['link']}">ссылка</a>)'
+        f'\n\n' +
+        ('⏳ Пожалуйста, подожди, результаты загружаются... Это займет всего несколько секунд.' if not_ready else
         '🏆 <b>Лучшее предложение</b>'
         '\n'
-        f'<b>└</b> Цена: <code>{product["best_price"]}</code> | '
-        f'Магазин: <code>{product["best_price_shop"]}</code> | '
-        f'(<a href="{product['link']}">ссылка</a>)'
+        f'<b>└</b> Цена: <code>{product["all_offers"][0]["price"]}</code> | '
+        f'Магазин: <code>{product["all_offers"][0]["shop"]}</code> | '
+        f'(<a href="{product["all_offers"][0]['link']}">ссылка</a>)'
         '\n\n'
         '📦 <b>Другие предложения</b>'
         '\n' +
         '\n'.join([f'<b>{"└" if i == len(product["all_offers"]) - 1 else "├"}</b> Цена: <code>{offer["price"]}</code> | '
                    f'Магазин: <code>{offer["shop"]}</code> | '
-                   f'(<a href="t.me/pavel">ссылка</a>)'  for i, offer in enumerate(sorted(product["all_offers"],
-                                                                                          key=lambda x: x['price']))])
+                   f'(<a href="{offer['link']}">ссылка</a>)' for i, offer in enumerate(sorted(product["all_offers"][1:],
+                                                                                          key=lambda x: x['price']))]))
+    )
+
+def error_product_page() -> str:
+    return (
+        f'<i>Произошла какая-то ошибка... Поищи этот товар заново через <b>Поиск</b></i>'
     )
 
 def search_page() -> str:
@@ -163,8 +175,8 @@ def products_search_result_page(query: str, products: list) -> str:
             f'<b>Поиск "{query}"</b>'
             '\n\n' +
             '\n\n'.join([f'<b><u>{products[i]["product_full_name"]}</u></b> - '
-                       f'лучшая цена: <code>{products[i]["best_price"]}</code> | '
-                       f'магазин: <code>{products[i]["best_price_shop"]}</code> | '
+                       f'цена: <code>{products[i]["price"]}</code> рублей | '
+                       f'магазин: <code>{products[i]["shop"]}</code> | '
                        f'(<a href="{products[i]['page_link']}">страница товара</a>)'for i in range(len(products))])
         )
     return (
